@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+.idea/workspace.xml
+.idea/tasks.xml
 __pycache__/
 *.py[cod]
 
@@ -27,7 +29,6 @@ var/
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -58,7 +59,6 @@ target/
 *org.eclipse.*
 .settings
 .pydevproject
-.idea/
 *.py[co]
 *~
 env/
