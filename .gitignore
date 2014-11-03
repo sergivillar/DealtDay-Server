@@ -52,3 +52,16 @@ docs/_build/
 
 # PyBuilder
 target/
+
+.DS_Store/
+.*project
+*org.eclipse.*
+.settings
+.pydevproject
+.idea/
+*.py[co]
+*~
+env/
+*.egg-info
+build/
+dist/
