@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class Friends(models.Model):
+class Friend(models.Model):
 	from_user = models.ForeignKey(User, related_name='friend_requests_sent')
 	to_user = models.ForeignKey(User, related_name='friend_requests_received')
 

@@ -4,7 +4,7 @@ from event.models import Event
 from profile.models import Profile
 
 
-class Answers(models.Model):
+class Answer(models.Model):
 	answer = models.CharField(max_length=64)
 	type = models.CharField(max_length=2, choices=ANSWERS_TYPE)
 
