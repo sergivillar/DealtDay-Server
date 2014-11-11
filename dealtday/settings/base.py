@@ -40,6 +40,8 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'rest_framework',
+	'rest_framework.authtoken',
+	'regist',
 	'answer',
 	'event',
 	'friends',
@@ -97,3 +99,10 @@ STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (PROJECT_ROOT + '/templates', )
 STATICFILES_DIRS = (PROJECT_ROOT + '/static', )
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dealtday@gmail.com'
+EMAIL_HOST_PASSWORD = 'brujamala'
+EMAIL_PORT = 587
