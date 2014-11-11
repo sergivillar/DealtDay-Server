@@ -102,6 +102,7 @@ STATICFILES_DIRS = (PROJECT_ROOT + '/static', )
 
 REST_FRAMEWORK = {
 	'DEFAULT_AUTHENTICATION_CLASSES': (
+		#TODO quitar basic al finalizar desarrollo
 		'rest_framework.authentication.BasicAuthentication',
 		'rest_framework.authentication.SessionAuthentication',
 		'rest_framework.authentication.TokenAuthentication',

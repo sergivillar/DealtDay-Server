@@ -77,6 +77,6 @@ def change_password(request):
 
 	if serializer.is_valid():
 		Profile.objects.update_password(request.user.email, password=serializer.init_data['password'])
-		return Response('Contraseña actualizada correctamente', status=status.HTTP_200_OK)
+		return Response({'ContraseñaCambiada': 'Contraseña actualizada correctamente'}, status=status.HTTP_200_OK)
 	else:
 		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
