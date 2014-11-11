@@ -6,6 +6,8 @@ urlpatterns = patterns('',
 
     #Usuario
     url(r'^alta/(?P<encrypm>[0-9A-Za-z=_\-]+)/(?P<mailencrypm>[0-9A-Za-z=_\-]+)$', 'regist.views.alta'),
+    url(r'^api/login', 'profile.api.login_user'),
+    url(r'^logout', 'profile.views.logout_user'),
 
     #API Usuario
     url(r'^api/', include('regist.urls')),
