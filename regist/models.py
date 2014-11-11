@@ -15,11 +15,16 @@ class RegistrationManager(models.Manager):
 		""" Creacion objeto registro usuario. """
 		with transaction.atomic():
 			user_token = uuid4()
-			user_regist = Regist()
-			user_regist.password = make_password(password)
-			user_regist.email = email
-			user_regist.encrypt = user_token
-			user_regist.save()
+			if Regist.objects.filter(email=email).exists():
+				regist = Regist.objects.get(email=email)
+				regist.encrypt = user_token
+				regist.save()
+			else:
+				user_regist = Regist()
+				user_regist.password = make_password(password)
+				user_regist.email = email
+				user_regist.encrypt = user_token
+				user_regist.save()
 			self.send_email(email, user_token)
 
 	def activate_user(self, encrypm):
@@ -52,7 +57,7 @@ class RegistrationManager(models.Manager):
 
 
 class Regist(models.Model):
-	email = models.EmailField(unique=True)
+	email = models.EmailField()
 	password = models.CharField(max_length=128)
 	encrypt = models.CharField(max_length=128)
 	activate = models.BooleanField(default=False)
