@@ -44,7 +44,7 @@ class RegistrationManager(models.Manager):
 
 		mailencryp = base64.b64encode(email)
 
-		text_content = 'Haz click en el siguiente enlace para activar tu cuenta de usuario: http://127.0.0.1:8000/join/' \
+		text_content = 'Haz click en el siguiente enlace para activar tu cuenta de usuario: http://127.0.0.1:8000/alta/' \
 		               + str(user_token) + '/' + mailencryp
 
 		d = Context({'encrypt': user_token, 'mensaje': text_content})
