@@ -21,8 +21,8 @@ def login_user(request):
 				response['token'] = user.auth_token.key
 				return Response(response, status=status.HTTP_200_OK)
 			else:
-				return Response({"ErrorLogin": "El usuario aun no ha sido activado"}, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"ErrorLogin": "El usuario aun no ha sido activado."}, status=status.HTTP_400_BAD_REQUEST)
 		else:
-			return Response({"ErrorLogin": "Password o usuario incorrectos"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"ErrorLogin": "Password o usuario incorrectos."}, status=status.HTTP_400_BAD_REQUEST)
 	else:
 		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
