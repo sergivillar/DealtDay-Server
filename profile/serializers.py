@@ -1,7 +1,16 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
+class LoginSerializer(serializers.Serializer):
+	email = serializers.CharField()
+	password = serializers.CharField(write_only=True)
+
+	def validate(self, attrs):
+
+		if 'email' not in attrs:
+			raise serializers.ValidationError('Email es requerido')
+
+		if 'password' not in attrs:
+			raise serializers.ValidationError('Password es requerida')
+
+		return attrs
