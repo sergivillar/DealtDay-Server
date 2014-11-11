@@ -14,3 +14,7 @@ class LoginSerializer(serializers.Serializer):
 			raise serializers.ValidationError('Password es requerida')
 
 		return attrs
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+	email = serializers.EmailField()
