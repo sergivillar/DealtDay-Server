@@ -60,7 +60,9 @@ def forgot_password(request):
 			message = loader.render_to_string('profile/password_reset_email.html', c)
 			send_mail('DealtDat recuperar contraseña', message, None, [user.email])
 
-	else:
-		return Response({"ErrorUser": "El usuario no esta activo"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"EmailEnviado": "Email enviado correctamente"}, status=status.HTTP_200_OK)
+		else:
+			return Response({"ErrorUser": "El usuario no esta activo"}, status=status.HTTP_400_BAD_REQUEST)
 
-	return Response("Email enviado correctamente", status=status.HTTP_200_OK)
+	else:
+		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
