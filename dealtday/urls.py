@@ -19,4 +19,6 @@ urlpatterns = patterns('',
 
     #API Usuario
     url(r'^api/', include('regist.urls')),
+    #API Evento
+    url(r'^api/', include('event.urls')),
 )
