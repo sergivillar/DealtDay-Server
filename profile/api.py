@@ -19,8 +19,7 @@ def login_user(request):
 	serializer = LoginSerializer(data=request.DATA)
 	if serializer.is_valid():
 
-		username = serializer.init_data['email'].split('@')[0]
-		user = authenticate(username=username, password=serializer.init_data['password'])
+		user = authenticate(username=serializer.init_data['email'], password=serializer.init_data['password'])
 
 		if user is not None:
 			if user.is_active:
