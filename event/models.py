@@ -10,7 +10,7 @@ class Event(models.Model):
 	has_options = models.BooleanField(default=False)
 	has_dates = models.BooleanField(default=False)
 	open = models.BooleanField(default=False, help_text="If True, users in the event can add more options")
-	voters_public = models.BooleanField(default=False, help_text="If True, others users can see what you have voted")
+	voters_public = models.BooleanField(default=False, help_text="If True, others users can see what users have voted")
 
 	owner = models.ForeignKey(Profile)
 
