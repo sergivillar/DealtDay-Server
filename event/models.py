@@ -11,8 +11,10 @@ class Event(models.Model):
 	num_answers = models.IntegerField(default=1, help_text="Número de opciones que se pueden elegir")
 	has_options = models.BooleanField(default=False)
 	has_dates = models.BooleanField(default=False)
-	open = models.BooleanField(default=False, help_text="Si 'True', los usuarios invitados al evento pueden añadir mas opciones a la votación")
-	voters_public = models.BooleanField(default=False, help_text="Si 'True', otros usuarios pueden ver quieén ha votado cada opción")
+	open = models.BooleanField(default=False,
+	                           help_text="Si 'True', los usuarios invitados al evento pueden añadir mas opciones a la votación")
+	voters_public = models.BooleanField(default=False,
+	                                    help_text="Si 'True', otros usuarios pueden ver quieén ha votado cada opción")
 
 	owner = models.ForeignKey(Profile)
 
