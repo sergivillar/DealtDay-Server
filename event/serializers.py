@@ -18,7 +18,7 @@ class EventSerializer(serializers.ModelSerializer):
 			time_now = datetime.datetime.now()
 			time_close = attrs['time_to_close'] - time_now
 			if time_close < datetime.timedelta(hours=1):
-				raise serializers.ValidationError({"TimeError": "La encuesta no puede finalizar en menos de 1 hora."})
+				raise serializers.ValidationError({"TimeError": "El evento no puede finalizar en menos de 1 hora."})
 
 		if len(attrs['title']) < MINIMUM_TITLE_LENGTH:
 			raise serializers.ValidationError({"TituloInvalido": "Título muy corto. Minimo: 4 caracteres."})
