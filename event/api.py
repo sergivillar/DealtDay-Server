@@ -15,9 +15,12 @@ class EventViewSet(viewsets.ModelViewSet):
 
 	def get_queryset(self):
 
-		user = self.request.user
-		if user.is_superuser:
+		profile = self.request.user.profile
+		if self.request.user.is_superuser:
 			queryset = Event.objects.all()
+		else:
+			events = UserHasEvent.objects.filter(profile=profile).values_list('event__id')
+			queryset = Event.objects.filter(id__in=events).order_by('time_to_close')
 		return queryset
 
 	def create(self, request, *args, **kwargs):
@@ -41,4 +44,4 @@ class EventViewSet(viewsets.ModelViewSet):
 
 	# Metodo para crear tambien el evento en tabla UserHasEvent
 	def post_save(self, obj, created=False):
-		UserHasEvent.objects.create(event=obj, user=obj.owner)
+		UserHasEvent.objects.create(event=obj, profile=obj.owner)
