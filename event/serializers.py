@@ -9,10 +9,17 @@ MAXIMUM_TITLE_LENGTH = 120
 
 
 class EventSerializer(serializers.ModelSerializer):
+	is_owner = serializers.SerializerMethodField('check_if_owner')
+
 	class Meta:
 		model = Event
 		write_only_fields = ('timestamp',)
 		read_only_fields = ('owner',)
+
+	def check_if_owner(self, obj):
+		if obj.owner == self.context['request'].user.profile:
+			return True
+		return False
 
 	def validate(self, attrs):
 		if attrs['time_to_close']:
