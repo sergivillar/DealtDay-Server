@@ -11,7 +11,8 @@ MAXIMUM_TITLE_LENGTH = 120
 class EventSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Event
-		write_only_fields = ('timestamp', )
+		write_only_fields = ('timestamp',)
+		read_only_fields = ('owner',)
 
 	def validate(self, attrs):
 		if attrs['time_to_close']:

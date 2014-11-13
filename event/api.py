@@ -25,8 +25,6 @@ class EventViewSet(viewsets.ModelViewSet):
 		serializer = self.get_serializer(data=request.DATA, files=request.FILES)
 
 		if serializer.is_valid():
-			# Metodo para comprobar permisos propios
-			self.check_object_permissions(request, serializer.object)
 			with transaction.atomic():
 				self.pre_save(serializer.object)
 				self.object = serializer.save(force_insert=True)
@@ -36,6 +34,10 @@ class EventViewSet(viewsets.ModelViewSet):
 			                headers=headers)
 
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	# Metodo para asignar evento a creador
+	def pre_save(self, obj):
+		obj.owner = self.request.user.profile
 
 	# Metodo para crear tambien el evento en tabla UserHasEvent
 	def post_save(self, obj, created=False):
