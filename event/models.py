@@ -19,13 +19,13 @@ class Event(models.Model):
 	owner = models.ForeignKey(Profile)
 
 	def __unicode__(self):
-		return u'{0} ({1})'.format(self.title, self.owner.username)
+		return u'{0} ({1})'.format(self.title, self.owner)
 
 
 class UserHasEvent(models.Model):
-	user = models.ForeignKey(Profile)
+	profile = models.ForeignKey(Profile)
 	event = models.ForeignKey(Event)
 
 	def __unicode__(self):
-		return u'{0} ({1})'.format(self.user.username, self.event.title)
+		return u'{0} ({1})'.format(self.profile, self.event.title)
 
