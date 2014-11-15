@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from event.models import Event, UserHasEvent
 from event.permissions import NoCreateObjectsToOtherUser
-from event.serializers import EventSerializer
-from rest_framework import status
+from event.serializers import EventSerializer, ShareEventSerializer
+from rest_framework import status, mixins
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -44,4 +44,12 @@ class EventViewSet(viewsets.ModelViewSet):
 
 	# Metodo para crear tambien el evento en tabla UserHasEvent
 	def post_save(self, obj, created=False):
-		UserHasEvent.objects.create(event=obj, profile=obj.owner)
+		if self.request.method == 'POST':
+			UserHasEvent.objects.create(event=obj, profile=obj.owner)
+
+
+class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
+						mixins.DestroyModelMixin, viewsets.GenericViewSet):
+	queryset = UserHasEvent.objects.all()
+	serializer_class = ShareEventSerializer
+	permission_classes = (IsAuthenticated, NoCreateObjectsToOtherUser)
