@@ -22,16 +22,19 @@ class EventSerializer(serializers.ModelSerializer):
 		return False
 
 	def validate(self, attrs):
-		if attrs['time_to_close']:
+
+		if 'time_to_close' in attrs:
 			time_now = datetime.datetime.now()
 			time_close = attrs['time_to_close'] - time_now
 			if time_close < datetime.timedelta(hours=1):
 				raise serializers.ValidationError({"TimeError": "El evento no puede finalizar en menos de 1 hora."})
 
-		if len(attrs['title']) < MINIMUM_TITLE_LENGTH:
-			raise serializers.ValidationError({"TituloInvalido": "Título muy corto. Minimo: 4 caracteres."})
+		if 'title' in attrs:
+			if len(attrs['title']) < MINIMUM_TITLE_LENGTH:
+				raise serializers.ValidationError({"TituloInvalido": "Título muy corto. Minimo: 4 caracteres."})
 
-		if int(attrs['num_answers']) == 0:
-			raise serializers.ValidationError({"NumRespuestasInvalido": "El número de respuestas permitidas no puede ser 0."})
+		if 'num_answers' in attrs:
+			if int(attrs['num_answers']) == 0:
+				raise serializers.ValidationError({"NumRespuestasInvalido": "El número de respuestas permitidas no puede ser 0."})
 
 		return attrs
