@@ -11,7 +11,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from profile.models import Profile
-from profile.serializers import LoginSerializer, ForgotPasswordSerializer, ChangePasswordSerializer
+from profile.serializers import LoginSerializer, ForgotPasswordSerializer, ChangePasswordSerializer, \
+	ChangeNickSerializer
 
 
 @api_view(['POST'])
@@ -61,9 +62,9 @@ def forgot_password(request):
 			message = loader.render_to_string('profile/password_reset_email.html', c)
 			send_mail('DealtDat recuperar contraseña', message, None, [user.email])
 
-			return Response({"EmailEnviado": "Email enviado correctamente"}, status=status.HTTP_200_OK)
+			return Response({"EmailEnviado": "Email enviado correctamente."}, status=status.HTTP_200_OK)
 		else:
-			return Response({"ErrorUser": "El usuario no esta activo"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"ErrorUser": "El usuario no esta activo."}, status=status.HTTP_400_BAD_REQUEST)
 
 	else:
 		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,6 +77,20 @@ def change_password(request):
 
 	if serializer.is_valid():
 		Profile.objects.update_password(request.user.email, password=serializer.init_data['password'])
-		return Response({'ContraseñaCambiada': 'Contraseña actualizada correctamente'}, status=status.HTTP_200_OK)
+		return Response({'ContraseñaCambiada': 'Contraseña actualizada correctamente.'}, status=status.HTTP_200_OK)
+	else:
+		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+def change_nick(request):
+	serializer = ChangeNickSerializer(data=request.DATA)
+
+	if serializer.is_valid():
+		profile = Profile.objects.get(user=request.user)
+		profile.nick = serializer.init_data['nick']
+		profile.save()
+		return Response({'NickCambiado': 'Nick actualizado correctamente.'}, status=status.HTTP_200_OK)
 	else:
 		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)

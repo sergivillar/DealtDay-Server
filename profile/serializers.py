@@ -1,8 +1,13 @@
+# -*- encoding: utf-8 -*-
+
 import re
 from rest_framework import serializers
 
 MINIMUM_PASSWORD_LENGTH = 6
 MAXIMUM_PASSWORD_LENGTH = 20
+MINIMUM_NICK_LENGTH = 4
+MAXIMUM_NICK_LENGTH = 25
+
 REGEX_VALID_PASSWORD = (
 	## Don't allow any spaces, e.g. '\t', '\n' or whitespace etc.
 	r'^(?!.*[\s])'
@@ -43,12 +48,26 @@ class ChangePasswordSerializer(serializers.Serializer):
 			raise serializers.ValidationError({"PasswordDiferente": "Las passwords no coinciden."})
 
 		if len(attrs['password']) < MINIMUM_PASSWORD_LENGTH:
-			raise serializers.ValidationError({"PasswordInvalida": "Password muy corta. Minimo: 6 caracteres."})
+			raise serializers.ValidationError({"PasswordInvalida": "Password muy corta. Minimo: " + str(MINIMUM_PASSWORD_LENGTH) + " caracteres."})
 
 		if len(attrs['password']) > MAXIMUM_PASSWORD_LENGTH:
-			raise serializers.ValidationError({"PasswordInvalida": "Password muy larga. Maximo: 20 caracteres."})
+			raise serializers.ValidationError({"PasswordInvalida": "Password muy larga. Máximo: " + str(MAXIMUM_PASSWORD_LENGTH) + " caracteres."})
 
 		if not self.password_valitade(attrs['password']):
 			raise serializers.ValidationError({"PasswordInvalida": "Formato de password invalida (no permitido: espacios, /, \, %, @, = )."})
+
+		return attrs
+
+
+class ChangeNickSerializer(serializers.Serializer):
+	nick = serializers.CharField()
+
+	def validate(self, attrs):
+
+		if len(attrs['nick']) < MINIMUM_NICK_LENGTH:
+			raise serializers.ValidationError({"NickInvalido": "Nick muy corto. Minimo: " + str(MINIMUM_NICK_LENGTH) + " caracteres."})
+
+		if len(attrs['nick']) > MAXIMUM_NICK_LENGTH:
+			raise serializers.ValidationError({"NickInvalido": "Nick muy largo. Máximo: " + str(MAXIMUM_NICK_LENGTH) + " caracteres."})
 
 		return attrs
