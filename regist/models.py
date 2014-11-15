@@ -8,6 +8,7 @@ from django.template.loader import get_template
 from rest_framework.authtoken.models import Token
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
+from profile.models import Profile
 
 
 class RegistrationManager(models.Manager):
@@ -19,12 +20,22 @@ class RegistrationManager(models.Manager):
 				regist = Regist.objects.get(email=email)
 				regist.encrypt = user_token
 				regist.save()
+				if User.objects.filter(email=email).exists():
+					User.objects.get(email=email).delete()
+					username = email.split('@')[0]
+					user = User.objects.create_user(username=username, email=email, password=password)
+					user.is_active = False
+					user.save()
 			else:
 				user_regist = Regist()
 				user_regist.password = make_password(password)
 				user_regist.email = email
 				user_regist.encrypt = user_token
 				user_regist.save()
+				username = email.split('@')[0]
+				user = User.objects.create_user(username=username, email=email, password=password)
+				user.is_active = False
+				user.save()
 			self.send_email(email, user_token)
 
 	def activate_user(self, encrypm):
@@ -33,8 +44,9 @@ class RegistrationManager(models.Manager):
 			reg = Regist.objects.get(encrypt=encrypm)
 			reg.activate = True
 			reg.save()
-			username = reg.email.split('@')[0]
-			user = User.objects.create_user(username=username, email=reg.email, password=reg.password)
+			user = User.objects.get(email=reg.email)
+			user.is_active = True
+			Profile.objects.create(user=user)
 			Token.objects.create(user=user)
 			user.save()
 
