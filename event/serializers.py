@@ -56,11 +56,11 @@ class ShareEventSerializer(serializers.ModelSerializer):
 		if 'event' in attrs and 'profile' in attrs:
 			event = attrs['event']
 			if UserHasEvent.objects.filter(event=event, profile=attrs['profile']).exists():
-				raise serializers.ValidationError({"YaInvitado": "Este usuario ya esta invitado a este evento."})
+				raise serializers.ValidationError({"YaInvitado": "Este usuario ya está invitado a este evento."})
 
 			user = self.context['request'].user.profile
 			if event.owner != user:
-				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar usuarios a un evento que no es tuyo. El evento no es abierto."})
+				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar usuarios a un evento que no es tuyo."})
 
 
 

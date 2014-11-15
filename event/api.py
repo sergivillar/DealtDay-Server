@@ -53,3 +53,14 @@ class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 	queryset = UserHasEvent.objects.all()
 	serializer_class = ShareEventSerializer
 	permission_classes = (IsAuthenticated, NoDeleteUserHasEvent,)
+
+	def get_queryset(self):
+
+		queryset = UserHasEvent.objects.all()
+		if self.request.method != 'DELETE':
+			profile = self.request.user.profile
+			if self.request.user.is_superuser:
+				queryset = UserHasEvent.objects.all()
+			else:
+				queryset = UserHasEvent.objects.filter(profile=profile)
+		return queryset
