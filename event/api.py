@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from event.models import Event, UserHasEvent
-from event.permissions import NoCreateObjectsToOtherUser
+from event.permissions import NoDeleteUserHasEvent
 from event.serializers import EventSerializer, ShareEventSerializer
 from rest_framework import status, mixins
 
@@ -11,7 +11,7 @@ from rest_framework import status, mixins
 class EventViewSet(viewsets.ModelViewSet):
 	queryset = Event.objects.all()
 	serializer_class = EventSerializer
-	permission_classes = (IsAuthenticated, NoCreateObjectsToOtherUser)
+	permission_classes = (IsAuthenticated,)
 
 	def get_queryset(self):
 
@@ -52,4 +52,4 @@ class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 						mixins.DestroyModelMixin, viewsets.GenericViewSet):
 	queryset = UserHasEvent.objects.all()
 	serializer_class = ShareEventSerializer
-	permission_classes = (IsAuthenticated, NoCreateObjectsToOtherUser)
+	permission_classes = (IsAuthenticated, NoDeleteUserHasEvent,)
