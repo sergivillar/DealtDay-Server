@@ -2,7 +2,7 @@
 
 import datetime
 from rest_framework import serializers
-from event.models import Event
+from event.models import Event, UserHasEvent
 
 MINIMUM_TITLE_LENGTH = 4
 MAXIMUM_TITLE_LENGTH = 120
@@ -10,6 +10,7 @@ MAXIMUM_TITLE_LENGTH = 120
 
 class EventSerializer(serializers.ModelSerializer):
 	is_owner = serializers.SerializerMethodField('check_if_owner')
+	users = serializers.SerializerMethodField('users_in_event')
 
 	class Meta:
 		model = Event
@@ -20,6 +21,11 @@ class EventSerializer(serializers.ModelSerializer):
 		if obj.owner == self.context['request'].user.profile:
 			return True
 		return False
+
+	def users_in_event(self, obj):
+		users = UserHasEvent.objects.filter(event=obj)
+		serializer = ShareEventSerializer(instance=users, many=True)
+		return serializer.data
 
 	def validate(self, attrs):
 
@@ -36,5 +42,26 @@ class EventSerializer(serializers.ModelSerializer):
 		if 'num_answers' in attrs:
 			if int(attrs['num_answers']) == 0:
 				raise serializers.ValidationError({"NumRespuestasInvalido": "El número de respuestas permitidas no puede ser 0."})
+
+		return attrs
+
+
+class ShareEventSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = UserHasEvent
+
+	def validate(self, attrs):
+
+		if 'event' in attrs and 'profile' in attrs:
+			event = attrs['event']
+			if UserHasEvent.objects.filter(event=event, profile=attrs['profile']).exists():
+				raise serializers.ValidationError({"YaInvitado": "Este usuario ya está invitado a este evento."})
+
+			user = self.context['request'].user.profile
+			if event.owner != user:
+				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar usuarios a un evento que no es tuyo."})
+
+
 
 		return attrs
