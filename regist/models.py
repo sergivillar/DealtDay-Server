@@ -46,7 +46,7 @@ class RegistrationManager(models.Manager):
 			reg.save()
 			user = User.objects.get(email=reg.email)
 			user.is_active = True
-			Profile.objects.create(user=user)
+			Profile.objects.create(user=user, nick=user.username)
 			Token.objects.create(user=user)
 			user.save()
 

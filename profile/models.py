@@ -11,8 +11,9 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
 	user = models.OneToOneField(User)
+	nick = models.CharField(max_length=35)
 
 	objects = ProfileManager()
 
 	def __unicode__(self):
-		return str(self.user.username)
+		return u'{0} ({1})'.format(self.user.username, self.nick)
