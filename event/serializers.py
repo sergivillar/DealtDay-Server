@@ -3,6 +3,7 @@
 import datetime
 from rest_framework import serializers
 from event.models import Event, UserHasEvent
+from friends.models import Friend
 
 MINIMUM_TITLE_LENGTH = 4
 MAXIMUM_TITLE_LENGTH = 120
@@ -55,12 +56,17 @@ class ShareEventSerializer(serializers.ModelSerializer):
 
 		if 'event' in attrs and 'profile' in attrs:
 			event = attrs['event']
-			if UserHasEvent.objects.filter(event=event, profile=attrs['profile']).exists():
+			profile = self.context['request'].user.profile
+			friend_to_invite = attrs['profile']
+			if UserHasEvent.objects.filter(event=event, profile=friend_to_invite).exists():
 				raise serializers.ValidationError({"YaInvitado": "Este usuario ya está invitado a este evento."})
 
 			user = self.context['request'].user.profile
 			if event.owner != user:
 				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar usuarios a un evento que no es tuyo."})
+
+			if not Friend.objects.filter(to_friend=friend_to_invite, from_friend=profile).exists():
+				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar a un usuario que no sea amigo tuyo."})
 
 
 

@@ -22,4 +22,6 @@ urlpatterns = patterns('',
     url(r'^api/', include('regist.urls')),
     #API Evento
     url(r'^api/', include('event.urls')),
+    #API Friends
+    url(r'^api/', include('friends.urls')),
 )
