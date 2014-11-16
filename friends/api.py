@@ -27,6 +27,11 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 				queryset = FriendRequest.objects.filter((Q(from_friend=profile) | Q(to_friend=profile)), accepted=False)
 		return queryset
 
+	# Metodo para asignar "to_friend"
+	def pre_save(self, obj):
+		if self.request.method == 'POST':
+			obj.from_friend = self.request.user.profile
+
 	def update(self, request, *args, **kwargs):
 		partial = kwargs.pop('partial', False)
 		self.object = self.get_object_or_none()
