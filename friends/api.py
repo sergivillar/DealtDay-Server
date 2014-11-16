@@ -4,7 +4,7 @@ from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from friends.models import FriendRequest, Friend
-from friends.permissions import NoDeleteFriend
+from friends.permissions import NoDeleteFriend, NoDeleteRequestFriend
 from friends.serializers import FriendRequestSerializer, FriendSerializer
 
 
@@ -13,7 +13,7 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 						viewsets.GenericViewSet):
 	queryset = FriendRequest.objects.all()
 	serializer_class = FriendRequestSerializer
-	permission_classes = (IsAuthenticated, NoDeleteFriend, )
+	permission_classes = (IsAuthenticated, NoDeleteRequestFriend, )
 
 	def get_queryset(self):
 
@@ -48,7 +48,7 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class FriendstViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin,
+class FriendsViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin,
 						viewsets.GenericViewSet):
 	queryset = Friend.objects.all()
 	serializer_class = FriendSerializer
