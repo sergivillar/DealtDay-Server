@@ -41,3 +41,4 @@ class FriendSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Friend
+		depth = 1
