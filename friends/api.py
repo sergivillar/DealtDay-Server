@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -20,7 +21,10 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 			queryset = FriendRequest.objects.all()
 		else:
 			profile = self.request.user.profile
-			queryset = FriendRequest.objects.filter(from_friend=profile)
+			if self.request.method == 'PATCH':
+				queryset = FriendRequest.objects.filter(to_friend=profile, accepted=False)
+			else:
+				queryset = FriendRequest.objects.filter((Q(from_friend=profile) | Q(to_friend=profile)), accepted=False)
 		return queryset
 
 	def update(self, request, *args, **kwargs):
@@ -56,5 +60,5 @@ class FriendstViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin,
 			queryset = Friend.objects.all()
 		else:
 			profile = self.request.user.profile
-			queryset = Friend.objects.filter(from_friend=profile)
+			queryset = Friend.objects.filter(Q(from_friend=profile) | Q(to_friend=profile))
 		return queryset

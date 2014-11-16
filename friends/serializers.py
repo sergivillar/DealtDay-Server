@@ -21,6 +21,12 @@ class FriendRequestSerializer(serializers.ModelSerializer):
 			if FriendRequest.objects.filter(from_friend=to_profile, to_friend=from_profile).exists():
 				raise serializers.ValidationError({"PeticionExistente": "Ese usuario ya te ha envitado una solicitud de amistad."})
 
+			if Friend.objects.filter(from_friend=to_profile, to_friend=from_profile).exists():
+				raise serializers.ValidationError({"ErrorPeticion": "Ya sois amigos."})
+
+			if Friend.objects.filter(from_friend=from_profile, to_friend=to_profile).exists():
+				raise serializers.ValidationError({"ErrorPeticion": "Ya sois amigos."})
+
 		if self.context['request'].method == 'PATCH':
 			if 'from_friend' in attrs or 'to_friend' in attrs:
 				raise serializers.ValidationError({"ErrorPeticion": "No se puede modificar la peticion de amistad."})
