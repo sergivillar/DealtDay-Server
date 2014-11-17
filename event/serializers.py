@@ -65,7 +65,7 @@ class ShareEventSerializer(serializers.ModelSerializer):
 			if event.owner != user:
 				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar usuarios a un evento que no es tuyo."})
 
-			if not Friend.objects.filter(to_friend=friend_to_invite, from_friend=profile).exists():
+			if not Friend.objects.filter(to_friend=friend_to_invite, from_friend=profile).exists() and not Friend.objects.filter(from_friend=friend_to_invite, to_friend=profile).exists():
 				raise serializers.ValidationError({"ErrorInvitando": "No puedes invitar a un usuario que no sea amigo tuyo."})
 
 
