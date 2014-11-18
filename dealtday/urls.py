@@ -24,4 +24,6 @@ urlpatterns = patterns('',
     url(r'^api/', include('event.urls')),
     #API Friends
     url(r'^api/', include('friends.urls')),
+    #API Answer
+    url(r'^api/', include('answer.urls')),
 )
