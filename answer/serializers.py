@@ -21,9 +21,9 @@ class AnswerSerializer(serializers.ModelSerializer):
 				raise serializers.ValidationError({"OpcionError": "No puedes modificar las opciones de otros usuarios."})
 
 			if 'event' in attrs:
-				raise serializers.ValidationError({"OpcionError": "No puedes modificar el evento al que pertenece una opción."})
+				raise serializers.ValidationError({"OpcionError": "No puedes modificar el evento al que pertenece la opción."})
 			if 'type' in attrs:
-				raise serializers.ValidationError({"OpcionError": "No puedes modificar el tipo al que pertenece una opción."})
+				raise serializers.ValidationError({"OpcionError": "No puedes modificar el tipo al que pertenece la opción."})
 		else:
 			event = attrs['event']
 			answer = attrs['answer']
@@ -37,6 +37,6 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 			length = len(answer) - answer.count(' ')
 			if length == 0:
-				raise serializers.ValidationError({"OpcionError": "No se pueden añadir respuestas vacias."})
+				raise serializers.ValidationError({"OpcionError": "No se pueden añadir opciones vacias."})
 
 		return attrs
