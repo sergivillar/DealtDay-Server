@@ -9,7 +9,7 @@ class Answer(models.Model):
 	type = models.CharField(max_length=2, choices=ANSWERS_TYPE)
 
 	event = models.ForeignKey(Event)
-	user = models.ForeignKey(Profile, help_text="Help to know which user created the answer")
+	profile = models.ForeignKey(Profile, help_text="Help to know which user created the answer")
 
 	def __unicode__(self):
 		return u'{0} ({1})'.format(self.answer, self.event.title)
