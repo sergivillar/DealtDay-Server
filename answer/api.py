@@ -24,6 +24,10 @@ class AnswerViewSet(viewsets.ModelViewSet):
 			else:
 				events = UserHasEvent.objects.filter(profile=profile).values_list('event__id')
 				queryset = Answer.objects.filter(event__in=events)
+				
+				evento = self.request.QUERY_PARAMS.get('evento', None)
+				if evento is not None:
+					queryset = queryset.filter(event=evento)
 		return queryset
 
 	# Metodo para asignar profile a answer
