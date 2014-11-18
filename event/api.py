@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from event.models import Event, UserHasEvent
 from event.permissions import NoDeleteUserHasEvent
-from event.serializers import EventSerializer, ShareEventSerializer
+from event.serializers import EventSerializer, ShareEventSerializer, EventDetailSerializer
 from rest_framework import status, mixins
 
 
@@ -22,6 +22,11 @@ class EventViewSet(viewsets.ModelViewSet):
 			events = UserHasEvent.objects.filter(profile=profile).values_list('event__id')
 			queryset = Event.objects.filter(id__in=events).order_by('time_to_close')
 		return queryset
+
+	def get_serializer_class(self):
+		if self.action == 'retrieve':
+			return EventDetailSerializer
+		return EventSerializer
 
 	def create(self, request, *args, **kwargs):
 
@@ -49,7 +54,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
-						mixins.DestroyModelMixin, viewsets.GenericViewSet):
+                        mixins.DestroyModelMixin, viewsets.GenericViewSet):
 	queryset = UserHasEvent.objects.all()
 	serializer_class = ShareEventSerializer
 	permission_classes = (IsAuthenticated, NoDeleteUserHasEvent,)

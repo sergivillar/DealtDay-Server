@@ -2,6 +2,8 @@
 
 import datetime
 from rest_framework import serializers
+from answer.models import Answer
+from answer.serializers import AnswerSerializer
 from event.models import Event, UserHasEvent
 from friends.models import Friend
 
@@ -45,6 +47,32 @@ class EventSerializer(serializers.ModelSerializer):
 				raise serializers.ValidationError({"NumRespuestasInvalido": "El número de respuestas permitidas no puede ser 0."})
 
 		return attrs
+
+
+class EventDetailSerializer(serializers.ModelSerializer):
+	is_owner = serializers.SerializerMethodField('check_if_owner')
+	users = serializers.SerializerMethodField('users_in_event')
+	answer = serializers.SerializerMethodField('answers_in_event')
+
+	class Meta:
+		model = Event
+		write_only_fields = ('timestamp',)
+		read_only_fields = ('owner',)
+
+	def check_if_owner(self, obj):
+		if obj.owner == self.context['request'].user.profile:
+			return True
+		return False
+
+	def users_in_event(self, obj):
+		users = UserHasEvent.objects.filter(event=obj)
+		serializer = ShareEventSerializer(instance=users, many=True)
+		return serializer.data
+
+	def answers_in_event(self, obj):
+		answers = Answer.objects.filter(event=obj)
+		serializer = AnswerSerializer(instance=answers, many=True)
+		return serializer.data
 
 
 class ShareEventSerializer(serializers.ModelSerializer):
