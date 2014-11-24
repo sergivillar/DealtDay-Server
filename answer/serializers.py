@@ -3,6 +3,8 @@
 from rest_framework import serializers
 from answer.models import Answer
 from event.models import UserHasEvent
+from votes.models import Vote
+from votes.serializers import VoteSerializer
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -40,3 +42,19 @@ class AnswerSerializer(serializers.ModelSerializer):
 				raise serializers.ValidationError({"OpcionError": "No se pueden añadir opciones vacias."})
 
 		return attrs
+
+
+class AnswerVoteSerializer(serializers.ModelSerializer):
+	votes = serializers.SerializerMethodField('votes_in_answer')
+
+	class Meta:
+		model = Answer
+		read_only_fields = ('profile',)
+
+	def votes_in_answer(self, obj):
+		if obj.event.voters_public:
+			votes = Vote.objects.filter(vote=obj)
+			serializer = VoteSerializer(instance=votes, many=True)
+			return serializer.data
+		else:
+			return Vote.objects.filter(vote=obj).count()

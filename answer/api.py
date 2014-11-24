@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from answer.models import Answer
 from answer.permissions import AnswerPermissions
-from answer.serializers import AnswerSerializer
+from answer.serializers import AnswerSerializer, AnswerVoteSerializer
 from answer.settings import ANSWERS_TYPE
 from event.models import UserHasEvent
 
@@ -29,6 +29,11 @@ class AnswerViewSet(viewsets.ModelViewSet):
 				if evento is not None:
 					queryset = queryset.filter(event=evento)
 		return queryset
+
+	def get_serializer_class(self):
+		if self.action == 'retrieve':
+			return AnswerVoteSerializer
+		return AnswerSerializer
 
 	# Metodo para asignar profile a answer
 	def pre_save(self, obj):
