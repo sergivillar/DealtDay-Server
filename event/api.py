@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from event.models import Event, UserHasEvent
-from event.permissions import NoDeleteUserHasEvent
+from event.permissions import NoDeleteUserHasEvent, NoDeleteEvent
 from event.serializers import EventSerializer, ShareEventSerializer, EventDetailSerializer
 from rest_framework import status, mixins
 
@@ -11,7 +11,7 @@ from rest_framework import status, mixins
 class EventViewSet(viewsets.ModelViewSet):
 	queryset = Event.objects.all()
 	serializer_class = EventSerializer
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticated, NoDeleteEvent)
 
 	def get_queryset(self):
 
