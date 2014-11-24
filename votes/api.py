@@ -19,6 +19,6 @@ class VoteViewSet(viewsets.ModelViewSet):
 			queryset = Vote.objects.filter(voter=profile)
 		return queryset
 
-	# Metodo para asignar evento a creador
+	# Metodo para asignar evento al voto
 	def pre_save(self, obj):
 		obj.voter = self.request.user.profile

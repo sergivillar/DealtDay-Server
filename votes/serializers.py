@@ -9,10 +9,10 @@ import datetime
 
 
 class VoteSerializer(serializers.ModelSerializer):
+	voter = serializers.RelatedField(read_only=True)
 
 	class Meta:
 		model = Vote
-		read_only_fields = ('voter',)
 
 	def validate(self, attrs):
 
