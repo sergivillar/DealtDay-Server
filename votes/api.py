@@ -8,3 +8,7 @@ class VoteViewSet(viewsets.ModelViewSet):
 	queryset = Vote.objects.all()
 	serializer_class = VoteSerializer
 	permission_classes = (IsAuthenticated,)
+
+	# Metodo para asignar evento a creador
+	def pre_save(self, obj):
+		obj.voter = self.request.user.profile
