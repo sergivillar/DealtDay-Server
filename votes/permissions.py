@@ -8,6 +8,8 @@ class VotePermissions(BasePermission):
 	def has_permission(self, request, view):
 		if request.method == 'PUT':
 			raise MethodNotAllowed('PUT', detail=None)
+		if request.method == 'PATCH':
+			raise MethodNotAllowed('PATCH', detail=None)
 		else:
 			return True
 
