@@ -1,6 +1,20 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth import views
+from rest_framework.routers import DefaultRouter
+from answer.api import AnswerViewSet
+from event.api import EventViewSet, ShareEventViewSet
+from friends.api import FriendRequestViewSet, FriendsViewSet
+from votes.api import VoteViewSet
+
+router = DefaultRouter()
+
+router.register(r'answer', AnswerViewSet)
+router.register(r'event', EventViewSet)
+router.register(r'share', ShareEventViewSet)
+router.register(r'friend_request', FriendRequestViewSet)
+router.register(r'friends', FriendsViewSet)
+router.register(r'vote', VoteViewSet)
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
@@ -20,10 +34,5 @@ urlpatterns = patterns('',
 
     #API Usuario
     url(r'^api/', include('regist.urls')),
-    #API Evento
-    url(r'^api/', include('event.urls')),
-    #API Friends
-    url(r'^api/', include('friends.urls')),
-    #API Answer
-    url(r'^api/', include('answer.urls')),
+    url(r'^api/', include(router.urls)),
 )

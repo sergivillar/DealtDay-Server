@@ -8,4 +8,4 @@ class Vote(models.Model):
 	vote = models.ForeignKey(Answer)
 
 	def __unicode__(self):
-		return u'{0} ({1})'.format(self.vote.answer, self.voter.username)
+		return u'{0} ({1})'.format(self.vote.answer, self.voter.nick)

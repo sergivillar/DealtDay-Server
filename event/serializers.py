@@ -3,7 +3,7 @@
 import datetime
 from rest_framework import serializers
 from answer.models import Answer
-from answer.serializers import AnswerSerializer
+from answer.serializers import AnswerSerializer, AnswerVoteSerializer
 from event.models import Event, UserHasEvent
 from friends.models import Friend
 
@@ -71,7 +71,7 @@ class EventDetailSerializer(serializers.ModelSerializer):
 
 	def answers_in_event(self, obj):
 		answers = Answer.objects.filter(event=obj)
-		serializer = AnswerSerializer(instance=answers, many=True)
+		serializer = AnswerVoteSerializer(instance=answers, many=True)
 		return serializer.data
 
 
