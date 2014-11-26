@@ -28,6 +28,9 @@ class VoteSerializer(serializers.ModelSerializer):
 			if fin_evento < time_now:
 				raise serializers.ValidationError({"ErrorVotacion": "Este evento ya ha finalizado."})
 
+			if Vote.objects.filter(vote=vote, voter=profile).exists():
+				raise serializers.ValidationError({"ErrorVotacion": "Ya has votado esta opción."})
+
 			num_res_event = int(vote.event.num_answers)
 			type_vote = vote.type
 			votes = Vote.objects.values('vote__type').filter(voter=profile, vote__event=vote.event).annotate(Count("vote__type"))
