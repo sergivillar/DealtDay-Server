@@ -17,6 +17,9 @@ class VoteViewSet(viewsets.ModelViewSet):
 			queryset = Vote.objects.all()
 		else:
 			queryset = Vote.objects.filter(voter=profile)
+			evento = self.request.QUERY_PARAMS.get('evento', None)
+			if evento is not None:
+				queryset = queryset.filter(vote__event=evento)
 		return queryset
 
 	# Metodo para asignar evento al voto
