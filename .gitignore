@@ -38,3 +38,7 @@ env/
 build/
 dist/
 .idea/
+
+# Ignore docs files
+.sass-cache
+.sass-cache/*
