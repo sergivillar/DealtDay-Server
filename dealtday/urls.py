@@ -2,10 +2,13 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth import views
 from rest_framework.routers import DefaultRouter
+
 from answer.api import AnswerViewSet
+from dealtday.views import IndexView
 from event.api import EventViewSet, ShareEventViewSet
 from friends.api import FriendRequestViewSet, FriendsViewSet
 from votes.api import VoteViewSet
+
 
 router = DefaultRouter()
 
@@ -18,6 +21,9 @@ router.register(r'vote', VoteViewSet)
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
+
+    #Web
+    url(r'^$', IndexView.as_view(), name='index'), # login required
 
     #Usuario
     url(r'^alta/(?P<encrypm>[0-9A-Za-z=_\-]+)/(?P<mailencrypm>[0-9A-Za-z=_\-]+)$', 'regist.views.alta'),

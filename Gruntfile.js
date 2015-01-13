@@ -6,7 +6,6 @@ module.exports = function (grunt) {
 
         concat: {
             options: {
-                separator: ';',
                 process: false,
                 stripBanners: true
             },
@@ -14,18 +13,31 @@ module.exports = function (grunt) {
                 src: [
                     // libs
                     'static/js/vendor/angular.min.js',
+                    'static/js/vendor/angular-animate.min.js',
+                    'static/js/vendor/angular-aria.min.js',
+                    'bower_components/angular-material/angular-material.min.js',
+                    'bower_components/hammerjs/hammer.min.js',
 
                     // owns
+
+                    'static/js/app.js',
                     'profile/static/js/**/*.js'
                 ],
                 dest: 'static/js/built/dealtday.js'
+            },
+            style: {
+                src: [
+                    'static/css/custom-style.css',
+                    'bower_components/angular-material/angular-material.css',
+                ],
+                dest: 'static/css/style.css'
             }
         },
 
         sass: {
             dist: {
                 files: {
-                    'static/css/style.css': 'static/sass/style.scss'
+                    'static/css/custom-style.css': 'static/sass/style.scss'
                 }
             }
         },
