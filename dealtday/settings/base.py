@@ -96,7 +96,7 @@ AUTHENTICATION_BACKENDS = ('profile.backends.EmailAuthBackend',)
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (PROJECT_ROOT + '/templates/', )
+TEMPLATE_DIRS = (PROJECT_ROOT + '/templates', )
 STATICFILES_DIRS = (PROJECT_ROOT + '/static', )
 
 REST_FRAMEWORK = {

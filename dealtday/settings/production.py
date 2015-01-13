@@ -1,36 +1,27 @@
 # -*- coding: UTF-8 -*-
 from dealtday.settings.base import *
 
-SECRET_KEY = 's3s4m0bb+$s6ipg@lv2h+r)c+iz(e_f#o6vc0eodrfn9vcypws0n#i)6$3$4M0'
+SECRET_KEY = '1&(6g)nfni)4f%7o0h4)-*$s1(surx5m0l^zzp*wvb#_z=tcu='
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-ROOT_URLCONF = 'sesamo.urls'
-WSGI_APPLICATION = 'sesamo.wsgi.application'
+ROOT_URLCONF = 'dealtday.urls'
+WSGI_APPLICATION = 'dealtday.wsgi.application'
 
-#Obviusly change this ;)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sesamo', # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'sesauser',
-        'PASSWORD': '@sesamitis33',
-        'HOST': '', # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '', # Set to empty string for default.
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dealtday',
+        'USER': 'dealtdayuser',
+        'PASSWORD': 'ysolotransportamateria',
     }
 }
 
 ALLOWED_HOSTS = ['*']
 
-MEDIA_ROOT = '/var/apps/sesamo/media/'
+MEDIA_ROOT = '/var/apps/dealtday/media/'
 MEDIA_URL = ''
 
-STATIC_ROOT = '/var/apps/sesamo/static/'
+STATIC_ROOT = '/var/apps/dealtday/static/'
 STATIC_URL = '/static/'
-
-PUSH_NOTIFICATIONS_SETTINGS = {
-        "GCM_API_KEY": "AIzaSyDDmISduCssHLasakyTsUEh9HlqpNH2DkM",
-        "APNS_CERTIFICATE": os.path.join(BASE_DIR, 'settings', 'certs', 'dist.pem'),
-}

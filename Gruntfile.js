@@ -27,8 +27,8 @@ module.exports = function (grunt) {
             },
             style: {
                 src: [
-                    'static/css/custom-style.css',
                     'bower_components/angular-material/angular-material.css',
+                    'static/css/custom-style.css'
                 ],
                 dest: 'static/css/style.css'
             }
@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         watch: {
             styles: {
                 files: ['**/sass/*.scss'],
-                tasks: ['sass:dist', 'autoprefixer'],
+                tasks: ['sass:dist', 'autoprefixer', 'concat:style'],
                 options: {
                     nospawn: true,
                     spawn: false

@@ -8,8 +8,32 @@
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <script type="text/javascript" src="{% static "js/built/dealtday.js" %}"></script>
 </head>
-<body>
-<md-button>prueba</md-button>
-<md-button md-no-ink class="md-primary">Primary (md-noink)</md-button>
+<body ng-cloak>
+<div layout="column" layout-align="center center" layout-fill class="login-background whiteFrame">
+    <md-whiteframe class="md-whiteframe-z4 login-content" layout="column" layout-align="center">
+
+        <md-content class="md-padding" layout="column" layout-fill>
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="user.email" type="email">
+            </md-input-container>
+            <md-input-container>
+                <label>Password</label>
+                <input ng-model="user.password" type="password">
+            </md-input-container>
+        </md-content>
+
+        <md-content class="md-padding" layout="row" layout-align="space-between center">
+            <div>
+                <md-button class="md-raised md-primary">Recuperar Contraseña</md-button>
+            </div>
+            <div>
+                <md-button class="md-raised md-primary">Registrarse</md-button>
+                <md-button class="md-raised md-primary">Login</md-button>
+            </div>
+        </md-content>
+
+    </md-whiteframe>
+</div>
 </body>
 </html>

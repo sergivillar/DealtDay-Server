@@ -1,3 +1,14 @@
+.login-background {
+  background-color: #037E8C; }
+  .login-background md-whiteframe {
+    background: #fff;
+    margin: 20px;
+    padding: 20px; }
 
+.login-content {
+  width: 50%; }
+  .login-content > md-content > div > button {
+    padding-left: 20px;
+    padding-right: 20px; }
 
 /*# sourceMappingURL=custom-style.css.map */
