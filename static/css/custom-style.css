@@ -7,8 +7,10 @@
 
 .login-content {
   width: 50%; }
-  .login-content > md-content > div > button {
-    padding-left: 20px;
-    padding-right: 20px; }
+  .login-content > md-content > div {
+    padding-bottom: 10px; }
+    .login-content > md-content > div > button {
+      padding-left: 15px;
+      padding-right: 15px; }
 
 /*# sourceMappingURL=custom-style.css.map */
