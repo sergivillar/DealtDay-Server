@@ -13,7 +13,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dealtday',
-        'USER': 'dealtdayuser',
+        'USER': 'root',
         'PASSWORD': 'ysolotransportamateria',
     }
 }
