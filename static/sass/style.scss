@@ -1,9 +1,11 @@
 $background-color: #037E8C;
 $button-color: #F44336;
 
-.login-background {
+body {
   background-color: $background-color;
+}
 
+.login-background {
   md-whiteframe {
     background: #fff;
     margin: 20px;
@@ -13,13 +15,37 @@ $button-color: #F44336;
 
 .login-content {
   width: 50%;
-   > md-content {
-     > div {
-      > button {
+  > md-content {
+    > div {
+      > a {
         padding-left: 15px;
         padding-right: 15px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        &:hover {
+          span {
+            color: #ffffff;
+          }
+        }
       }
-       padding-bottom: 10px;
     }
+  }
+}
+
+.login-content {
+  width: 50%;
+  > md-content {
+    > a {
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-bottom: 10px;
+      margin-left: 10px;
+      &:hover {
+        span {
+          color: #ffffff;
+        }
+      }
+    }
+
   }
 }
