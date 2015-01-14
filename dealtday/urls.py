@@ -2,9 +2,10 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth import views
 from rest_framework.routers import DefaultRouter
+from profile import urls as users_urls
 
 from answer.api import AnswerViewSet
-from dealtday.views import IndexView
+from dealtday.views import indexView
 from event.api import EventViewSet, ShareEventViewSet
 from friends.api import FriendRequestViewSet, FriendsViewSet
 from votes.api import VoteViewSet
@@ -23,12 +24,12 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     #Web
-    url(r'^$', IndexView.as_view(), name='index'), # login required
+    url(r'^$', indexView, name='index'), # login required
+    url(r'', include(users_urls)),
 
     #Usuario
     url(r'^alta/(?P<encrypm>[0-9A-Za-z=_\-]+)/(?P<mailencrypm>[0-9A-Za-z=_\-]+)$', 'regist.views.alta'),
     url(r'^api/login', 'profile.api.login_user'),
-    url(r'^logout', 'profile.views.logout_user'),
     url(r'^api/change-password', 'profile.api.change_password'),
     url(r'^api/forgot-password', 'profile.api.forgot_password'),
     url(r'^api/nick', 'profile.api.change_nick'),

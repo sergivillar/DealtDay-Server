@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import TemplateView
+from django.shortcuts import render, redirect
 
 
-class IndexView(TemplateView):
-    '''
-    Renders the index page
-    '''
-    template_name = "dealtday/index.html"
+def indexView(request):
+	if request.user.is_authenticated():
+		return render(request, 'dealtday/index.html')
+	else:
+		return redirect('/login')
