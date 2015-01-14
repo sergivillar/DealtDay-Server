@@ -12,7 +12,7 @@ def logged_user(user_to_check):
 
 
 class LoginView(TemplateView):
-	template_name = "profile/login.html"
+	template_name = "profile/login-index.html"
 
 
 class LogoutView(View):

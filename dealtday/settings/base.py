@@ -33,30 +33,30 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-'django.contrib.admin',
-'django.contrib.auth',
-'django.contrib.contenttypes',
-'django.contrib.sessions',
-'django.contrib.messages',
-'django.contrib.staticfiles',
-'rest_framework',
-'rest_framework.authtoken',
-'regist',
-'answer',
-'event',
-'friends',
-'profile',
-'votes',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'rest_framework',
+	'rest_framework.authtoken',
+	'regist',
+	'answer',
+	'event',
+	'friends',
+	'profile',
+	'votes',
 )
 
 MIDDLEWARE_CLASSES = (
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+'django.contrib.sessions.middleware.SessionMiddleware',
+'django.middleware.common.CommonMiddleware',
+'django.middleware.csrf.CsrfViewMiddleware',
+'django.contrib.auth.middleware.AuthenticationMiddleware',
+'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+'django.contrib.messages.middleware.MessageMiddleware',
+'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'dealtday.urls'
@@ -68,14 +68,14 @@ WSGI_APPLICATION = 'dealtday.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'dealtday',
-		'USER': 'root',
-		'PASSWORD': '',
-		'HOST': '',
-		'PORT': '',
-	}
+'default': {
+'ENGINE': 'django.db.backends.mysql',
+'NAME': 'dealtday',
+'USER': 'root',
+'PASSWORD': '',
+'HOST': '',
+'PORT': '',
+}
 }
 
 # Internationalization
@@ -91,21 +91,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 AUTHENTICATION_BACKENDS = ('profile.backends.EmailAuthBackend',)
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (PROJECT_ROOT + '/templates', )
+TEMPLATE_DIRS = (PROJECT_ROOT + '/templates',
+                 PROJECT_ROOT + '/static/templates',)
+
 STATICFILES_DIRS = (PROJECT_ROOT + '/static', )
 
 REST_FRAMEWORK = {
-	'DEFAULT_AUTHENTICATION_CLASSES': (
-		#TODO quitar basic al finalizar desarrollo
-		'rest_framework.authentication.BasicAuthentication',
-		'rest_framework.authentication.SessionAuthentication',
-		'rest_framework.authentication.TokenAuthentication',
-	)
+'DEFAULT_AUTHENTICATION_CLASSES': (  # TODO quitar basic al finalizar desarrollo
+                                     'rest_framework.authentication.BasicAuthentication',
+                                     'rest_framework.authentication.SessionAuthentication',
+                                     'rest_framework.authentication.TokenAuthentication',
+)
 }
 
 EMAIL_USE_TLS = True
