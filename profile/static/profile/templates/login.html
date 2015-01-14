@@ -1,0 +1,26 @@
+<md-whiteframe class="md-whiteframe-z4 login-content" layout="column" layout-align="center">
+
+    <md-content class="md-padding" layout="column" layout-fill>
+        <md-input-container>
+            <label>Email</label>
+            <input ng-model="user.email" type="email">
+        </md-input-container>
+        <md-input-container>
+            <label>Contraseña</label>
+            <input ng-model="user.password" type="password">
+        </md-input-container>
+    </md-content>
+
+    <md-content layout-padding layout="column" layout-gt-lg="row"
+                layout-align-gt-lg="space-between center" layout-align="center center">
+        <div flex>
+            <md-button class="md-raised md-primary" ng-href="/#/recuperar/">Recuperar Contraseña</md-button>
+        </div>
+        <div layout="row" layout-sm="column"
+             layout-align="end center" flex>
+            <md-button class="md-raised md-primary" ng-href="/#/registro/">Registrarse</md-button>
+            <md-button class="md-raised md-primary" ng-href="/#/">Login</md-button>
+        </div>
+    </md-content>
+
+</md-whiteframe>

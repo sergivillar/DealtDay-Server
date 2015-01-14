@@ -1,7 +1,7 @@
 {% load staticfiles %}
 
 <!DOCTYPE html>
-<html ng-app="dealtday">
+<html ng-app="profile">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -9,6 +9,8 @@
     <script type="text/javascript" src="{% static "js/built/dealtday.js" %}"></script>
 </head>
 <body ng-cloak>
-Estás Dentro!
+<div layout="column" layout-align="center center" layout-fill class="login-background whiteFrame" ng-view>
+</div>
+
 </body>
 </html>
