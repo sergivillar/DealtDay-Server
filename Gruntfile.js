@@ -15,13 +15,13 @@ module.exports = function (grunt) {
                     'static/js/vendor/angular.min.js',
                     'static/js/vendor/angular-animate.min.js',
                     'static/js/vendor/angular-aria.min.js',
+                    'static/js/vendor/angular-route.min.js',
                     'bower_components/angular-material/angular-material.min.js',
                     'bower_components/hammerjs/hammer.min.js',
 
                     // owns
-
                     'static/js/app.js',
-                    'profile/static/js/**/*.js'
+                    'profile/static/profile/js/*.js'
                 ],
                 dest: 'static/js/built/dealtday.js'
             },
