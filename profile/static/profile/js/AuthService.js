@@ -4,23 +4,27 @@
 
     app.value('loginUrl', '/api/login/');
     app.value('logoutUrl', '/logout/');
+    app.value('registerApi', '/api/user/register/');
     app.value('templateRegistro', '/static/profile/templates/registro.html');
 
-    app.service('AuthService', ['$http', '$q', '$window', '$cookies', 'loginUrl', 'logoutUrl', function ($http, $q, $window, $cookies, loginUrl, logout) {
+    app.service('AuthService', ['$http', '$q', '$window', '$cookies', 'loginUrl', 'logoutUrl', 'registerApi', function ($http, $q, $window, $cookies, loginUrl, logout, registerApi) {
         var Authentication = {
 
             login: function (email, password) {
                 var deferred = $q.defer();
 
                 $http.post(loginUrl, {
-                    email: email, password: password
-                }).success(function (response, status, headers, config) {
-                    Authentication.setAuthenticatedAccount(response.email);
+                    email: email,
+                    password: password
+                })
+                    .success(function (response, status, headers, config) {
+                        Authentication.setAuthenticatedAccount(response.email);
 
-                    deferred.resolve(response, status, headers, config);
-                }).error(function (response, status, headers, config) {
-                    deferred.reject(response, status, headers, config);
-                });
+                        deferred.resolve(response, status, headers, config);
+                    })
+                    .error(function (response, status, headers, config) {
+                        deferred.reject(response, status, headers, config);
+                    });
 
                 return deferred.promise;
             },
@@ -33,6 +37,40 @@
                         $window.location = '/';
                     }).error(function (response, status, headers, config) {
                     });
+            },
+
+            register: function (email, pass, pass2) {
+                var deferred = $q.defer();
+
+                $http.post(registerApi, {
+                        email: email,
+                        password: pass,
+                        password_2: pass2
+                    },
+                    {
+                        // Metodo para devolver el string del error.
+                        transformResponse: [
+                            function (data) {
+                                var wrapped = angular.fromJson(data);
+                                var first = true;
+                                angular.forEach(wrapped, function (item) {
+                                    if(first){
+                                        first = false;
+                                        error = item[0];
+                                    }
+                                });
+                                return error;
+                            }
+                        ]
+                    })
+                    .success(function (response, status, headers, config) {
+                        deferred.resolve(response, status, headers, config);
+                    })
+                    .error(function (response, status, headers, config) {
+                        deferred.reject(response, status, headers, config);
+                    });
+
+                return deferred.promise;
             },
 
             isUserAuthenticate: function () {
@@ -51,6 +89,7 @@
         return Authentication;
     }]);
 
+    // TODO mejorar este metodo cuando este montada la navegacion de la web
     app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', function ($rootScope, $location, AuthService, templateRegistro) {
         $rootScope.$on("$routeChangeStart", function (event, nextPath, currentPath) {
             if (!AuthService.isUserAuthenticate()) {
