@@ -36,6 +36,7 @@ class RegistSerializer(serializers.ModelSerializer):
 		if Regist.objects.filter(email=attrs['email']).exists():
 			if Regist.objects.get(email=attrs['email']).activate:
 				raise serializers.ValidationError({"EmailActivado": "Esta email ya tiene una cuenta activa."})
+			raise serializers.ValidationError({"EmailRegistrado": "Esta email ya esta registrado. Revisa tu correo para activar tu cuenta."})
 
 		if attrs['password'] != attrs['password_2']:
 			raise serializers.ValidationError({"PasswordDiferente": "Las passwords no coinciden."})

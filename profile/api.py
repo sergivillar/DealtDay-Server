@@ -30,7 +30,7 @@ def login_user(request):
 				response['token'] = user.auth_token.key
 				return Response(response, status=status.HTTP_200_OK)
 			else:
-				return Response({"ErrorLogin": "El usuario aun no ha sido activado."},
+				return Response({"ErrorLogin": "El usuario aun no ha sido activado. Revisa tu correo para activar la cuenta."},
 				                status=status.HTTP_400_BAD_REQUEST)
 		else:
 			return Response({"ErrorLogin": "Password o usuario incorrectos."}, status=status.HTTP_400_BAD_REQUEST)
