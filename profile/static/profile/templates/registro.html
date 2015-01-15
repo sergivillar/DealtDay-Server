@@ -1,28 +1,46 @@
-<md-whiteframe class="md-whiteframe-z4 login-content" layout="column" layout-align="center">
-    <form>
+<md-whiteframe class="md-whiteframe-z4 login-content" layout="column" layout-align="center"
+        ng-controller="RegisterCtrl as registerController">
+    <form name="newUser">
         <md-content class="md-padding" layout="column" layout-fill>
             <md-input-container>
                 <label>Email</label>
-                <input ng-model="user.email" type="email">
+                <input name="email" ng-model="user.email" type="email" ng-required="true">
+                <div ng-messages="newUser.email.$error" ng-if="newUser.email.$dirty">
+                        <div ng-message="email">Introduce una dirección de email valida.</div>
+                    </div>
             </md-input-container>
             <div layout layout-sm="column">
                 <md-input-container flex>
                     <label>Contraseña</label>
-                    <input ng-model="user.password" type="password">
+                    <input name="password" ng-model="user.password" type="password" ng-minlength="6" ng-required="true">
+
+                    <div ng-messages="newUser.password.$error">
+                        <div ng-message="minlength">La contraseña debe tener 6 caracteres mínimo.</div>
+                    </div>
                 </md-input-container>
 
                 <md-input-container flex>
                     <label>Repetir contraseña</label>
-                    <input ng-model="user.password_repeat" type="password">
+                    <input name="repeatPassword" ng-model="user.password_repeat" type="password" ng-minlength="6"
+                           ng-required="true" compare-to="user.password">
+
+
+                    <div ng-messages="newUser.repeatPassword.$error">
+                        <div ng-message="minlength">La contraseña debe tener 6 caracteres mínimo.</div>
+                        <div ng-message="compareTo">Las contraseñas deben ser iguales.</div>
+                    </div>
                 </md-input-container>
             </div>
         </md-content>
+        <div layout="column" layout-align="center center" ng-show="loading">
+            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+        </div>
 
         <md-content layout="column" layout-gt-lg="row"
                     layout-align-gt-lg="space-between center" layout-align="center center">
 
             <md-button class="md-raised md-primary" ng-href="/#/login">Volver</md-button>
-            <md-button class="md-raised md-primary" ng-href="">Registrarse</md-button>
+            <md-button class="md-raised md-primary" ng-disabled="newUser.$invalid" ng-click="register()">Registrarse</md-button>
 
         </md-content>
     </form>
