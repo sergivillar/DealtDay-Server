@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.7.0-rc2-master-191df15
+ * v0.7.0-rc3-master-1cabb62
  */
 goog.provide('ng.material.components.input');
 goog.require('ng.material.core');
@@ -125,7 +125,7 @@ function labelDirective() {
  *   <md-input-container>
  *     <label>Last Name</label>
  *     <input name="lastName" ng-model="lastName" required md-maxlength="10" minlength="4">
- *     <div ng-messages="userForm.lastName.$error">
+ *     <div ng-messages="userForm.lastName.$error" ng-show="userForm.bio.$dirty">
  *       <div ng-message="required">This is required!</div>
  *       <div ng-message="md-maxlength">That's too long!</div>
  *       <div ng-message="minlength">That's too short!</div>
@@ -160,7 +160,7 @@ function labelDirective() {
  *   <md-input-container>
  *     <label>Biography</label>
  *     <textarea name="bio" ng-model="biography" required md-maxlength="150"></textarea>
- *     <div ng-messages="userForm.bio.$error">
+ *     <div ng-messages="userForm.bio.$error" ng-show="userForm.bio.$dirty">
  *       <div ng-message="required">This is required!</div>
  *       <div ng-message="md-maxlength">That's too long!</div>
  *     </div>
@@ -200,32 +200,37 @@ function inputTextareaDirective($mdUtil, $window, $compile, $animate) {
       setupTextarea();
     }
 
+    var isEmpty = ngModelCtrl ? 
+      ngModelCtrl.$isEmpty : 
+      function() { return ('' + element.val()).length === 0; };
+
     // When the input value changes, check if it "has" a value, and
     // set the appropriate class on the input group
     if (ngModelCtrl) {
       scope.$watch(function() {
         return ngModelCtrl.$dirty && ngModelCtrl.$invalid;
-      }, function(isDirtyAndInvalid) {
-        containerCtrl.setInvalid(isDirtyAndInvalid);
-      });
+      }, containerCtrl.setInvalid);
+      
       ngModelCtrl.$formatters.push(checkHasValue);
       ngModelCtrl.$parsers.push(checkHasValue);
     } else {
-      element.on('input', function() {
-        containerCtrl.setHasValue( (""+element.val()).length > 0 );
-      });
-      containerCtrl.setHasValue( (""+element.val()).length > 0 );
+      checkHasValue();
     }
+    element.on('input', checkHasValue);
+
     function checkHasValue(value) {
-      containerCtrl.setHasValue(!ngModelCtrl.$isEmpty(value));
+      containerCtrl.setHasValue(
+        !isEmpty(value) ||
+        (element[0].validity || {}).badInput // allow badInput to count as having a value.
+      );
       return value;
     }
 
     element
-      .on('focus', function(e) {
+      .on('focus', function(ev) {
         containerCtrl.setFocused(true);
       })
-      .on('blur', function(e) {
+      .on('blur', function(ev) {
         containerCtrl.setFocused(false);
       });
 
@@ -237,30 +242,33 @@ function inputTextareaDirective($mdUtil, $window, $compile, $animate) {
 
     function setupTextarea() {
       var node = element[0];
+      var onChangeTextarea = $mdUtil.debounce(growTextarea, 1);
+
+      function pipelineListener(value) {
+        onChangeTextarea();
+        return value;
+      }
 
       if (ngModelCtrl) {
-        ngModelCtrl.$formatters.push(growTextarea);
-        ngModelCtrl.$parsers.push(growTextarea);
+        ngModelCtrl.$formatters.push(pipelineListener);
+        ngModelCtrl.$viewChangeListeners.push(pipelineListener);
       } else {
-        element.on('input', growTextarea);
-        growTextarea();
+        onChangeTextarea();
       }
-      element.on('keyup', growTextarea);
+      element.on('keydown input', onChangeTextarea);
       element.on('scroll', onScroll);
-      angular.element($window).on('resize', growTextarea);
+      angular.element($window).on('resize', onChangeTextarea);
 
       scope.$on('$destroy', function() {
-        angular.element($window).off('resize', growTextarea);
+        angular.element($window).off('resize', onChangeTextarea);
       });
 
-      function growTextarea(value) {
+      function growTextarea() {
         node.style.height = "auto";
         var line = node.scrollHeight - node.offsetHeight;
         node.scrollTop = 0;
         var height = node.offsetHeight + (line > 0 ? line : 0);
         node.style.height = height + 'px';
-
-        return value; // for $formatter/$parser
       }
 
       function onScroll(e) {
@@ -288,9 +296,14 @@ function mdMaxlengthDirective() {
     var containerCtrl = ctrls[1];
     var charCountEl = angular.element('<div class="md-char-counter">');
 
+    // Stop model from trimming. This makes it so whitespace 
+    // over the maxlength still counts as invalid.
+    attr.$set('ngTrim', 'false');
     containerCtrl.element.append(charCountEl);
+
     ngModelCtrl.$formatters.push(renderCharCount);
-    element.on('input', renderCharCount);
+    ngModelCtrl.$viewChangeListeners.push(renderCharCount);
+    element.on('input keydown', renderCharCount);
 
     scope.$watch(attr.mdMaxlength, function(value) {
       maxlength = value;
@@ -306,11 +319,10 @@ function mdMaxlengthDirective() {
     });
 
     ngModelCtrl.$validators['md-maxlength'] = function(modelValue, viewValue) {
-      var value = modelValue || viewValue;
       if (!angular.isNumber(maxlength) || maxlength < 0) {
         return true;
       }
-      return (value || '').length < maxlength;
+      return ( element.val() || modelValue || viewValue || '' ).length <= maxlength;
     };
 
     function renderCharCount(value) {

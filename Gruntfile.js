@@ -16,6 +16,8 @@ module.exports = function (grunt) {
                     'static/js/vendor/angular-animate.min.js',
                     'static/js/vendor/angular-aria.min.js',
                     'static/js/vendor/angular-cookies.min.js',
+                    'static/js/vendor/angular-resource.min.js',
+                    'static/js/vendor/angular-messages.min.js',
                     'static/js/vendor/angular-route.min.js',
                     'bower_components/angular-material/angular-material.min.js',
                     'bower_components/hammerjs/hammer.min.js',
