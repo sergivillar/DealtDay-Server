@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.7.0-rc2-master-191df15
+ * v0.7.0-rc3-master-1cabb62
  */
 goog.provide('ng.material.core');
 
@@ -23,6 +23,9 @@ function MdCoreInitialize() {
       'ngMaterial requires HammerJS to be preloaded.'
     );
   }
+  // By default, Hammer disables user selection on desktop if swipe is enabled.
+  // We don't want this, so we make sure Hammer doesn't set a user-select: none.
+  Hammer.defaults.cssProps.userSelect = '';
 }
 
 function MdCoreConfigure($provide, $mdThemingProvider) {
@@ -136,7 +139,7 @@ MdConstantFactory.$inject = ["$$rAF", "$sniffer"];
 
            return $delegate;
          }
-       ])
+       ]);
      }]);
 
   /**
@@ -838,6 +841,7 @@ angular.module('material.core')
   .service('$mdCompiler', mdCompilerService);
 
 function mdCompilerService($q, $http, $injector, $compile, $controller, $templateCache) {
+  /* jshint validthis: true */
 
   /*
    * @ngdoc service
@@ -1473,13 +1477,13 @@ function InterimElementProvider() {
 
           return deferred.promise;
         }
-        return $q.reject("Invalid `md-component-id` value.")
+        return $q.reject("Invalid `md-component-id` value.");
       }
 
     };
 
     function isValidID(handle){
-      return handle && (handle != "");
+      return handle && (handle !== "");
     }
 
   }
@@ -1631,7 +1635,7 @@ function InkRippleService($window, $timeout) {
        * @returns {string} rgba color with 0.1 alpha
        */
       function rgbToRGBA(color) {
-        return color.replace(')', ', 0.1)').replace('(', 'a(')
+        return color.replace(')', ', 0.1)').replace('(', 'a(');
       }
 
     }
@@ -1807,7 +1811,8 @@ function InkRippleService($window, $timeout) {
        */
       function getRippleContainer() {
         if (rippleContainer) return rippleContainer;
-        var container = rippleContainer = angular.element('<div class="md-ripple-container"></div>');
+        var container = angular.element('<div class="md-ripple-container"></div>');
+        rippleContainer = container;
         element.append(container);
         return container;
       }
@@ -2590,7 +2595,7 @@ function parseRules(theme, colorType, rules) {
 
   var themeNameRegex = new RegExp('.md-' + theme.name + '-theme', 'g');
   // Matches '{{ primary-color }}', etc
-  var hueRegex = new RegExp('(\'|\")?{{\\s*\(' + colorType + '\)-\(color|contrast\)\-\?\(\\d\\.\?\\d\*\)\?\\s*}}(\"|\')?','g');
+  var hueRegex = new RegExp('(\'|")?{{\\s*(' + colorType + ')-(color|contrast)-?(\\d\\.?\\d*)?\\s*}}(\"|\')?','g');
   var simpleVariableRegex = /'?"?\{\{\s*([a-zA-Z]+)-(A?\d+|hue\-[0-3]|shadow)-?(\d\.?\d*)?\s*\}\}'?"?/g;
   var palette = PALETTES[color.name];
 
@@ -2645,7 +2650,7 @@ function generateThemes($injector) {
   THEME_COLOR_TYPES.forEach(function(type) {
     rulesByType[type] = '';
   });
-  var ruleMatchRegex = new RegExp('md-\(' + THEME_COLOR_TYPES.join('\|') + '\)', 'g');
+  var ruleMatchRegex = new RegExp('md-(' + THEME_COLOR_TYPES.join('|') + ')', 'g');
 
   // Sort the rules based on type, allowing us to do color substitution on a per-type basis
   rules.forEach(function(rule) {
