@@ -790,6 +790,9 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                 function (data) {
                     $scope.loading = false;
 
+                    $scope.user.password = '';
+                    $scope.user.password_repeat = '';
+
                     $mdDialog.show(
                         $mdDialog.alert()
                             .title('¡ ENHORABUENA !')

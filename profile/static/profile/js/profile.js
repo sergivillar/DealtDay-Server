@@ -67,6 +67,9 @@
                 function (data) {
                     $scope.loading = false;
 
+                    $scope.user.password = '';
+                    $scope.user.password_repeat = '';
+
                     $mdDialog.show(
                         $mdDialog.alert()
                             .title('¡ ENHORABUENA !')
