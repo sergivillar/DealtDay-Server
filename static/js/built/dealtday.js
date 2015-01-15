@@ -281,6 +281,10 @@ d.max&&!c.attr("aria-valuemax")&&c.attr("aria-valuemax",d.max),c.attr("aria-valu
 !f.ngKeypress)e.on("keypress",function(b){function e(){c(a,{$event:b})}32!==b.keyCode&&13!==b.keyCode||a.$apply(e)})}}}}]).directive("ngDblclick",["$aria",function(b){return function(a,g,e){b.config("tabindex")&&!g.attr("tabindex")&&g.attr("tabindex",0)}}])})(window,window.angular);
 //# sourceMappingURL=angular-aria.min.js.map
 
+(function(p,f,n){'use strict';f.module("ngCookies",["ng"]).factory("$cookies",["$rootScope","$browser",function(e,b){var c={},g={},h,k=!1,l=f.copy,m=f.isUndefined;b.addPollFn(function(){var a=b.cookies();h!=a&&(h=a,l(a,g),l(a,c),k&&e.$apply())})();k=!0;e.$watch(function(){var a,d,e;for(a in g)m(c[a])&&b.cookies(a,n);for(a in c)d=c[a],f.isString(d)||(d=""+d,c[a]=d),d!==g[a]&&(b.cookies(a,d),e=!0);if(e)for(a in d=b.cookies(),c)c[a]!==d[a]&&(m(d[a])?delete c[a]:c[a]=d[a])});return c}]).factory("$cookieStore",
+["$cookies",function(e){return{get:function(b){return(b=e[b])?f.fromJson(b):b},put:function(b,c){e[b]=f.toJson(c)},remove:function(b){delete e[b]}}}])})(window,window.angular);
+//# sourceMappingURL=angular-cookies.min.js.map
+
 (function(p,d,C){'use strict';function v(r,h,g){return{restrict:"ECA",terminal:!0,priority:400,transclude:"element",link:function(a,c,b,f,y){function z(){k&&(g.cancel(k),k=null);l&&(l.$destroy(),l=null);m&&(k=g.leave(m),k.then(function(){k=null}),m=null)}function x(){var b=r.current&&r.current.locals;if(d.isDefined(b&&b.$template)){var b=a.$new(),f=r.current;m=y(b,function(b){g.enter(b,null,m||c).then(function(){!d.isDefined(t)||t&&!a.$eval(t)||h()});z()});l=f.scope=b;l.$emit("$viewContentLoaded");
 l.$eval(w)}else z()}var l,m,k,t=b.autoscroll,w=b.onload||"";a.$on("$routeChangeSuccess",x);x()}}}function A(d,h,g){return{restrict:"ECA",priority:-400,link:function(a,c){var b=g.current,f=b.locals;c.html(f.$template);var y=d(c.contents());b.controller&&(f.$scope=a,f=h(b.controller,f),b.controllerAs&&(a[b.controllerAs]=f),c.data("$ngControllerController",f),c.children().data("$ngControllerController",f));y(a)}}}p=d.module("ngRoute",["ng"]).provider("$route",function(){function r(a,c){return d.extend(Object.create(a),
 c)}function h(a,d){var b=d.caseInsensitiveMatch,f={originalPath:a,regexp:a},g=f.keys=[];a=a.replace(/([().])/g,"\\$1").replace(/(\/)?:(\w+)([\?\*])?/g,function(a,d,b,c){a="?"===c?c:null;c="*"===c?c:null;g.push({name:b,optional:!!a});d=d||"";return""+(a?"":d)+"(?:"+(a?d:"")+(c&&"(.+?)"||"([^/]+)")+(a||"")+")"+(a||"")}).replace(/([\/$\*])/g,"\\$1");f.regexp=new RegExp("^"+a+"$",b?"i":"");return f}var g={};this.when=function(a,c){var b=d.copy(c);d.isUndefined(b.reloadOnSearch)&&(b.reloadOnSearch=!0);
@@ -596,12 +600,79 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     });
 
 })();
-(function(){
+(function () {
 
-    var app = angular.module('profile', ['ngMaterial', 'ngRoute']);
+    var app = angular.module('authService', ['ngCookies']);
+
+    app.value('loginUrl', '/api/login/');
+    app.value('logoutUrl', '/logout/');
+    app.value('templateRegistro', '/static/profile/templates/registro.html');
+
+    app.service('AuthService', ['$http', '$q', '$window', '$cookies', 'loginUrl', 'logoutUrl', function ($http, $q, $window, $cookies, loginUrl, logout) {
+        var Authentication = {
+
+            login: function (email, password) {
+                var deferred = $q.defer();
+
+                $http.post(loginUrl, {
+                    email: email, password: password
+                }).success(function (response, status, headers, config) {
+                    Authentication.setAuthenticatedAccount(response.email);
+
+                    deferred.resolve(response, status, headers, config);
+                }).error(function (response, status, headers, config) {
+                    deferred.reject(response, status, headers, config);
+                });
+
+                return deferred.promise;
+            },
+
+            logout: function () {
+                $http.get(logout)
+                    .success(function (response, status, headers, config) {
+                        Authentication.unautheticate();
+
+                        $window.location = '/';
+                    }).error(function (response, status, headers, config) {
+                    });
+            },
+
+            isUserAuthenticate: function () {
+                return !!$cookies.authenticatedAccount;
+            },
+
+            setAuthenticatedAccount: function (account) {
+                $cookies.authenticatedAccount = account.split("@")[0];
+            },
+
+            unautheticate: function () {
+                delete $cookies.authenticatedAccount;
+            }
+        };
+
+        return Authentication;
+    }]);
+
+    app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', function ($rootScope, $location, AuthService, templateRegistro) {
+        $rootScope.$on("$routeChangeStart", function (event, nextPath, currentPath) {
+            if (!AuthService.isUserAuthenticate()) {
+                if (nextPath.templateUrl === templateRegistro) {
+                } else {
+                    $rootScope.$evalAsync(function () {
+                        $location.url('/');
+                    });
+                }
+            }
+        });
+    }]);
+
+})();
+(function () {
+
+    var app = angular.module('profile', ['ngMaterial', 'ngRoute', 'authService']);
 
     // Setting up CSRF integration with Django
-    app.config(function($httpProvider) {
+    app.config(function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     });
@@ -611,8 +682,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             .primaryColor('red', {
                 'default': '400'
             })
-            .accentColor('green', {
-            });
+            .accentColor('green', {});
     });
 
     app.config(['$routeProvider', function ($routeProvider) {
@@ -627,29 +697,24 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         });
     }]);
 
-    app.controller('LoginCtrl', ['$scope', '$http', '$window', function($scope, $http, $window) {
-        $scope.status = 'WAITING';
 
-        $scope.login = function(){
-            var data = {
-                username : $scope.username,
-                password : $scope.password
-            };
-            $scope.status = 'TRYING';
-            $http.post('/api/1.0/login', data).success(function(data, status, headers, config) {
-                $scope.status = 'LOGGED';
-                $window.location.href = '/';
-            }).error(function(data, status, headers, config) {
-                if (status == 404) {s
-                    $scope.status = 'LOGIN_ERROR';
-                } else {
-                    $scope.status = 'UNKNOWN_ERROR';
-                }
-            });
-            return false;
+
+
+    app.controller('LoginCtrl', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
+
+        $scope.login = function () {
+            AuthService.login($scope.user.email, $scope.user.password)
+                .then(function () {
+                    $window.location = '/';
+                }, function (error) {
+                    $scope.user.email = '';
+                    $scope.user.password = '';
+                });
         };
 
-
+        $scope.isUser = function () {
+            console.log(AuthService.isUserAuthenticate());
+        };
     }]);
 
 })();

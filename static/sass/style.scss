@@ -15,8 +15,29 @@ body {
 
 .login-content {
   width: 50%;
-  > md-content {
-    > div {
+  > form {
+    > md-content {
+      > div {
+        > a, button {
+          padding-left: 15px;
+          padding-right: 15px;
+          margin-bottom: 10px;
+          margin-left: 10px;
+          &:hover {
+            span {
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.login-content {
+  width: 50%;
+  > form {
+    > md-content {
       > a {
         padding-left: 15px;
         padding-right: 15px;
@@ -28,24 +49,7 @@ body {
           }
         }
       }
-    }
-  }
-}
 
-.login-content {
-  width: 50%;
-  > md-content {
-    > a {
-      padding-left: 15px;
-      padding-right: 15px;
-      margin-bottom: 10px;
-      margin-left: 10px;
-      &:hover {
-        span {
-          color: #ffffff;
-        }
-      }
     }
-
   }
 }

@@ -1,9 +1,9 @@
-(function(){
+(function () {
 
-    var app = angular.module('profile', ['ngMaterial', 'ngRoute']);
+    var app = angular.module('profile', ['ngMaterial', 'ngRoute', 'authService']);
 
     // Setting up CSRF integration with Django
-    app.config(function($httpProvider) {
+    app.config(function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     });
@@ -13,8 +13,7 @@
             .primaryColor('red', {
                 'default': '400'
             })
-            .accentColor('green', {
-            });
+            .accentColor('green', {});
     });
 
     app.config(['$routeProvider', function ($routeProvider) {
@@ -29,29 +28,24 @@
         });
     }]);
 
-    app.controller('LoginCtrl', ['$scope', '$http', '$window', function($scope, $http, $window) {
-        $scope.status = 'WAITING';
 
-        $scope.login = function(){
-            var data = {
-                username : $scope.username,
-                password : $scope.password
-            };
-            $scope.status = 'TRYING';
-            $http.post('/api/1.0/login', data).success(function(data, status, headers, config) {
-                $scope.status = 'LOGGED';
-                $window.location.href = '/';
-            }).error(function(data, status, headers, config) {
-                if (status == 404) {s
-                    $scope.status = 'LOGIN_ERROR';
-                } else {
-                    $scope.status = 'UNKNOWN_ERROR';
-                }
-            });
-            return false;
+
+
+    app.controller('LoginCtrl', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
+
+        $scope.login = function () {
+            AuthService.login($scope.user.email, $scope.user.password)
+                .then(function () {
+                    $window.location = '/';
+                }, function (error) {
+                    $scope.user.email = '';
+                    $scope.user.password = '';
+                });
         };
 
-
+        $scope.isUser = function () {
+            console.log(AuthService.isUserAuthenticate());
+        };
     }]);
 
 })();
