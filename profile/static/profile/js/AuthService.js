@@ -94,7 +94,6 @@
     app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', 'templateRecuperarPass', function ($rootScope, $location, AuthService, templateRegistro, templateRecuperarPass) {
         $rootScope.$on("$routeChangeStart", function (event, nextPath, currentPath) {
             if (!AuthService.isUserAuthenticate()) {
-                console.log(nextPath);
                 if (nextPath.templateUrl === templateRegistro || nextPath.templateUrl === templateRecuperarPass) {
                 } else {
                     $rootScope.$evalAsync(function () {
