@@ -29,7 +29,15 @@
     }]);
 
 
-    app.controller('LoginCtrl', ['$scope', 'AuthService', '$window', '$mdDialog', function ($scope, AuthService, $window, $mdDialog) {
+    app.controller('LoginCtrl', ['$scope', 'AuthService', '$window', '$mdDialog', '$location', function ($scope, AuthService, $window, $mdDialog, $location) {
+
+        $scope.goRegistro = function (){
+          $location.path('/registro/');
+        };
+
+        $scope.goRecuperarPass = function (){
+          $location.path('/recuperar/');
+        };
 
         $scope.login = function () {
             AuthService.login($scope.user.email, $scope.user.password)

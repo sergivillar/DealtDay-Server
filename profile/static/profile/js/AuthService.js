@@ -6,6 +6,7 @@
     app.value('logoutUrl', '/logout/');
     app.value('registerApi', '/api/user/register/');
     app.value('templateRegistro', '/static/profile/templates/registro.html');
+    app.value('templateRecuperarPass', '/static/profile/templates/recuperar-pass.html');
 
     app.service('AuthService', ['$http', '$q', '$window', '$cookies', 'loginUrl', 'logoutUrl', 'registerApi', function ($http, $q, $window, $cookies, loginUrl, logout, registerApi) {
         var Authentication = {
@@ -90,10 +91,11 @@
     }]);
 
     // TODO mejorar este metodo cuando este montada la navegacion de la web
-    app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', function ($rootScope, $location, AuthService, templateRegistro) {
+    app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', 'templateRecuperarPass', function ($rootScope, $location, AuthService, templateRegistro, templateRecuperarPass) {
         $rootScope.$on("$routeChangeStart", function (event, nextPath, currentPath) {
             if (!AuthService.isUserAuthenticate()) {
-                if (nextPath.templateUrl === templateRegistro) {
+                console.log(nextPath);
+                if (nextPath.templateUrl === templateRegistro || nextPath.templateUrl === templateRecuperarPass) {
                 } else {
                     $rootScope.$evalAsync(function () {
                         $location.url('/');
