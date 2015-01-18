@@ -11,25 +11,25 @@ body {
   @media screen and (max-width: 600px) {
     .login-content {
       width: 90%; } }
-  .login-content > form > md-content > div > a, .login-content > form > md-content > div button {
+  .login-content > form > div > div > a, .login-content > form > div > div button {
     padding-left: 15px;
     padding-right: 15px;
     margin-bottom: 10px;
     margin-left: 10px; }
-    .login-content > form > md-content > div > a:hover span, .login-content > form > md-content > div button:hover span {
+    .login-content > form > div > div > a:hover span, .login-content > form > div > div button:hover span {
       color: #ffffff; }
 
-.login-content {
+.register-content {
   width: 50%; }
   @media screen and (max-width: 600px) {
-    .login-content {
+    .register-content {
       width: 90%; } }
-  .login-content > form > md-content > a {
+  .register-content > form > div > a {
     padding-left: 15px;
     padding-right: 15px;
     margin-bottom: 10px;
     margin-left: 10px; }
-    .login-content > form > md-content > a:hover span {
+    .register-content > form > div > a:hover span {
       color: #ffffff; }
 
 /*# sourceMappingURL=custom-style.css.map */

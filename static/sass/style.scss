@@ -20,7 +20,7 @@ body {
     width: 90%;
   }
   > form {
-    > md-content {
+    > div {
       > div {
         > a, button {
           padding-left: 15px;
@@ -38,13 +38,13 @@ body {
   }
 }
 
-.login-content {
+.register-content {
   width: 50%;
   @media screen and (max-width: $screen-small) {
     width: 90%;
   }
   > form {
-    > md-content {
+    > div {
       > a {
         padding-left: 15px;
         padding-right: 15px;

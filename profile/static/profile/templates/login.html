@@ -1,7 +1,7 @@
 <md-whiteframe class="md-whiteframe-z4 login-content" layout="column" layout-align="center"
                ng-controller="LoginCtrl as loginController">
     <form name="loginForm" novalidate>
-        <md-content class="md-padding" layout="column" layout-fill>
+        <div class="md-padding" layout="column">
             <md-input-container>
                 <label>Email</label>
                 <input ng-model="user.email" type="email" ng-required="true">
@@ -10,9 +10,9 @@
                 <label>Contraseña</label>
                 <input ng-model="user.password" type="password" ng-required="true">
             </md-input-container>
-        </md-content>
+        </div>
 
-        <md-content layout-padding layout="column" layout-gt-lg="row"
+        <div layout-padding layout="column" layout-gt-lg="row"
                     layout-align-gt-lg="space-between center" layout-align="center center">
             <div flex>
                 <md-button class="md-raised md-primary" ng-href="/#/recuperar/">Recuperar Contraseña</md-button>
@@ -22,7 +22,7 @@
                 <md-button class="md-raised md-primary" ng-href="/#/registro/">Registrarse</md-button>
                 <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="loginForm.$invalid">Login</md-button>
             </div>
-        </md-content>
+        </div>
     </form>
 
 </md-whiteframe>

@@ -666,8 +666,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                     },
                     {
                         // Metodo para devolver el string del error.
-                        transformResponse: [
-                            function (data) {
+                        //transformResponse: [
+                            /*function (data) {
                                 var wrapped = angular.fromJson(data);
                                 var first = true;
                                 angular.forEach(wrapped, function (item) {
@@ -677,13 +677,15 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                                     }
                                 });
                                 return error;
-                            }
-                        ]
+                            }*/
+                        //]
                     })
                     .success(function (response, status, headers, config) {
                         deferred.resolve(response, status, headers, config);
                     })
                     .error(function (response, status, headers, config) {
+                        console.log(response);
+
                         deferred.reject(response, status, headers, config);
                     });
 
