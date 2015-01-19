@@ -788,7 +788,11 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         };
     }]);
 
-    app.controller('RegisterCtrl', ['$scope', 'AuthService', '$mdDialog', function ($scope, AuthService, $mdDialog) {
+    app.controller('RegisterCtrl', ['$scope', 'AuthService', '$mdDialog', '$location', function ($scope, AuthService, $mdDialog, $location) {
+
+        $scope.goLogin = function (){
+          $location.path('/');
+        };
 
         $scope.loading = false;
 
