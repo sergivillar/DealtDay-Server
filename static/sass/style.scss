@@ -45,7 +45,12 @@ body {
   }
   > form {
     > div {
-      > a {
+      > div {
+        md-input-container {
+          width: 100%;
+        }
+      }
+      > a, button {
         padding-left: 15px;
         padding-right: 15px;
         margin-bottom: 10px;
@@ -56,7 +61,6 @@ body {
           }
         }
       }
-
     }
   }
 }

@@ -11,7 +11,7 @@
                 </div>
             </md-input-container>
             <div layout layout-sm="column" layout-md="column">
-                <md-input-container flex>
+                <md-input-container>
                     <label>Contraseña</label>
                     <input name="password" ng-model="user.password" type="password" ng-minlength="6" ng-required="true">
 
@@ -20,7 +20,7 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container flex>
+                <md-input-container>
                     <label>Repetir contraseña</label>
                     <input name="repeatPassword" ng-model="user.password_repeat" type="password" ng-minlength="6"
                            ng-required="true" compare-to="user.password">
