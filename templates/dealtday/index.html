@@ -9,6 +9,42 @@
     <script type="text/javascript" src="{% static "js/built/dealtday.js" %}"></script>
 </head>
 <body ng-cloak>
-Estás Dentro!
+
+{%  verbatim %}
+<div ng-controller="AppCtrl" layout="column" layout-fill>
+    <section layout="row" flex>
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
+            <md-toolbar>
+                <h1 class="md-toolbar-tools">DealtDay</h1>
+            </md-toolbar>
+            <div ng-controller="LeftCtrl">
+                <a href="#/{{ navLink.url }}" ng-repeat="navLink in navLinks" class="menu-item" ng-class="navClass('{{navLink.url}}')" ng-click="close()">{{ navLink.Title }}</a>
+            </div>
+                <a href="logout" class="menu-item" >Salir</a>
+        </md-sidenav>
+
+        <div layout="column" layout-fill>
+            <md-toolbar class="md-default-theme">
+
+                <div class="md-toolbar-tools" ng-click="toggleLeft()">
+                    <button class="menu-icon" hide-gt-md aria-label="Abrir menu">
+                        <md-icon icon="static/icons/ic_menu_24px.svg"></md-icon>
+
+                    </button>
+                    <div layout="row" flex>
+                        <div class="md-toolbar-item md-breadcrumb">
+                            Index
+                        </div>
+                    </div>
+                </div>
+            </md-toolbar>
+
+            <div layout="row" flex ng-view>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endverbatim %}
 </body>
 </html>

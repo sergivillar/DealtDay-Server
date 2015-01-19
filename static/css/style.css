@@ -6180,7 +6180,7 @@ md-tooltip {
 .md-whiteframe-z5 {
   box-shadow: 0px 27px 24px 0 rgba(0, 0, 0, 0.2); }
 
-body {
+.color-background {
   background-color: #037E8C; }
 
 .login-background md-whiteframe {
@@ -6228,5 +6228,38 @@ body {
     margin-left: 10px; }
     .forgot-content > form > div > a:hover span, .forgot-content > form > div button:hover span {
       color: #ffffff; }
+
+.menu-icon {
+  background: none;
+  border: none;
+  margin-right: 16px; }
+
+.menu-item {
+  background: none;
+  border-width: 0;
+  cursor: pointer;
+  display: block;
+  color: #333;
+  font-size: inherit;
+  line-height: 40px;
+  max-height: 40px;
+  opacity: 1;
+  margin: 0;
+  outline: none;
+  padding: 0px 28px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+  z-index: 1;
+  -webkit-transition: 0.45s cubic-bezier(0.35, 0, 0.25, 1);
+  -webkit-transition-property: max-height, background-color, opacity;
+  -moz-transition: 0.45s cubic-bezier(0.35, 0, 0.25, 1);
+  -moz-transition-property: max-height, background-color, opacity;
+  transition: 0.45s cubic-bezier(0.35, 0, 0.25, 1);
+  transition-property: max-height, background-color, opacity; }
+
+.active {
+  background-color: #ECECEC; }
 
 /*# sourceMappingURL=custom-style.css.map */
