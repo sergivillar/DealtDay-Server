@@ -41,8 +41,8 @@
         <div layout="column" layout-gt-md="row"
              layout-align-gt-md="space-between center" layout-align="center center">
 
-            <md-button class="md-raised md-primary" ng-click="goLogin()">Volver</md-button>
-            <md-button class="md-raised md-primary" ng-disabled="newUser.$invalid || loading" ng-click="register()">Registrarse
+            <md-button class="md-raised md-primary" ng-click="goLogin()" flex-order="2" flex-order-gt-md="1">Volver</md-button>
+            <md-button class="md-raised md-primary" ng-disabled="newUser.$invalid || loading" ng-click="register()" flex-order="1" flex-order-gt-md="2">Registrarse
             </md-button>
 
         </div>

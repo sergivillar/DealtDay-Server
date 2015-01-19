@@ -1,18 +1,25 @@
-<md-whiteframe class="md-whiteframe-z4 login-content" layout="column" layout-align="center">
+<md-whiteframe class="md-whiteframe-z4 forgot-content" layout="column" layout-align="center"
+               ng-controller="ForgotCtrl as forgotController">
+    <form name="forgotForm" novalidate>
 
-    <md-content class="md-padding" layout="column" layout-fill>
-        <md-input-container>
-            <label>Email</label>
-            <input ng-model="user.email" type="email">
-        </md-input-container>
-    </md-content>
+        <div class="md-padding" layout="column">
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="user.email" type="email" ng-required="true">
+            </md-input-container>
+        </div>
 
-    <md-content layout="column" layout-gt-lg="row"
-                layout-align-gt-lg="space-between center" layout-align="center center">
+        <div layout="column" layout-align="center center" ng-show="loading">
+            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+        </div>
 
-            <md-button class="md-raised md-primary" ng-href="/#/">Volver</md-button>
-            <md-button class="md-raised md-primary" ng-href="">Enviar correo</md-button>
+        <div layout="column" layout-gt-md="row"
+                    layout-align-gt-md="space-between center" layout-align="center center">
 
-    </md-content>
+            <md-button class="md-raised md-primary" ng-click="goLogin()" flex-order="2" flex-order-gt-md="1">Volver</md-button>
+            <md-button class="md-raised md-primary" ng-click="forgot()" ng-disabled="forgotForm.$invalid || loading" flex-order="1" flex-order-gt-md="2">Recuperar</md-button>
 
+        </div>
+
+    </form>
 </md-whiteframe>

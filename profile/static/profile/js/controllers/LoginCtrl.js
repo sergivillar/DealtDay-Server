@@ -33,8 +33,4 @@ angular.module('profile').controller('LoginCtrl', ['$scope', 'AuthService', '$wi
             });
     };
 
-    $scope.isUser = function () {
-        console.log(AuthService.isUserAuthenticate());
-    };
-
 }]);

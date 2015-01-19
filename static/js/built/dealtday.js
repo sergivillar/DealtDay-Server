@@ -622,10 +622,11 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     app.value('loginUrl', '/api/login/');
     app.value('logoutUrl', '/logout/');
     app.value('registerApi', '/api/user/register/');
+    app.value('forgotApi', '/api/forgot-password/');
     app.value('templateRegistro', '/static/profile/templates/registro.html');
     app.value('templateRecuperarPass', '/static/profile/templates/recuperar-pass.html');
 
-    app.service('AuthService', ['$http', '$q', '$window', '$cookies', 'loginUrl', 'logoutUrl', 'registerApi', function ($http, $q, $window, $cookies, loginUrl, logout, registerApi) {
+    app.service('AuthService', ['$http', '$q', '$window', '$cookies', 'loginUrl', 'logoutUrl', 'registerApi', 'forgotApi', function ($http, $q, $window, $cookies, loginUrl, logout, registerApi, forgotApi) {
         var Authentication = {
 
             login: function (email, password) {
@@ -681,6 +682,22 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                             }
                         ]
                     })
+                    .success(function (response, status, headers, config) {
+                        deferred.resolve(response, status, headers, config);
+                    })
+                    .error(function (response, status, headers, config) {
+                        deferred.reject(response, status, headers, config);
+                    });
+
+                return deferred.promise;
+            },
+
+            forgot: function (email) {
+                var deferred = $q.defer();
+
+                $http.post(forgotApi, {
+                    email: email
+                })
                     .success(function (response, status, headers, config) {
                         deferred.resolve(response, status, headers, config);
                     })
@@ -753,6 +770,47 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     }]);
 
 })();
+angular.module('profile').controller('ForgotCtrl', ['$scope', 'AuthService', '$mdDialog', '$location', function ($scope, AuthService, $mdDialog, $location) {
+
+    $scope.goLogin = function () {
+        $location.path('/');
+    };
+
+    $scope.loading = false;
+
+    $scope.forgot = function () {
+        $scope.loading = true;
+        AuthService.forgot($scope.user.email)
+            .then(
+            function (data) {
+                $scope.loading = false;
+
+                $scope.user.email = '';
+
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .title('¡ ENVIADO !')
+                        .content('Revisa tu correo para restablecer tu contraseña')
+                        .ariaLabel('Recuperar contraseña')
+                        .ok('OK')
+                );
+            },
+            function (response, status, headers, config) {
+                $scope.loading = false;
+
+                $scope.user.email = '';
+
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .title('¡ ERROR !')
+                        .content('Se ha producido un error al restablecer la contraseña.')
+                        .ariaLabel('Error enviando correo')
+                        .ok('OK')
+                );
+            });
+    };
+
+}]);
 angular.module('profile').controller('LoginCtrl', ['$scope', 'AuthService', '$window', '$mdDialog', '$location', function ($scope, AuthService, $window, $mdDialog, $location) {
 
     $scope.goRegistro = function () {
@@ -786,10 +844,6 @@ angular.module('profile').controller('LoginCtrl', ['$scope', 'AuthService', '$wi
                         .ok('OK')
                 );
             });
-    };
-
-    $scope.isUser = function () {
-        console.log(AuthService.isUserAuthenticate());
     };
 
 }]);

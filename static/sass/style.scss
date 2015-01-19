@@ -64,3 +64,25 @@ body {
     }
   }
 }
+
+.forgot-content {
+  width: 50%;
+  @media screen and (max-width: $screen-small) {
+    width: 90%;
+  }
+  > form {
+    > div {
+      > a, button {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        &:hover {
+          span {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+}
