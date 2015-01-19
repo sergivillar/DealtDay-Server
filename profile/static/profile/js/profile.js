@@ -39,13 +39,18 @@
           $location.path('/recuperar/');
         };
 
+        $scope.loading = false;
+
         $scope.login = function () {
+            $scope.loading = true;
             AuthService.login($scope.user.email, $scope.user.password)
                 .then(
                 function () {
+                    $scope.loading = false;
                     $window.location = '/';
                 },
                 function (error) {
+                    $scope.loading = false;
                     $scope.user.email = '';
                     $scope.user.password = '';
 

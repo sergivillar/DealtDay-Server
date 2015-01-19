@@ -12,6 +12,10 @@
             </md-input-container>
         </div>
 
+        <div layout="column" layout-align="center center" ng-show="loading">
+            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+        </div>
+
         <div layout-padding layout="column" layout-gt-lg="row"
                     layout-align-gt-lg="space-between center" layout-align="center center">
             <div >
@@ -20,7 +24,7 @@
             <div layout="row" layout-sm="column"
                  layout-align="end center" >
                 <md-button class="md-raised md-primary" ng-click="goRegistro()">Registrarse</md-button>
-                <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="loginForm.$invalid">Login</md-button>
+                <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="loginForm.$invalid || loading">Login</md-button>
             </div>
         </div>
     </form>
