@@ -22,9 +22,13 @@ module.exports = function (grunt) {
                     'bower_components/angular-material/angular-material.min.js',
                     'bower_components/hammerjs/hammer.min.js',
 
-                    // owns
+                    // Dealtday
                     'static/js/app.js',
-                    'profile/static/profile/js/*.js'
+
+                    // Profile
+                    'profile/static/profile/js/*.js',
+                    'profile/static/profile/js/controllers/*.js',
+                    'profile/static/profile/js/directives/*.js'
                 ],
                 dest: 'static/js/built/dealtday.js'
             },
