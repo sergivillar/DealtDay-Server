@@ -78,7 +78,7 @@
 
             $scope.navClass = function (page) {
                 console.log($location.path().substring(1));
-                var currentRoute = $location.path().substring(1).split('/')[0] || 'eventos';
+                var currentRoute = $location.path().substring(1).split('/')[0];
                 return page === currentRoute ? 'active' : '';
             };
 

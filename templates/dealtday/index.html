@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <script type="text/javascript" src="{% static "js/built/dealtday.js" %}"></script>
 </head>
-<body ng-cloak>
+<body ng-cloak layout="column">
 
 {%  verbatim %}
-<div ng-controller="AppCtrl" layout="column" layout-fill>
-    <section layout="row" flex>
+<div ng-controller="AppCtrl" layout="row" flex>
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
             <md-toolbar>
                 <h1 class="md-toolbar-tools"><a href="/#/">DealtDay</a></h1>
@@ -42,7 +41,6 @@
             <div layout="row" flex ng-view>
             </div>
         </div>
-    </section>
 </div>
 
 {% endverbatim %}
