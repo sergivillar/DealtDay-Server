@@ -1,5 +1,5 @@
 angular.module('event')
-    .controller('AppCtrl', function ($scope) {
+    .controller('EventCtrl', function ($scope) {
         $scope.showInactive = false;
         $scope.messages = [{
             face: '/img/list/60.jpeg',

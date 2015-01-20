@@ -2,7 +2,6 @@
 
     var app = angular.module('dealtday', [
         'ngMaterial',
-        'ngAnimate',
         'ngRoute',
         'event'
     ]);

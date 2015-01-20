@@ -593,7 +593,6 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     var app = angular.module('dealtday', [
         'ngMaterial',
-        'ngAnimate',
         'ngRoute',
         'event'
     ]);
@@ -982,7 +981,7 @@ angular.module('profile').directive('ngEnter', function () {
 var app = angular.module('event', ['ngMaterial']);
 
 angular.module('event')
-    .controller('AppCtrl', function ($scope) {
+    .controller('EventCtrl', function ($scope) {
         $scope.showInactive = false;
         $scope.messages = [{
             face: '/img/list/60.jpeg',

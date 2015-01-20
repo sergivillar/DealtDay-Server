@@ -1,11 +1,25 @@
-<div ng-controller="AppCtrl" class="show-events" layout="column" layout-padding style="padding-bottom: 15px;">
+<div ng-controller="EventCtrl as eventController" class="show-events" layout="column" layout-padding style="padding-bottom: 15px;">
 
     <md-toolbar class="md-tall active-events">
-        <div class="md-toolbar-tools"  layout="row" layout-align="space-between center">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <div>
                 <span class="md-flex">Eventos</span>
-                <md-switch ng-model="showInactive" aria-label="Show active" class="md-warn small">
+                <md-switch ng-model="showInactive" aria-label="Show active" class="md-warn small" style="margin-top: 20px;">
                     Mostrar finalizados
                 </md-switch>
+            </div>
+            <div>
+
+                <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
+                    <md-tooltip>
+                        Crear evento
+                    </md-tooltip>
+                    <md-button aria-label="Crear evento" class="md-fab md-button md-fab-bottom-right md-warn">
+                        <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
+                        </md-icon>
+                    </md-button>
+                </h2>
+            </div>
         </div>
     </md-toolbar>
     <md-content class="small" ng-hide="showInactive">
