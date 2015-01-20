@@ -11,12 +11,12 @@
 <body ng-cloak layout="column">
 
 {%  verbatim %}
-<div ng-controller="AppCtrl" layout="row" flex>
+<div ng-controller="MenuCtrl" layout="row" flex>
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
             <md-toolbar>
                 <h1 class="md-toolbar-tools"><a href="/#/">DealtDay</a></h1>
             </md-toolbar>
-            <div ng-controller="LeftCtrl">
+            <div>
                 <a href="#/{{ navLink.url }}" ng-repeat="navLink in navLinks" class="menu-item" ng-class="navClass('{{navLink.url}}')" ng-click="close()">{{ navLink.Title }}</a>
             </div>
                 <a href="logout" class="menu-item" >Salir</a>
@@ -38,7 +38,7 @@
                 </div>
             </md-toolbar>
 
-            <div layout="row" flex ng-view>
+            <div layout="row" layout-align="center center" flex ng-view>
             </div>
         </div>
 </div>

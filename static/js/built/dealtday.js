@@ -643,7 +643,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             .warnColor('red');
     });
 
-    app.controller('AppCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
         $scope.toggleLeft = function () {
             $mdSidenav('left').toggle();
         };
@@ -654,10 +654,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                 });
         };
 
-    })
-        .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
-
-            $scope.navLinks = [
+        $scope.navLinks = [
                 {url: 'eventos', Title: 'Eventos'},
                 {url: 'amigos', Title: 'Amigos'},
                 {url: 'perfil', Title: 'Perfil'}
@@ -668,12 +665,11 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             };
 
             $scope.navClass = function (page) {
-                console.log($location.path().substring(1));
                 var currentRoute = $location.path().substring(1).split('/')[0];
                 return page === currentRoute ? 'active' : '';
             };
 
-        });
+    });
 
 })();
 (function () {
