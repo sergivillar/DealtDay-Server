@@ -28,7 +28,12 @@ module.exports = function (grunt) {
                     // Profile
                     'profile/static/profile/js/*.js',
                     'profile/static/profile/js/controllers/*.js',
-                    'profile/static/profile/js/directives/*.js'
+                    'profile/static/profile/js/directives/*.js',
+
+                    // Event
+                    'event/static/event/js/*.js',
+                    'event/static/event/js/services/*.js',
+                    'event/static/event/js/controllers/*.js'
                 ],
                 dest: 'static/js/built/dealtday.js'
             },

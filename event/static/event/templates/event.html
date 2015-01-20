@@ -1,1 +1,42 @@
-¡EVENTOS!
+<div ng-controller="AppCtrl" class="show-events" layout="column" layout-padding style="padding-bottom: 15px;">
+
+    <md-toolbar class="md-tall active-events">
+        <div class="md-toolbar-tools"  layout="row" layout-align="space-between center">
+                <span class="md-flex">Eventos</span>
+                <md-switch ng-model="showInactive" aria-label="Show active" class="md-warn small">
+                    Mostrar finalizados
+                </md-switch>
+        </div>
+    </md-toolbar>
+    <md-content class="small" ng-hide="showInactive">
+        <md-list>
+            <md-item ng-repeat="item in messages">
+                <md-item-content>
+                    <div class="md-tile-content">
+                        <h3>{{ item.what }}</h3>
+                        <h4>{{ item.who }}</h4>
+                    </div>
+                </md-item-content>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-item>
+        </md-list>
+    </md-content>
+    <md-toolbar class="md-warn" ng-show="showInactive">
+        <h1 class="md-toolbar-tools">
+            <span>Eventos finalizados</span>
+        </h1>
+    </md-toolbar>
+    <md-content ng-show="showInactive" class="small">
+        <md-list>
+            <md-item ng-repeat="item in messages">
+                <md-item-content>
+                    <div class="md-tile-content">
+                        <h3>{{ item.what }}</h3>
+                        <h4>{{ item.who }}</h4>
+                    </div>
+                </md-item-content>
+                <md-divider md-inset ng-if="!$last"></md-divider>
+            </md-item>
+        </md-list>
+    </md-content>
+</div>

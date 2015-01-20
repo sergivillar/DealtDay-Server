@@ -1,9 +1,14 @@
 $background-color: #037E8C;
 $button-color: #F44336;
 $screen-small: 600px;
+$font-size-small: 13px;
 
 .color-background {
   background-color: $background-color;
+}
+
+.small {
+  font-size: $font-size-small;
 }
 
 // Profile styles
@@ -125,4 +130,15 @@ $screen-small: 600px;
 
 .active {
   background-color: #ECECEC;
+}
+
+// Event
+
+.show-events {
+  width: 80%;
+  font-size: 16px !important;
+}
+
+.active-events {
+  background-color: $background-color !important;
 }

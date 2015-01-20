@@ -593,7 +593,9 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     var app = angular.module('dealtday', [
         'ngMaterial',
-        'ngRoute'
+        'ngAnimate',
+        'ngRoute',
+        'event'
     ]);
 
     app.config(['$httpProvider', function ($httpProvider) {
@@ -977,3 +979,46 @@ angular.module('profile').directive('ngEnter', function () {
         });
     };
 });
+var app = angular.module('event', ['ngMaterial']);
+
+angular.module('event')
+    .controller('AppCtrl', function ($scope) {
+        $scope.showInactive = false;
+        $scope.messages = [{
+            face: '/img/list/60.jpeg',
+            what: 'Brunch this weekend?',
+            who: 'Min Li Chan',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        }, {
+            face: '/img/list/60.jpeg',
+            what: 'Brunch this weekend?',
+            who: 'Min Li Chan',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        }, {
+            face: '/img/list/60.jpeg',
+            what: 'Brunch this weekend?',
+            who: 'Min Li Chan',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        }, {
+            face: '/img/list/60.jpeg',
+            what: 'Brunch this weekend?',
+            who: 'Min Li Chan',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        }, {
+            face: '/img/list/60.jpeg',
+            what: 'Brunch this weekend?',
+            who: 'Min Li Chan',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        }, {
+            face: '/img/list/60.jpeg',
+            what: 'Brunch this weekend?',
+            who: 'Min Li Chan',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        }];
+    });

@@ -2,7 +2,9 @@
 
     var app = angular.module('dealtday', [
         'ngMaterial',
-        'ngRoute'
+        'ngAnimate',
+        'ngRoute',
+        'event'
     ]);
 
     app.config(['$httpProvider', function ($httpProvider) {

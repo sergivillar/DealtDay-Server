@@ -6183,6 +6183,9 @@ md-tooltip {
 .color-background {
   background-color: #037E8C; }
 
+.small {
+  font-size: 13px; }
+
 .login-background md-whiteframe {
   background: #fff;
   margin: 20px;
@@ -6261,5 +6264,12 @@ md-tooltip {
 
 .active {
   background-color: #ECECEC; }
+
+.show-events {
+  width: 80%;
+  font-size: 16px !important; }
+
+.active-events {
+  background-color: #037E8C !important; }
 
 /*# sourceMappingURL=custom-style.css.map */
