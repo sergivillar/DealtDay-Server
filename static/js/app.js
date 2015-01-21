@@ -54,6 +54,9 @@
     });
 
     app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
+
+        $scope.currentPage = '';
+
         $scope.toggleLeft = function () {
             $mdSidenav('left').toggle();
         };
@@ -76,6 +79,7 @@
 
             $scope.navClass = function (page) {
                 var currentRoute = $location.path().substring(1).split('/')[0];
+                $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);;
                 return page === currentRoute ? 'active' : '';
             };
 
