@@ -22,8 +22,8 @@
                 <md-button class="md-raised md-primary" ng-click="goRecuperarPass()">Recuperar Contraseña</md-button>
             </div>
             <div layout="row" layout-sm="column" layout-align="end center" flex-order="1" flex-order-gt-lg="2">
-                <md-button class="md-raised md-primary" ng-click="goRegistro()">Registrarse</md-button>
-                <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="loginForm.$invalid || loading">Login</md-button>
+                <md-button class="md-raised md-primary" ng-click="goRegistro()" flex-order="2" flex-order-gt-lg="1">Registrarse</md-button>
+                <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="loginForm.$invalid || loading" flex-order="1" flex-order-gt-lg="2">Login</md-button>
             </div>
         </div>
     </form>
