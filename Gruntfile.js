@@ -33,6 +33,7 @@ module.exports = function (grunt) {
                     // Event
                     'event/static/event/js/*.js',
                     'event/static/event/js/services/*.js',
+                    'event/static/event/js/filters/*.js',
                     'event/static/event/js/controllers/*.js'
                 ],
                 dest: 'static/js/built/dealtday.js'
