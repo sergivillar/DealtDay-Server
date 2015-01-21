@@ -90,4 +90,9 @@
 .active-events {
   background-color: #037E8C !important; }
 
+@media screen and (max-width: 600px) {
+  .add-event {
+    width: 40px !important;
+    height: 40px !important; } }
+
 /*# sourceMappingURL=custom-style.css.map */

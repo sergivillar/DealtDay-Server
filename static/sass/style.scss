@@ -142,3 +142,10 @@ $font-size-small: 13px;
 .active-events {
   background-color: $background-color !important;
 }
+
+.add-event {
+  @media screen and (max-width: $screen-small) {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
