@@ -1,41 +1,21 @@
 angular.module('event')
-    .controller('EventCtrl', function ($scope) {
+    .controller('EventCtrl', ['$scope', 'Event', '$http', function ($scope, Event, $http) {
         $scope.showInactive = false;
-        $scope.messages = [{
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }];
-    });
+        $scope.loading = false;
+
+        $scope.getEvents = function () {
+            $scope.loading = true;
+            Event.get(function (data) {
+                $scope.events = data;
+                $scope.loading = false;
+            }, function (error) {
+                console.log(error);
+                $scope.loading = false;
+            });
+        };
+
+        $scope.$watch('showInactive', function () {
+            if (!$scope.showInactive)
+                $scope.getEvents();
+        });
+    }]);

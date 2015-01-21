@@ -594,8 +594,11 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     var app = angular.module('dealtday', [
         'ngMaterial',
         'ngRoute',
+        'ngResource',
         'event'
     ]);
+
+    app.value('eventApi', '/api/event/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -984,44 +987,64 @@ angular.module('profile').directive('ngEnter', function () {
 });
 var app = angular.module('event', ['ngMaterial']);
 
-angular.module('event')
-    .controller('EventCtrl', function ($scope) {
-        $scope.showInactive = false;
-        $scope.messages = [{
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }, {
-            face: '/img/list/60.jpeg',
-            what: 'Brunch this weekend?',
-            who: 'Min Li Chan',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        }];
+angular.module('event').
+    factory('Event', ['$resource', 'eventApi', function ($resource, eventApi) {
+        return $resource(eventApi + ':id', {id: '@id'}, {
+            'get': {
+                method: 'GET',
+                isArray: true
+            }
+        });
+    }]);
+angular.module('event').
+    filter('greaterThanToday', function () {
+        return function (items) {
+            var retn = [];
+
+            var today = new Date();
+
+            angular.forEach(items, function (item) {
+                var date = new Date(item.time_to_close);
+                if (today < date) {
+                    retn.push(item);
+                }
+            });
+            return retn;
+        }
+    })
+    .filter('lessThanToday', function () {
+        return function (items) {
+            var retn = [];
+
+            var today = new Date();
+
+            angular.forEach(items, function (item) {
+                var date = new Date(item.time_to_close);
+                if (today > date) {
+                    retn.push(item);
+                }
+            });
+            return retn;
+        }
     });
+angular.module('event')
+    .controller('EventCtrl', ['$scope', 'Event', '$http', function ($scope, Event, $http) {
+        $scope.showInactive = false;
+        $scope.loading = false;
+
+        $scope.getEvents = function () {
+            $scope.loading = true;
+            Event.get(function (data) {
+                $scope.events = data;
+                $scope.loading = false;
+            }, function (error) {
+                console.log(error);
+                $scope.loading = false;
+            });
+        };
+
+        $scope.$watch('showInactive', function () {
+            if (!$scope.showInactive)
+                $scope.getEvents();
+        });
+    }]);

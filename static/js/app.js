@@ -3,8 +3,11 @@
     var app = angular.module('dealtday', [
         'ngMaterial',
         'ngRoute',
+        'ngResource',
         'event'
     ]);
+
+    app.value('eventApi', '/api/event/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
