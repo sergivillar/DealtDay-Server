@@ -610,6 +610,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             templateUrl: '/static/templates/landing.html'
         }).when('/eventos/', {
             templateUrl: '/static/event/templates/event.html'
+        }).when('/eventos/crear/', {
+            templateUrl: '/static/event/templates/create-event.html'
         }).when('/amigos/', {
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
@@ -662,20 +664,21 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         };
 
         $scope.navLinks = [
-                {url: 'eventos', Title: 'Eventos'},
-                {url: 'amigos', Title: 'Amigos'},
-                {url: 'perfil', Title: 'Perfil'}
-            ];
+            {url: 'eventos', Title: 'Eventos'},
+            {url: 'amigos', Title: 'Amigos'},
+            {url: 'perfil', Title: 'Perfil'}
+        ];
 
-            $scope.close = function () {
-                $mdSidenav('left').close();
-            };
+        $scope.close = function () {
+            $mdSidenav('left').close();
+        };
 
-            $scope.navClass = function (page) {
-                var currentRoute = $location.path().substring(1).split('/')[0];
-                $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);;
-                return page === currentRoute ? 'active' : '';
-            };
+        $scope.navClass = function (page) {
+            var currentRoute = $location.path().substring(1).split('/')[0];
+            $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);
+            ;
+            return page === currentRoute ? 'active' : '';
+        };
 
     });
 
@@ -1028,7 +1031,7 @@ angular.module('event').
         }
     });
 angular.module('event')
-    .controller('EventCtrl', ['$scope', 'Event', '$http', function ($scope, Event, $http) {
+    .controller('EventCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
         $scope.showInactive = false;
         $scope.loading = false;
 
@@ -1041,6 +1044,10 @@ angular.module('event')
                 console.log(error);
                 $scope.loading = false;
             });
+        };
+
+        $scope.createEvent = function () {
+          $location.path('/eventos/crear/');
         };
 
         $scope.$watch('showInactive', function () {

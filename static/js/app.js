@@ -19,6 +19,8 @@
             templateUrl: '/static/templates/landing.html'
         }).when('/eventos/', {
             templateUrl: '/static/event/templates/event.html'
+        }).when('/eventos/crear/', {
+            templateUrl: '/static/event/templates/create-event.html'
         }).when('/amigos/', {
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
@@ -71,20 +73,21 @@
         };
 
         $scope.navLinks = [
-                {url: 'eventos', Title: 'Eventos'},
-                {url: 'amigos', Title: 'Amigos'},
-                {url: 'perfil', Title: 'Perfil'}
-            ];
+            {url: 'eventos', Title: 'Eventos'},
+            {url: 'amigos', Title: 'Amigos'},
+            {url: 'perfil', Title: 'Perfil'}
+        ];
 
-            $scope.close = function () {
-                $mdSidenav('left').close();
-            };
+        $scope.close = function () {
+            $mdSidenav('left').close();
+        };
 
-            $scope.navClass = function (page) {
-                var currentRoute = $location.path().substring(1).split('/')[0];
-                $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);;
-                return page === currentRoute ? 'active' : '';
-            };
+        $scope.navClass = function (page) {
+            var currentRoute = $location.path().substring(1).split('/')[0];
+            $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);
+            ;
+            return page === currentRoute ? 'active' : '';
+        };
 
     });
 

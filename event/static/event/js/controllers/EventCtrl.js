@@ -1,5 +1,5 @@
 angular.module('event')
-    .controller('EventCtrl', ['$scope', 'Event', '$http', function ($scope, Event, $http) {
+    .controller('EventCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
         $scope.showInactive = false;
         $scope.loading = false;
 
@@ -12,6 +12,10 @@ angular.module('event')
                 console.log(error);
                 $scope.loading = false;
             });
+        };
+
+        $scope.createEvent = function () {
+          $location.path('/eventos/crear/');
         };
 
         $scope.$watch('showInactive', function () {
