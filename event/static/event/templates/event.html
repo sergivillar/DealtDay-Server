@@ -21,10 +21,6 @@
                         <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                         </md-icon>
                     </md-button>
-                    <md-button aria-label="Crear evento" class="md-fab md-button md-fab-bottom-right md-warn add-event">
-                        <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
-                        </md-icon>
-                    </md-button>
                 </h2>
             </div>
         </div>
@@ -39,8 +35,17 @@
             <md-item ng-repeat="event in events | greaterThanToday">
                 <md-item-content>
                     <div class="md-tile-content">
-                        <h3>{{ event.title }}</h3>
-                        <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm'}}</h4>
+                        <div layout="row">
+                            <h3>{{ event.title }}</h3>
+                            <button class="menu-icon" aria-label="Eres el dueño" ng-show="event.is_owner">
+                                <md-tooltip>
+                                    Eres el dueño
+                                </md-tooltip>
+                                <img src="static/icons/ic_person_black_36dp.png"
+                                     style="width: 20px; height: 20px; margin-top: -5px">
+                            </button>
+                        </div>
+                        <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
                     </div>
                 </md-item-content>
                 <md-divider ng-if="!$last"></md-divider>
@@ -59,7 +64,7 @@
                 <md-item-content>
                     <div class="md-tile-content">
                         <h3>{{ event.title }}</h3>
-                        <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm'}}</h4>
+                        <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
                     </div>
                 </md-item-content>
                 <md-divider md-inset ng-if="!$last"></md-divider>
