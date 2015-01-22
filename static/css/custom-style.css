@@ -95,4 +95,16 @@
     width: 40px !important;
     height: 40px !important; } }
 
+.new-event-form {
+  width: 70%;
+  margin: 20px; }
+  .new-event-form > form md-input-container {
+    width: 100%; }
+
+.padding-form {
+  padding: 20px; }
+
+.time-date {
+  font-size: 14px !important; }
+
 /*# sourceMappingURL=custom-style.css.map */

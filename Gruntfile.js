@@ -19,6 +19,7 @@ module.exports = function (grunt) {
                     'static/js/vendor/angular-resource.min.js',
                     'static/js/vendor/angular-messages.min.js',
                     'static/js/vendor/angular-route.min.js',
+                    'static/js/vendor/md-date-time.js',
                     'bower_components/angular-material/angular-material.min.js',
                     'bower_components/hammerjs/hammer.min.js',
 
@@ -41,7 +42,8 @@ module.exports = function (grunt) {
             style: {
                 src: [
                     'bower_components/angular-material/angular-material.css',
-                    'static/css/custom-style.css'
+                    'static/css/custom-style.css',
+                    'static/css/md-date-time.css'
                 ],
                 dest: 'static/css/style.css'
             }

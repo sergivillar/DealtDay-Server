@@ -1,1 +1,1 @@
-var app = angular.module('event', ['ngMaterial']);
+var app = angular.module('event', ['ngMaterial', 'mdDateTime']);

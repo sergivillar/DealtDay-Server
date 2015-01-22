@@ -1,1 +1,63 @@
-Crear
+<div layout layout-align="center center">
+    <md-whiteframe ng-controller="CreateEventCrtl as createEventController" class="md-whiteframe-z4 new-event-form"
+                   layout="column" layout-align="center" layout-fill>
+        <md-toolbar class="md-tall active-events prueba">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <div>
+                    <span class="md-flex">Crear evento</span>
+                </div>
+            </div>
+        </md-toolbar>
+
+        <form name="newEvent" class="padding-form" novalidate>
+            <md-input-container>
+                <label>Titulo</label>
+                <input ng-model="event.title" type="text" ng-required="true" md-maxlength="64">
+            </md-input-container>
+
+            <div layout="row" layout-sm="column">
+                <md-input-container>
+                    <label>Fecha finalización</label>
+                    <input ng-model="event.date" type="text" ng-required="true">
+                </md-input-container>
+
+                <md-input-container>
+                    <md-button class="md-primary" ng-click="showAdvanced($event)">
+                        Seleccionar fecha
+                    </md-button>
+                </md-input-container>
+            </div>
+
+            <div layout="row" layout-sm="column" layout-align-sm="center center">
+                <div flex>
+                    <md-input-container>
+                        <label>Número respuestas</label>
+                        <input class="num-answers" ng-model="event.num_answers" type="number" ng-required="true">
+                    </md-input-container>
+                </div>
+                <div class="switch-create-event" layout="column" layout-align="center center" flex>
+                    <md-switch ng-model="event.open" aria-label="Evento abierto" class="md-warn"
+                               style="margin-top: 20px;">
+                        <div layout="row" layout-align="space-between center" class="small">
+                            Evento abierto
+                            <img src="static/icons/ic_help_black_36dp.png"
+                                 style="width: 18px; height: 18px; margin-left: 5px;"
+                                 ng-click="showAlertOpenEvent($event)">
+
+                        </div>
+                    </md-switch>
+                    <md-switch ng-model="event.voters_public" aria-label="Votaciones publicas" class="md-warn "
+                               style="margin-top: 20px;">
+                        <div layout="row" layout-align="space-between center" class="small">
+                            Votaciones públicas
+                            <img src="static/icons/ic_help_black_36dp.png"
+                                 style="width: 18px; height: 18px; margin-left: 5px;"
+                                 ng-click="showAlertPublicVotes($event)">
+                        </div>
+                    </md-switch>
+                </div>
+            </div>
+        </form>
+
+    </md-whiteframe>
+</div>

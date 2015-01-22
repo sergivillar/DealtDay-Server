@@ -149,3 +149,24 @@ $font-size-small: 13px;
     height: 40px !important;
   }
 }
+
+// Create Event
+
+.new-event-form {
+  width: 70%;
+  margin: 20px;
+  > form {
+    md-input-container {
+      width: 100%;
+    }
+  }
+}
+
+.padding-form {
+  padding: 20px;
+}
+
+.time-date {
+  font-size: 14px !important;
+}
+
