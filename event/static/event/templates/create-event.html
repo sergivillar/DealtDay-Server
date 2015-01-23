@@ -20,7 +20,7 @@
                     <label>Fecha finalización</label>
                     <input name="date" ng-model="event.date" type="text" ng-required="true" check-time readonly>
 
-                    <div ng-messages="newEvent.date.$error" ng-show="event.date" class="valitaion-error">
+                    <div ng-messages="newEvent.date.$error" ng-show="newEvent.date.$dirty" class="valitaion-error">
                         <div ng-message="checkTime">No puede finalizar en menos de 1 hora.</div>
                     </div>
                 </md-input-container>

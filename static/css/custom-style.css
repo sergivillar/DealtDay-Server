@@ -111,11 +111,11 @@
 .padding-form {
   padding: 20px; }
 
-.time-date {
-  font-size: 14px !important; }
-
 .num-answers {
   width: 100%; }
+
+.valitaion-error {
+  color: #F44336; }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -124,7 +124,16 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield; }
 
-.valitaion-error {
-  color: #F44336; }
+.time-date {
+  font-size: 14px !important; }
+
+.time-date > .control > .full-title {
+  background-color: #037E8C !important; }
+
+.time-date.full-mode > .buttons {
+  background-color: #037E8C !important; }
+
+.time-date > .control > .slider > .date-control > .days .day-cell.selected {
+  background-color: #037E8C !important; }
 
 /*# sourceMappingURL=custom-style.css.map */

@@ -179,12 +179,12 @@ $font-size-small: 13px;
   padding: 20px;
 }
 
-.time-date {
-  font-size: 14px !important;
-}
-
 .num-answers {
   width: 100%;
+}
+
+.valitaion-error {
+  color: $button-color;
 }
 
 // Hide spinner buttons input type 'number'
@@ -193,10 +193,25 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   margin:0;
 }
 
-input[type=number] {-moz-appearance: textfield;}
-
-.valitaion-error {
-  color: $button-color;
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
+// Configure date time picker
+
+.time-date {
+  font-size: 14px !important;
+}
+
+.time-date > .control > .full-title {
+  background-color: $background-color !important;
+}
+
+.time-date.full-mode > .buttons {
+  background-color: $background-color !important;
+}
+
+.time-date > .control > .slider > .date-control > .days .day-cell.selected {
+  background-color: $background-color !important;
+}
 
