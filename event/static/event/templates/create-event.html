@@ -12,13 +12,17 @@
         <form name="newEvent" class="padding-form" novalidate>
             <md-input-container>
                 <label>Titulo</label>
-                <input ng-model="event.title" type="text" ng-required="true" md-maxlength="64">
+                <input ng-model="event.title" type="text" ng-required="true" ng-minlength="4" md-maxlength="64">
             </md-input-container>
 
             <div layout="row" layout-sm="column">
                 <md-input-container>
                     <label>Fecha finalización</label>
-                    <input ng-model="event.date" type="text" ng-required="true">
+                    <input name="date" ng-model="event.date" type="text" ng-required="true" check-time readonly>
+
+                    <div ng-messages="newEvent.date.$error" ng-show="event.date" class="valitaion-error">
+                        <div ng-message="checkTime">No puede finalizar en menos de 1 hora.</div>
+                    </div>
                 </md-input-container>
 
                 <md-input-container>
@@ -32,7 +36,8 @@
                 <div flex>
                     <md-input-container>
                         <label>Número respuestas</label>
-                        <input class="num-answers" ng-model="event.num_answers" type="number" ng-required="true">
+                        <input class="num-answers" ng-model="event.num_answers" type="number" min="1"
+                               ng-required="true">
                     </md-input-container>
                 </div>
                 <div class="switch-create-event" layout="column" layout-align="center center" flex>
@@ -56,6 +61,23 @@
                         </div>
                     </md-switch>
                 </div>
+            </div>
+
+            <div layout="column" layout-align="center center" ng-show="loading">
+                <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+            </div>
+
+            <div layout="column" layout-gt-md="row"
+                 layout-align-gt-md="space-between center" layout-align-sm="center center"
+                 layout-align-md="center center" layout-margin>
+
+                <md-button class="md-raised md-primary" ng-click="goEvent()" flex-order="2" flex-order-gt-md="1">
+                    Volver
+                </md-button>
+                <md-button class="md-raised md-warn" ng-click="create(event)"
+                           ng-disabled="newEvent.$invalid || loading" flex-order="1" flex-order-gt-md="2">Crear
+                </md-button>
+
             </div>
         </form>
 

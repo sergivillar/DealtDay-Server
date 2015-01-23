@@ -20,6 +20,7 @@ module.exports = function (grunt) {
                     'static/js/vendor/angular-messages.min.js',
                     'static/js/vendor/angular-route.min.js',
                     'static/js/vendor/md-date-time.js',
+                    'static/js/vendor/momentjs.min.js',
                     'bower_components/angular-material/angular-material.min.js',
                     'bower_components/hammerjs/hammer.min.js',
 
@@ -34,6 +35,7 @@ module.exports = function (grunt) {
                     // Event
                     'event/static/event/js/*.js',
                     'event/static/event/js/services/*.js',
+                    'event/static/event/js/directives/*.js',
                     'event/static/event/js/filters/*.js',
                     'event/static/event/js/controllers/*.js'
                 ],

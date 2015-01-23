@@ -30,6 +30,10 @@
         });
     }]);
 
+    app.config(function ($resourceProvider) {
+        $resourceProvider.defaults.stripTrailingSlashes = false;
+    });
+
     app.config(function ($mdThemingProvider) {
         $mdThemingProvider.definePalette('dealtdayColors', {
             '50': 'DEE7E9',

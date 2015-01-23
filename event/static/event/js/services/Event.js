@@ -1,9 +1,16 @@
 angular.module('event').
     factory('Event', ['$resource', 'eventApi', function ($resource, eventApi) {
         return $resource(eventApi + ':id', {id: '@id'}, {
-            'get': {
+            get: {
                 method: 'GET',
                 isArray: true
+            },
+            save: {
+                method: 'POST',
+                transformRequest: function (data, headers) {
+                    delete data.date;
+                    return JSON.stringify(data);
+                }
             }
         });
     }]);

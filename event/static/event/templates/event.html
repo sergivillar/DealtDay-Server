@@ -1,74 +1,77 @@
-<div ng-controller="EventCtrl as eventController" class="show-events" layout="column" layout-padding
-     style="padding-bottom: 15px;">
+<div layout layout-align="center center">
+    <div ng-controller="EventCtrl as eventController" class="show-events" layout="column" layout-padding
+         style="padding-bottom: 15px;">
 
-    <md-toolbar class="md-tall active-events">
-        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-            <div>
-                <span class="md-flex">Eventos</span>
-                <md-switch ng-model="showInactive" aria-label="Show active" class="md-warn small"
-                           style="margin-top: 20px;" ng-hide="loading">
-                    Mostrar finalizados
-                </md-switch>
+        <md-toolbar class="md-tall active-events">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <div>
+                    <span class="md-flex">Eventos</span>
+                    <md-switch ng-model="showInactive" aria-label="Show active" class="md-warn small"
+                               style="margin-top: 20px;" ng-hide="loading">
+                        Mostrar finalizados
+                    </md-switch>
+                </div>
+                <div>
+
+                    <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
+                        <md-tooltip>
+                            Crear evento
+                        </md-tooltip>
+
+                        <md-button ng-click="createEvent()" aria-label="Crear evento"
+                                   class="md-fab md-button md-fab-bottom-right md-warn add-event">
+                            <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
+                            </md-icon>
+                        </md-button>
+                    </h2>
+                </div>
             </div>
-            <div>
+        </md-toolbar>
+        <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
+            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+        </md-content>
 
-                <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
-                    <md-tooltip>
-                        Crear evento
-                    </md-tooltip>
-
-                    <md-button ng-click="createEvent()" aria-label="Crear evento" class="md-fab md-button md-fab-bottom-right md-warn add-event">
-                        <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
-                        </md-icon>
-                    </md-button>
-                </h2>
-            </div>
-        </div>
-    </md-toolbar>
-    <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
-        <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
-    </md-content>
-
-    <md-content class="small" ng-hide="showInactive || loading">
-        <md-progress-circular class="md-warn" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-        <md-list>
-            <md-item ng-repeat="event in events | greaterThanToday">
-                <md-item-content>
-                    <div class="md-tile-content">
-                        <div layout="row">
-                            <h3>{{ event.title }}</h3>
-                            <button class="menu-icon" aria-label="Eres el dueño" ng-show="event.is_owner">
-                                <md-tooltip>
-                                    Eres el dueño
-                                </md-tooltip>
-                                <img src="static/icons/ic_person_black_36dp.png"
-                                     style="width: 20px; height: 20px; margin-top: -5px">
-                            </button>
+        <md-content class="small" ng-hide="showInactive || loading">
+            <md-progress-circular class="md-warn" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+            <md-list>
+                <md-item ng-repeat="event in events | greaterThanToday">
+                    <md-item-content>
+                        <div class="md-tile-content">
+                            <div layout="row">
+                                <h3>{{ event.title }}</h3>
+                                <button class="menu-icon" aria-label="Eres el dueño" ng-show="event.is_owner">
+                                    <md-tooltip>
+                                        Eres el dueño
+                                    </md-tooltip>
+                                    <img src="static/icons/ic_person_black_36dp.png"
+                                         style="width: 20px; height: 20px; margin-top: -5px">
+                                </button>
+                            </div>
+                            <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
                         </div>
-                        <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
-                    </div>
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-        </md-list>
-    </md-content>
+                    </md-item-content>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
 
-    <md-toolbar class="md-warn" ng-show="showInactive && !loading">
-        <h1 class="md-toolbar-tools">
-            <span>Eventos finalizados</span>
-        </h1>
-    </md-toolbar>
-    <md-content ng-show="showInactive && !loading" class="small">
-        <md-list>
-            <md-item ng-repeat="event in events | lessThanToday">
-                <md-item-content>
-                    <div class="md-tile-content">
-                        <h3>{{ event.title }}</h3>
-                        <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
-                    </div>
-                </md-item-content>
-                <md-divider md-inset ng-if="!$last"></md-divider>
-            </md-item>
-        </md-list>
-    </md-content>
+        <md-toolbar class="md-warn" ng-show="showInactive && !loading">
+            <h1 class="md-toolbar-tools">
+                <span>Eventos finalizados</span>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="showInactive && !loading" class="small">
+            <md-list>
+                <md-item ng-repeat="event in events | lessThanToday">
+                    <md-item-content>
+                        <div class="md-tile-content">
+                            <h3>{{ event.title }}</h3>
+                            <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
+                        </div>
+                    </md-item-content>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
+    </div>
 </div>

@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 import datetime
+from django.utils import timezone
 from rest_framework import serializers
 from answer.models import Answer
 from answer.serializers import AnswerSerializer, AnswerVoteSerializer
@@ -33,8 +34,9 @@ class EventSerializer(serializers.ModelSerializer):
 	def validate(self, attrs):
 
 		if 'time_to_close' in attrs:
-			time_now = datetime.datetime.now()
-			time_close = attrs['time_to_close'] - time_now
+			time_received = attrs['time_to_close']
+			time_now = timezone.localtime(timezone.now())
+			time_close = time_received - time_now
 			if time_close < datetime.timedelta(hours=1):
 				raise serializers.ValidationError({"TimeError": "El evento no puede finalizar en menos de 1 hora."})
 

@@ -1,7 +1,17 @@
 angular.module('event')
-    .controller('CreateEventCrtl', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
+    .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
+        $scope.loading = false;
 
-        $scope.event = [];
+        $scope.event = new Event();
+        $scope.event.open = false;
+        $scope.event.voters_public = false;
+        $scope.event.time_to_close = '';
+
+        $scope.dateFormatted = '';
+
+        $scope.goEvent = function () {
+            $location.path('/eventos/');
+        };
 
         $scope.showAdvanced = function (ev) {
             $mdDialog.show({
@@ -9,8 +19,9 @@ angular.module('event')
                 templateUrl: '/static/event/templates/dialog-time-picker.html',
                 targetEvent: ev
             })
-                .then(function (answer) {
-                    $scope.event.date = answer;
+                .then(function (data) {
+                    $scope.event.date = data.time;
+                    $scope.event.time_to_close = data.timeFormatted;
                 }, function () {
                 });
         };
@@ -37,14 +48,30 @@ angular.module('event')
             );
         };
 
+        $scope.create = function (event) {
+            $scope.loading = true;
+            Event.save(event, function (data){
+                $scope.loading = false;
+                $scope.event = [];
+
+                $scope.goEvent();
+            }, function (error) {
+                $scope.loading = false;
+                // TODO controlar error al crear evento
+            });
+        };
+
     }]);
 
-function DateTimePicker($scope, $mdDialog) {
+function DateTimePicker($scope, $mdDialog, $filter) {
     $scope.cancel = function () {
         $mdDialog.cancel();
     };
+
     $scope.save = function (date) {
-        console.log(date);
-        $mdDialog.hide(date);
+        var data = [];
+        data.time = $filter('date')(date, 'dd/MM/yyyy HH:mm');
+        data.timeFormatted = moment(date).format();
+        $mdDialog.hide(data);
     };
 }

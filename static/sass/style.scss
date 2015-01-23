@@ -159,6 +159,19 @@ $font-size-small: 13px;
     md-input-container {
       width: 100%;
     }
+    > div {
+      > a, button {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        &:hover {
+          span {
+            color: #ffffff;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -181,5 +194,9 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 }
 
 input[type=number] {-moz-appearance: textfield;}
+
+.valitaion-error {
+  color: $button-color;
+}
 
 
