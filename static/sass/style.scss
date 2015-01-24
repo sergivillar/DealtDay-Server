@@ -189,8 +189,8 @@ $font-size-small: 13px;
 
 // Hide spinner buttons input type 'number'
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance:none;
-  margin:0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type=number] {
@@ -215,3 +215,32 @@ input[type=number] {
   background-color: $background-color !important;
 }
 
+// Create answer
+
+.new-event-form {
+  width: 70%;
+  @media screen and (max-width: $screen-small) {
+    width: 90%;
+  }
+  margin: 20px;
+  > div {
+    > form {
+      md-input-container {
+        width: 100%;
+      }
+      > div {
+        > a, button {
+          padding-left: 15px;
+          padding-right: 15px;
+          margin-bottom: 10px;
+          margin-left: 10px;
+          &:hover {
+            span {
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

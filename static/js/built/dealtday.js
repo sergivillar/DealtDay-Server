@@ -837,10 +837,12 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         'ngMaterial',
         'ngRoute',
         'ngResource',
-        'event'
+        'event',
+        'answer'
     ]);
 
     app.value('eventApi', '/api/event/');
+    app.value('answerApi', '/api/answer/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -1234,7 +1236,7 @@ angular.module('profile').directive('ngEnter', function () {
         });
     };
 });
-var app = angular.module('event', ['ngMaterial', 'mdDateTime', 'ngMessages']);
+var app = angular.module('event', ['mdDateTime', 'ngMessages']);
 
 angular.module('event').
     factory('Event', ['$resource', 'eventApi', function ($resource, eventApi) {
@@ -1311,6 +1313,7 @@ angular.module('event').
 angular.module('event')
     .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
         $scope.loading = false;
+        $scope.createAnswers = true;
 
         $scope.event = new Event();
         $scope.event.open = false;
@@ -1410,3 +1413,50 @@ angular.module('event')
                 $scope.getEvents();
         });
     }]);
+var app = angular.module('answer', ['mdDateTime', 'ngMessages']);
+
+app.value('ANSWER_TYPES', [
+    {type: 'TX', name: 'Texto'},
+    {type: 'DT', name: 'Fecha'}
+]);
+angular.module('answer').
+    factory('Answer', ['$resource', 'answerApi', function ($resource, answerApi) {
+        return $resource(answerApi + ':id', {id: '@id'});
+    }]);
+angular.module('answer')
+    .controller('CreateAnswersCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Answer', 'ANSWER_TYPES', function ($scope, $mdDialog, $filter, $location, Answer, ANSWER_TYPES) {
+
+        $scope.loading = false
+        $scope.type_text = ANSWER_TYPES[0].name;
+        $scope.type = false;
+
+        $scope.answers = new Answer();
+        $scope.answers = [];
+        $scope.answers.type = ANSWER_TYPES[0].type;
+
+        $scope.displayType = function (type) {
+            if(!type){
+                $scope.answers.type = ANSWER_TYPES[0].type;
+                var message = ANSWER_TYPES[0].name;
+            } else {
+                $scope.answers.type = ANSWER_TYPES[1].type;
+                var message = ANSWER_TYPES[1].name;
+            }
+
+            console.log(message);
+            $scope.type_text = message;
+        };
+    }]);
+
+function DateTimePicker($scope, $mdDialog, $filter) {
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
+
+    $scope.save = function (date) {
+        var data = [];
+        data.time = $filter('date')(date, 'dd/MM/yyyy HH:mm');
+        data.timeFormatted = moment(date).format();
+        $mdDialog.hide(data);
+    };
+}

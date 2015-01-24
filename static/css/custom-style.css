@@ -136,4 +136,20 @@ input[type=number] {
 .time-date > .control > .slider > .date-control > .days .day-cell.selected {
   background-color: #037E8C !important; }
 
+.new-event-form {
+  width: 70%;
+  margin: 20px; }
+  @media screen and (max-width: 600px) {
+    .new-event-form {
+      width: 90%; } }
+  .new-event-form > div > form md-input-container {
+    width: 100%; }
+  .new-event-form > div > form > div > a, .new-event-form > div > form > div button {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 10px;
+    margin-left: 10px; }
+    .new-event-form > div > form > div > a:hover span, .new-event-form > div > form > div button:hover span {
+      color: #ffffff; }
+
 /*# sourceMappingURL=custom-style.css.map */

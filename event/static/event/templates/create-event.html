@@ -1,7 +1,7 @@
-<div layout layout-align="center center">
-    <md-whiteframe ng-controller="CreateEventCrtl as createEventController" class="md-whiteframe-z4 new-event-form"
-                   layout="column" layout-align="center" layout-fill>
-        <md-toolbar class="md-tall active-events prueba">
+<div ng-controller="CreateEventCrtl as createEventController" layout layout-align="center center">
+    <md-whiteframe class="md-whiteframe-z4 new-event-form"
+                   layout="column" layout-align="center" layout-fill ng-hide="createAnswers">
+        <md-toolbar class="md-tall active-events">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <div>
                     <span class="md-flex">Crear evento</span>
@@ -82,4 +82,7 @@
         </form>
 
     </md-whiteframe>
+
+    <md-whiteframe ng-include="'/static/answer/templates/create-answers.html'" class="md-whiteframe-z4 new-event-form"
+                   layout="column" layout-align="center" layout-fill ng-show="createAnswers"></md-whiteframe>
 </div>

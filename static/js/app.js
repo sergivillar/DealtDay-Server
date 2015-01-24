@@ -4,10 +4,12 @@
         'ngMaterial',
         'ngRoute',
         'ngResource',
-        'event'
+        'event',
+        'answer'
     ]);
 
     app.value('eventApi', '/api/event/');
+    app.value('answerApi', '/api/answer/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';

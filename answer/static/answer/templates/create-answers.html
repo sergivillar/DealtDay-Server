@@ -1,0 +1,64 @@
+<div ng-controller="CreateAnswersCrtl as createAnswersController" layout-fill>
+    <md-toolbar class="md-tall active-events">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <div>
+                <span class="md-flex">Añadir respuestas</span>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <p ng-if="answers.length == 0" layout layout-align="center center">Añade tu primera respuesta.</p>
+
+    <div ng-if="answers.length > 0" ng-repeat="answer in answers">
+
+    </div>
+
+    <form name="newAnswers" class="padding-form" novalidate>
+        <span>Tipo de respuesta</span>
+        <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-warn" style="margin-top: 5px;"
+                   ng-change="displayType(type)">
+            {{ type_text }}
+        </md-switch>
+
+        <md-input-container ng-if="!type">
+            <label>Respues</label>
+            <input ng-model="answers.answer" type="text" ng-required="true" ng-minlength="1" md-maxlength="64">
+        </md-input-container>
+
+        <div layout="row" layout-sm="column" ng-if="type">
+            <md-input-container>
+                <label>Fecha finalización</label>
+                <input name="date" ng-model="event.date" type="text" ng-required="true" check-time readonly>
+
+                <div ng-messages="newEvent.date.$error" ng-show="newEvent.date.$dirty" class="valitaion-error">
+                    <div ng-message="checkTime">No puede finalizar en menos de 1 hora.</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <md-button class="md-primary" ng-click="showAdvanced($event)">
+                    Seleccionar fecha
+                </md-button>
+            </md-input-container>
+        </div>
+
+        <div layout layout-align="center center">
+            <md-button class="md-raised md-warn" ng-click="create(event)"
+                       ng-disabled="newAnswers.$invalid || loading" flex-order="1" flex-order-gt-md="2">Añadir
+            </md-button>
+        </div>
+        <div layout="column" layout-gt-md="row"
+             layout-align-gt-md="space-between center" layout-align-sm="center center"
+             layout-align-md="center center" layout-margin>
+
+            <md-button class="md-raised md-primary" ng-click="goEvent()" flex-order="2" flex-order-gt-md="1">
+                Volver
+            </md-button>
+            <md-button class="md-raised md-warn" ng-click="create(event)"
+                       ng-disabled="answers.length == 0 || loading" flex-order="1" flex-order-gt-md="2">Finalizar
+            </md-button>
+
+        </div>
+    </form>
+
+</div>
