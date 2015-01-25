@@ -6,7 +6,7 @@ from profile import urls as users_urls
 
 from answer.api import AnswerViewSet
 from dealtday.views import indexView
-from event.api import EventViewSet, ShareEventViewSet
+from event.api import EventViewSet, ShareEventViewSet, EventWithAnswers
 from friends.api import FriendRequestViewSet, FriendsViewSet
 from votes.api import VoteViewSet
 
@@ -39,7 +39,8 @@ urlpatterns = patterns('',
     #TODO cambiar template reset done
     url(r'^reset/done/$', views.password_reset_complete, name='password_reset_complete'),
 
-    #API Usuario
+    #API
     url(r'^api/', include('regist.urls')),
     url(r'^api/', include(router.urls)),
+    url(r'^api/evento/create_all/$', EventWithAnswers.as_view(), name='event_create_all'),
 )

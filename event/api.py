@@ -1,7 +1,10 @@
+# -*- encoding: utf-8 -*-
+
 from django.db import transaction
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from event.models import Event, UserHasEvent
 from event.permissions import NoDeleteUserHasEvent, NoDeleteEvent
 from event.serializers import EventSerializer, ShareEventSerializer, EventDetailSerializer
@@ -69,3 +72,19 @@ class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 			else:
 				queryset = UserHasEvent.objects.filter(profile=profile)
 		return queryset
+
+
+class EventWithAnswers(APIView):
+	def post(self, request):
+		if request.user.is_authenticated():
+			event = EventSerializer(data=request.DATA['event'])
+			answers = request.DATA['answers']
+			for answer in answers:
+				if answer['answer'] == '':
+					return Response({"OpcionError": "No se pueden añadir opciones vacias."}, status=status.HTTP_400_BAD_REQUEST)
+			if event.is_valid():
+				Event.objects.create_event_with_answers(request.user, event, answers)
+				return Response('OK', status=status.HTTP_201_CREATED)
+			return Response(event.errors, status=status.HTTP_400_BAD_REQUEST)
+		else:
+			return Response(status=status.HTTP_403_FORBIDDEN)
