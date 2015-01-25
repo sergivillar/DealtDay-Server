@@ -6313,6 +6313,9 @@ input[type=number] {
 .time-date {
   font-size: 14px !important; }
 
+.time-date > .control > .slider > .time-control > .time-inputs > input {
+  font-size: 5rem !important; }
+
 .time-date > .control > .full-title {
   background-color: #037E8C !important; }
 
