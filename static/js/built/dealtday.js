@@ -1312,7 +1312,6 @@ angular.module('event').
     });
 angular.module('event')
     .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
-        $scope.loading = false;
         $scope.createAnswers = false;
 
         $scope.event = new Event();
@@ -1421,7 +1420,7 @@ angular.module('answer').
 angular.module('answer')
     .controller('CreateAnswersCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Answer', 'ANSWER_TYPES', '$http', function ($scope, $mdDialog, $filter, $location, Answer, ANSWER_TYPES, $http) {
 
-        $scope.loading = false
+        $scope.loading = false;
         $scope.type_text = ANSWER_TYPES[0].name;
         $scope.type = false;
 
@@ -1470,8 +1469,7 @@ angular.module('answer')
         };
 
         $scope.create = function () {
-            console.log($scope.event);
-            console.log($scope.answers);
+            $scope.loading = true;
             $http.post('/api/evento/create_all/', {event: $scope.event, answers: $scope.answers}).
                 success(function (data, status, headers, config) {
                     $mdDialog.show(
@@ -1481,7 +1479,7 @@ angular.module('answer')
                             .ariaLabel('Evento OK')
                             .ok('OK')
                     );
-
+                    $scope.loading = false;
                     $scope.goEvent();
                 }).
                 error(function (data, status, headers, config) {
@@ -1493,6 +1491,7 @@ angular.module('answer')
                             .ok('OK')
                     );
 
+                    $scope.loading = false;
                     $scope.goEvent();
                 });
         };

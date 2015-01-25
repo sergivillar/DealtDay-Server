@@ -64,10 +64,6 @@
                 </div>
             </div>
 
-            <div layout="column" layout-align="center center" ng-show="loading">
-                <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
-            </div>
-
             <div layout="column" layout-gt-md="row"
                  layout-align-gt-md="space-between center" layout-align-sm="center center"
                  layout-align-md="center center" layout-margin>
@@ -76,7 +72,7 @@
                     Volver
                 </md-button>
                 <md-button class="md-raised md-warn" ng-click="next()"
-                           ng-disabled="newEvent.$invalid || loading" flex-order="1" flex-order-gt-md="2">Siguiente
+                           ng-disabled="newEvent.$invalid" flex-order="1" flex-order-gt-md="2">Siguiente
                 </md-button>
 
             </div>

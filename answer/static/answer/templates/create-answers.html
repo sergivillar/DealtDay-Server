@@ -11,14 +11,15 @@
 
     <div ng-if="answers.length > 0">
         <md-list>
-            <md-item  ng-repeat="answer in answers" layout="row">
+            <md-item ng-repeat="answer in answers" layout="row">
                 <md-item-content>
                     <div class="md-tile-content" layout="row">
                         <h3 ng-if="answer.type == 'TX' ">{{ answer.answer }}</h3>
+
                         <h3 ng-if="answer.type == 'DT' ">{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
                         <img class="clickable" src="static/icons/ic_delete_black_36dp.png"
-                                 style="width: 18px; height: 18px; margin-left: 5px;"
-                                 ng-click="deleteAnswer(answer)">
+                             style="width: 18px; height: 18px; margin-left: 5px;"
+                             ng-click="deleteAnswer(answer)">
                     </div>
                 </md-item-content>
             </md-item>
@@ -55,11 +56,16 @@
                        ng-disabled="newAnswers.$invalid || loading" flex-order="1" flex-order-gt-md="2">Añadir
             </md-button>
         </div>
+
+        <div layout="column" layout-align="center center" ng-show="loading">
+            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+        </div>
+
         <div layout="column" layout-gt-md="row"
              layout-align-gt-md="space-between center" layout-align-sm="center center"
              layout-align-md="center center" layout-margin>
 
-            <md-button class="md-raised md-primary" ng-click="back()" flex-order="2" flex-order-gt-md="1">
+            <md-button class="md-raised md-primary" ng-disabled="loading" ng-click="back()" flex-order="2" flex-order-gt-md="1">
                 Atrás
             </md-button>
             <md-button class="md-raised md-warn" ng-click="create()"

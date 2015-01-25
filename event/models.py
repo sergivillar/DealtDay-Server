@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from django.db import models
+from answer.settings import ANSWERS_TYPE
 from profile.models import Profile
 from django.db import transaction
 
@@ -13,7 +14,15 @@ class EventManager(models.Manager):
 			UserHasEvent.objects.create(event=event, profile=user.profile)
 			from answer.models import Answer
 			for answer in answers:
-				Answer.objects.create(answer=answer['answer'], type=answer['type'], event=event, profile=user.profile)
+				answer_created = Answer.objects.create(answer=answer['answer'], type=answer['type'], event=event, profile=user.profile)
+				type = str(answer_created.type)
+
+				if type == ANSWERS_TYPE[0][0] and not event.has_options:
+					event.has_options = True
+					event.save()
+				elif type == ANSWERS_TYPE[1][0] and not event.has_dates:
+					event.has_dates = True
+					event.save()
 
 
 class Event(models.Model):
