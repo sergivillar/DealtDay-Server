@@ -33,20 +33,24 @@
             </div>
 
             <div layout="row" layout-sm="column" layout-align-sm="center center">
-                <div flex>
+                <div layout="row" layout-align="center center" flex>
                     <md-input-container>
                         <!-- TODO especificar mejor esta opcion -->
-                        <label>Número respuestas</label>
+                        <label>Número votos permitido</label>
                         <input class="num-answers" ng-model="event.num_answers" type="number" min="1"
                                ng-required="true">
                     </md-input-container>
+                    <img class="clickable" src="static/icons/ic_help_black_36dp.png"
+                         style="width: 18px; height: 18px; margin-left: 5px;"
+                         ng-click="showAlertNumVotes($event)">
+
                 </div>
                 <div class="switch-create-event" layout="column" layout-align="center center" flex>
                     <md-switch ng-model="event.open" aria-label="Evento abierto" class="md-warn"
                                style="margin-top: 20px;">
                         <div layout="row" layout-align="space-between center" class="small">
                             Evento abierto
-                            <img src="static/icons/ic_help_black_36dp.png"
+                            <img class="clickable" src="static/icons/ic_help_black_36dp.png"
                                  style="width: 18px; height: 18px; margin-left: 5px;"
                                  ng-click="showAlertOpenEvent($event)">
 
@@ -56,7 +60,7 @@
                                style="margin-top: 20px;">
                         <div layout="row" layout-align="space-between center" class="small">
                             Votaciones públicas
-                            <img src="static/icons/ic_help_black_36dp.png"
+                            <img class="clickable" src="static/icons/ic_help_black_36dp.png"
                                  style="width: 18px; height: 18px; margin-left: 5px;"
                                  ng-click="showAlertPublicVotes($event)">
                         </div>

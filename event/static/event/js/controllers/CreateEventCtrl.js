@@ -26,6 +26,17 @@ angular.module('event')
                 });
         };
 
+        $scope.showAlertNumVotes = function (ev) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .title('NÚMERO DE VOTOS')
+                    .content('Especifica el número de opciones que quieres que un usuario pueda votar como máximo.')
+                    .ariaLabel('Número votos alert')
+                    .ok('OK')
+                    .targetEvent(ev)
+            );
+        };
+
         $scope.showAlertPublicVotes = function (ev) {
             $mdDialog.show(
                 $mdDialog.alert()
