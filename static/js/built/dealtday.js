@@ -894,9 +894,9 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             'contrastLightColors': undefined    // could also specify this if default was 'dark'
         });
         $mdThemingProvider.theme('default')
-            .primaryColor('dealtdayColors')
-            .accentColor('red')
-            .warnColor('red');
+            .primaryPalette('dealtdayColors')
+            .accentPalette('red')
+            .warnPalette('red');
     });
 
     app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
@@ -1247,6 +1247,9 @@ angular.module('event').
                 method: 'GET',
                 isArray: true
             },
+            detail: {
+                method: 'GET'
+            },
             save: {
                 method: 'POST',
                 transformRequest: function (data, headers) {
@@ -1421,19 +1424,23 @@ angular.module('event')
         });
     }]);
 angular.module('event')
-    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
-        $scope.loading = false;
+    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', function ($scope, Event, $location, $routeParams) {
+        $scope.loading = true;
+        $scope.id = $routeParams.id;
 
         $scope.getEventDetail = function () {
             $scope.loading = true;
-            Event.get(function (data) {
-                $scope.events = data;
+            Event.detail({id: $scope.id}, function (data) {
+                console.log(data);
+                $scope.event = data;
                 $scope.loading = false;
             }, function (error) {
                 console.log(error);
                 $scope.loading = false;
             });
         };
+
+        $scope.getEventDetail();
     }]);
 var app = angular.module('answer', ['mdDateTime', 'ngMessages']);
 

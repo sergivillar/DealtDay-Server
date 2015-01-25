@@ -61,9 +61,9 @@
             'contrastLightColors': undefined    // could also specify this if default was 'dark'
         });
         $mdThemingProvider.theme('default')
-            .primaryColor('dealtdayColors')
-            .accentColor('red')
-            .warnColor('red');
+            .primaryPalette('dealtdayColors')
+            .accentPalette('red')
+            .warnPalette('red');
     });
 
     app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
