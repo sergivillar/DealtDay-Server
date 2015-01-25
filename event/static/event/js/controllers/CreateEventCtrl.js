@@ -1,7 +1,7 @@
 angular.module('event')
     .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
         $scope.loading = false;
-        $scope.createAnswers = true;
+        $scope.createAnswers = false;
 
         $scope.event = new Event();
         $scope.event.open = false;
@@ -49,17 +49,12 @@ angular.module('event')
             );
         };
 
-        $scope.create = function (event) {
-            $scope.loading = true;
-            Event.save(event, function (data){
-                $scope.loading = false;
-                $scope.event = [];
+        $scope.$on('back', function (event) {
+            $scope.createAnswers = false;
+        });
 
-                $scope.goEvent();
-            }, function (error) {
-                $scope.loading = false;
-                // TODO controlar error al crear evento
-            });
+        $scope.next =  function () {
+            $scope.createAnswers = true;
         };
 
     }]);

@@ -35,6 +35,7 @@
             <div layout="row" layout-sm="column" layout-align-sm="center center">
                 <div flex>
                     <md-input-container>
+                        <!-- TODO especificar mejor esta opcion -->
                         <label>Número respuestas</label>
                         <input class="num-answers" ng-model="event.num_answers" type="number" min="1"
                                ng-required="true">
@@ -74,8 +75,8 @@
                 <md-button class="md-raised md-primary" ng-click="goEvent()" flex-order="2" flex-order-gt-md="1">
                     Volver
                 </md-button>
-                <md-button class="md-raised md-warn" ng-click="create(event)"
-                           ng-disabled="newEvent.$invalid || loading" flex-order="1" flex-order-gt-md="2">Crear
+                <md-button class="md-raised md-warn" ng-click="next()"
+                           ng-disabled="newEvent.$invalid || loading" flex-order="1" flex-order-gt-md="2">Siguiente
                 </md-button>
 
             </div>

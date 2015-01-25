@@ -13,7 +13,7 @@
 
 {%  verbatim %}
 <div ng-controller="MenuCtrl" layout="row" flex>
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-md')">
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-size" md-component-id="left" md-is-locked-open="$media('gt-md')">
             <md-toolbar>
                 <h1 class="md-toolbar-tools"><a href="/#/" ng-click="close()">DealtDay</a></h1>
             </md-toolbar>
@@ -38,7 +38,7 @@
                 </div>
             </md-toolbar>
 
-            <div ng-view ></div>
+            <div ng-view style="overflow-y: auto; overflow-x: hidden;"></div>
         </div>
 </div>
 

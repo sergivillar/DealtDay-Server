@@ -6232,6 +6232,9 @@ md-tooltip {
     .forgot-content > form > div > a:hover span, .forgot-content > form > div button:hover span {
       color: #ffffff; }
 
+.sidenav-size {
+  min-width: 100px !important; }
+
 .menu-icon {
   background: none;
   border: none;
@@ -6279,7 +6282,8 @@ md-tooltip {
 
 .new-event-form {
   width: 70%;
-  margin: 20px; }
+  margin: 20px;
+  margin-bottom: 40px !important; }
   .new-event-form > form md-input-container {
     width: 100%; }
   .new-event-form > form > div > a, .new-event-form > form > div button {
@@ -6320,7 +6324,8 @@ input[type=number] {
 
 .new-event-form {
   width: 70%;
-  margin: 20px; }
+  margin: 20px;
+  margin-bottom: 40px !important; }
   @media screen and (max-width: 600px) {
     .new-event-form {
       width: 90%; } }
@@ -6333,6 +6338,13 @@ input[type=number] {
     margin-left: 10px; }
     .new-event-form > div > form > div > a:hover span, .new-event-form > div > form > div button:hover span {
       color: #ffffff; }
+
+.clickable {
+  cursor: pointer;
+  cursor: hand; }
+
+.md-tile-content {
+  padding-bottom: 5px !important; }
 
 /*# sourceMappingURL=custom-style.css.map */
 

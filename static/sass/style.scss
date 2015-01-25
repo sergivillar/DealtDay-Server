@@ -96,6 +96,10 @@ $font-size-small: 13px;
 
 // Menu
 
+.sidenav-size{
+  min-width: 100px !important;
+}
+
 .menu-icon {
   background: none;
   border: none;
@@ -155,6 +159,7 @@ $font-size-small: 13px;
 .new-event-form {
   width: 70%;
   margin: 20px;
+  margin-bottom: 40px !important;
   > form {
     md-input-container {
       width: 100%;
@@ -223,6 +228,7 @@ input[type=number] {
     width: 90%;
   }
   margin: 20px;
+  margin-bottom: 40px !important;
   > div {
     > form {
       md-input-container {
@@ -243,4 +249,12 @@ input[type=number] {
       }
     }
   }
+}
+
+.clickable {
+  cursor: pointer; cursor: hand;
+}
+
+.md-tile-content {
+  padding-bottom: 5px !important;
 }
