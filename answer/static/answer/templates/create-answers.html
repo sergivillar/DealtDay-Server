@@ -14,7 +14,7 @@
         <md-list>
             <md-item ng-repeat="answer in answers" layout="row">
                 <md-item-content>
-                    <div class="md-tile-content" layout="row">
+                    <div class="md-tile-content answer-content" layout="row">
                         <h3 ng-if="answer.type == 'TX' ">{{ answer.answer }}</h3>
 
                         <h3 ng-if="answer.type == 'DT' ">{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>

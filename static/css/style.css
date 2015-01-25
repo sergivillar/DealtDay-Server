@@ -6307,14 +6307,14 @@ md-tooltip {
   width: 70%;
   margin: 20px;
   margin-bottom: 40px !important; }
-  .new-event-form > form md-input-container {
+  .new-event-form form md-input-container {
     width: 100%; }
-  .new-event-form > form > div > a, .new-event-form > form > div button {
+  .new-event-form form > div > a, .new-event-form form > div button {
     padding-left: 15px;
     padding-right: 15px;
     margin-bottom: 10px;
     margin-left: 10px; }
-    .new-event-form > form > div > a:hover span, .new-event-form > form > div button:hover span {
+    .new-event-form form > div > a:hover span, .new-event-form form > div button:hover span {
       color: #ffffff; }
 
 .padding-form {
@@ -6349,28 +6349,28 @@ input[type=number] {
 .time-date > .control > .slider > .date-control > .days .day-cell.selected {
   background-color: #037E8C !important; }
 
-.new-event-form {
+.new-answer-form-event {
   width: 70%;
   margin: 20px;
   margin-bottom: 40px !important; }
   @media screen and (max-width: 600px) {
-    .new-event-form {
+    .new-answer-form-event {
       width: 90%; } }
-  .new-event-form > div > form md-input-container {
+  .new-answer-form-event div form md-input-container {
     width: 100%; }
-  .new-event-form > div > form > div > a, .new-event-form > div > form > div button {
+  .new-answer-form-event div form > div > a, .new-answer-form-event div form > div button {
     padding-left: 15px;
     padding-right: 15px;
     margin-bottom: 10px;
     margin-left: 10px; }
-    .new-event-form > div > form > div > a:hover span, .new-event-form > div > form > div button:hover span {
+    .new-answer-form-event div form > div > a:hover span, .new-answer-form-event div form > div button:hover span {
       color: #ffffff; }
 
 .clickable {
   cursor: pointer;
   cursor: hand; }
 
-.md-tile-content {
+.answer-content {
   padding-bottom: 5px !important; }
 
 md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
@@ -6380,6 +6380,15 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   margin-left: -2px !important;
   color: #F44336 !important;
   background-color: #F44336 !important; }
+
+.toolbar-detail-event {
+  background: #d6d6d6 !important; }
+  .toolbar-detail-event > h1 {
+    color: #2f2f2f !important; }
+
+.show-answer {
+  padding-bottom: 5px !important;
+  padding-top: 5px !important; }
 
 /*# sourceMappingURL=custom-style.css.map */
 

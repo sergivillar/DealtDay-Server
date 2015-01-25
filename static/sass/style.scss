@@ -2,6 +2,8 @@ $background-color: #037E8C;
 $button-color: #F44336;
 $screen-small: 600px;
 $font-size-small: 13px;
+$light-gray: #d6d6d6;
+$light-dark: #2f2f2f;
 
 .color-background {
   background-color: $background-color;
@@ -96,7 +98,7 @@ $font-size-small: 13px;
 
 // Menu
 
-.sidenav-size{
+.sidenav-size {
   min-width: 100px !important;
 }
 
@@ -141,11 +143,12 @@ $font-size-small: 13px;
   text-decoration: none;
   color: inherit;
 }
+
 .item-list {
   &:hover {
-      background-color:darken(#ffffff, 2.5%);
-      border-left: 3px solid darken(#ffffff, 2.5%);
-    }
+    background-color: darken(#ffffff, 2.5%);
+    border-left: 3px solid darken(#ffffff, 2.5%);
+  }
 }
 
 .show-events {
@@ -170,7 +173,7 @@ $font-size-small: 13px;
   width: 70%;
   margin: 20px;
   margin-bottom: 40px !important;
-  > form {
+  form {
     md-input-container {
       width: 100%;
     }
@@ -237,15 +240,15 @@ input[type=number] {
 
 // Create answer
 
-.new-event-form {
+.new-answer-form-event {
   width: 70%;
   @media screen and (max-width: $screen-small) {
     width: 90%;
   }
   margin: 20px;
   margin-bottom: 40px !important;
-  > div {
-    > form {
+  div {
+    form {
       md-input-container {
         width: 100%;
       }
@@ -267,13 +270,13 @@ input[type=number] {
 }
 
 .clickable {
-  cursor: pointer; cursor: hand;
+  cursor: pointer;
+  cursor: hand;
 }
 
-.md-tile-content {
+.answer-content {
   padding-bottom: 5px !important;
 }
-
 
 // Event detail
 
@@ -285,4 +288,16 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   margin-left: -2px !important;
   color: $button-color !important;
   background-color: $button-color !important;;
+}
+
+.toolbar-detail-event {
+  background: $light-gray !important;
+  > h1 {
+    color: $light-dark !important;
+  }
+}
+
+.show-answer {
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
 }

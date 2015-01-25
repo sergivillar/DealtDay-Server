@@ -13,6 +13,8 @@ angular.module('event')
         $scope.getEventDetail = function () {
             $scope.loading = true;
             Event.detail({id: $scope.id}, function (data) {
+
+            console.log(data);
                 console.log(data);
                 $scope.event = data;
                 $scope.loading = false;
@@ -20,6 +22,14 @@ angular.module('event')
                 console.log(error);
                 $scope.loading = false;
             });
+        };
+
+        $scope.selectText = function (answer){
+          $scope.voteText = answer.id;
+        };
+
+        $scope.selectDate = function (answer){
+          $scope.voteDate = answer.id;
         };
 
         $scope.getEventDetail();
