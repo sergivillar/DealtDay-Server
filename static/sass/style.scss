@@ -137,6 +137,16 @@ $font-size-small: 13px;
 }
 
 // Event
+.a-item-list {
+  text-decoration: none;
+  color: inherit;
+}
+.item-list {
+  &:hover {
+      background-color:darken(#ffffff, 2.5%);
+      border-left: 3px solid darken(#ffffff, 2.5%);
+    }
+}
 
 .show-events {
   width: 80%;

@@ -856,6 +856,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             templateUrl: '/static/event/templates/event.html'
         }).when('/eventos/crear/', {
             templateUrl: '/static/event/templates/create-event.html'
+        }).when('/eventos/:id', {
+            templateUrl: '/static/event/templates/event-detail.html'
         }).when('/amigos/', {
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
@@ -1312,7 +1314,7 @@ angular.module('event').
     });
 angular.module('event')
     .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
-        $scope.createAnswers = true;
+        $scope.createAnswers = false;
 
         $scope.event = new Event();
         $scope.event.open = false;

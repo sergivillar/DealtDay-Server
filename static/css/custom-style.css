@@ -86,6 +86,14 @@
 .active {
   background-color: #ECECEC; }
 
+.a-item-list {
+  text-decoration: none;
+  color: inherit; }
+
+.item-list:hover {
+  background-color: #f9f9f9;
+  border-left: 3px solid #f9f9f9; }
+
 .show-events {
   width: 80%;
   font-size: 16px !important; }

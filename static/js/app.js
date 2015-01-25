@@ -23,6 +23,8 @@
             templateUrl: '/static/event/templates/event.html'
         }).when('/eventos/crear/', {
             templateUrl: '/static/event/templates/create-event.html'
+        }).when('/eventos/:id', {
+            templateUrl: '/static/event/templates/event-detail.html'
         }).when('/amigos/', {
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {

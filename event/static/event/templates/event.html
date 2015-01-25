@@ -36,22 +36,24 @@
             <md-progress-circular class="md-warn" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
             <md-list>
                 <md-item ng-repeat="event in events | greaterThanToday">
-                    <md-item-content>
-                        <div class="md-tile-content">
-                            <div layout="row">
-                                <h3>{{ event.title }}</h3>
-                                <button class="menu-icon" aria-label="Eres el dueño" ng-show="event.is_owner">
-                                    <md-tooltip>
-                                        Eres el dueño
-                                    </md-tooltip>
-                                    <img src="static/icons/ic_person_black_36dp.png"
-                                         style="width: 20px; height: 20px; margin-top: -5px">
-                                </button>
+                    <a class="a-item-list" href="/#/eventos/{{ event.id }}">
+                        <md-item-content class="item-list">
+                            <div class="md-tile-content">
+                                <div layout="row">
+                                    <h3>{{ event.title }}</h3>
+                                    <button class="menu-icon" aria-label="Eres el dueño" ng-show="event.is_owner">
+                                        <md-tooltip>
+                                            Eres el dueño
+                                        </md-tooltip>
+                                        <img src="static/icons/ic_person_black_36dp.png"
+                                             style="width: 20px; height: 20px; margin-top: -5px">
+                                    </button>
+                                </div>
+                                <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
                             </div>
-                            <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
-                        </div>
-                    </md-item-content>
-                    <md-divider ng-if="!$last"></md-divider>
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </a>
                 </md-item>
             </md-list>
         </md-content>
