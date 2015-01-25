@@ -6319,8 +6319,7 @@ hr {
   .new-event-form form > div > a, .new-event-form form > div button {
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 10px;
-    margin-left: 10px; }
+    margin-bottom: 10px; }
     .new-event-form form > div > a:hover span, .new-event-form form > div button:hover span {
       color: #ffffff; }
 
