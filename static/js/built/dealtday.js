@@ -1428,6 +1428,13 @@ angular.module('event')
         $scope.loading = true;
         $scope.id = $routeParams.id;
 
+        $scope.next = function () {
+            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+        };
+        $scope.previous = function () {
+            $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+        };
+
         $scope.getEventDetail = function () {
             $scope.loading = true;
             Event.detail({id: $scope.id}, function (data) {

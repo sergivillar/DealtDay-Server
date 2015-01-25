@@ -6373,6 +6373,14 @@ input[type=number] {
 .md-tile-content {
   padding-bottom: 5px !important; }
 
+md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
+  color: #F44336 !important; }
+
+md-tabs.md-default-theme md-tabs-ink-bar {
+  margin-left: -2px !important;
+  color: #F44336 !important;
+  background-color: #F44336 !important; }
+
 /*# sourceMappingURL=custom-style.css.map */
 
 /* Start Variable Declaration */

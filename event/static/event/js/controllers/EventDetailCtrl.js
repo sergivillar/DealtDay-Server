@@ -1,15 +1,26 @@
 angular.module('event')
-    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
-        $scope.loading = false;
+    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', function ($scope, Event, $location, $routeParams) {
+        $scope.loading = true;
+        $scope.id = $routeParams.id;
+
+        $scope.next = function () {
+            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+        };
+        $scope.previous = function () {
+            $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+        };
 
         $scope.getEventDetail = function () {
             $scope.loading = true;
-            Event.get(function (data) {
-                $scope.events = data;
+            Event.detail({id: $scope.id}, function (data) {
+                console.log(data);
+                $scope.event = data;
                 $scope.loading = false;
             }, function (error) {
                 console.log(error);
                 $scope.loading = false;
             });
         };
+
+        $scope.getEventDetail();
     }]);

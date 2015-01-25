@@ -273,3 +273,16 @@ input[type=number] {
 .md-tile-content {
   padding-bottom: 5px !important;
 }
+
+
+// Event detail
+
+md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
+  color: $button-color !important;
+}
+
+md-tabs.md-default-theme md-tabs-ink-bar {
+  margin-left: -2px !important;
+  color: $button-color !important;
+  background-color: $button-color !important;;
+}

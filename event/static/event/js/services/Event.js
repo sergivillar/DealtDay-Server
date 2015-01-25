@@ -5,6 +5,9 @@ angular.module('event').
                 method: 'GET',
                 isArray: true
             },
+            detail: {
+                method: 'GET'
+            },
             save: {
                 method: 'POST',
                 transformRequest: function (data, headers) {
