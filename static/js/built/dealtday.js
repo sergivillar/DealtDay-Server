@@ -1519,6 +1519,13 @@ angular.module('answer')
     .controller('CreateAnswersCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Answer', 'ANSWER_TYPES', '$http', function ($scope, $mdDialog, $filter, $location, Answer, ANSWER_TYPES, $http) {
 
         $scope.loading = false;
+
+        $scope.canCreateEvent = false;
+        var hasText = false;
+        var hasDate = false;
+        var numText = 0;
+        var numDate = 0;
+
         $scope.type_text = ANSWER_TYPES[0].name;
         $scope.type = false;
 
@@ -1544,13 +1551,39 @@ angular.module('answer')
 
         $scope.add = function () {
             $scope.answers.push($scope.answer);
+            if ($scope.answer.type == ANSWER_TYPES[0].type) {
+                hasText = true;
+                numText += 1;
+            } else {
+                hasDate = true;
+                numDate += 1;
+            }
+
             var type = $scope.answer.type;
             $scope.answer = {};
             $scope.answer.type = type;
         };
 
         $scope.deleteAnswer = function (answer) {
+            var type = answer.type;
+            var can_delete = true;
+
             $scope.answers.splice($scope.answers.indexOf(answer), 1);
+
+            angular.forEach($scope.answers, function (value, key) {
+                if (value.type == type)
+                    can_delete = false;
+            });
+
+            if (type == ANSWER_TYPES[0].type) {
+                numText -= 1;
+                if (can_delete)
+                    hasText = false;
+            } else {
+                numDate -= 1;
+                if (can_delete)
+                    hasDate = false;
+            }
         };
 
         $scope.addDate = function (ev) {
@@ -1597,6 +1630,35 @@ angular.module('answer')
         $scope.back = function () {
             $scope.$emit('back');
         };
+
+        $scope.activeCreate = function () {
+            return !($scope.canCreateEvent && $scope.answers.length != 0) || $scope.loading;
+        };
+
+        $scope.$watchCollection('answers', function () {
+            checkCreateEvent();
+        });
+
+        $scope.$watch('event.num_answers', function () {
+            checkCreateEvent();
+        });
+
+        function checkCreateEvent() {
+            var text = true;
+            var date = true;
+
+            if (hasText) {
+                text = numText >= $scope.event.num_answers;
+            }
+            if (hasDate) {
+                date = numDate >= $scope.event.num_answers;
+            }
+
+            if (text && date && $scope.answers.length != 0)
+                $scope.canCreateEvent = true;
+            else
+                $scope.canCreateEvent = false;
+        }
     }]);
 
 function DateTimePicker($scope, $mdDialog, $filter) {
@@ -1611,3 +1673,4 @@ function DateTimePicker($scope, $mdDialog, $filter) {
         $mdDialog.hide(data);
     };
 }
+

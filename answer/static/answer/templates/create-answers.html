@@ -27,12 +27,19 @@
         </md-list>
     </div>
 
+    <hr>
+
+    <div ng-show="!canCreateEvent" class="valitaion-error small" layout layout-align="center center">
+        Debes introducir mínimo {{ event.num_answers }} respuestas del mismo tipo que quieras crear.
+    </div>
+
     <form name="newAnswers" class="padding-form" novalidate>
         <span>Tipo de respuesta</span>
         <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-warn" style="margin-top: 5px;"
                    ng-change="displayType(type)">
             {{ type_text }}
         </md-switch>
+
 
         <md-input-container ng-if="!type">
             <label>Respues</label>
@@ -66,11 +73,12 @@
              layout-align-gt-md="space-between center" layout-align-sm="center center"
              layout-align-md="center center" layout-margin>
 
-            <md-button class="md-raised md-primary" ng-disabled="loading" ng-click="back()" flex-order="2" flex-order-gt-md="1">
+            <md-button class="md-raised md-primary" ng-disabled="loading" ng-click="back()" flex-order="2"
+                       flex-order-gt-md="1">
                 Atrás
             </md-button>
             <md-button class="md-raised md-warn" ng-click="create()"
-                       ng-disabled="answers.length == 0 || loading" flex-order="1" flex-order-gt-md="2">Crear
+                       ng-disabled="activeCreate()" flex-order="1" flex-order-gt-md="2">Crear
             </md-button>
 
         </div>
