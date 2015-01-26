@@ -1,5 +1,6 @@
 angular.module('event')
-    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$routeParams', function ($scope, Event, $location, $routeParams) {
+    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', function ($scope, Event, $location, $http, voteApi) {
+        $scope.loading_multi = false;
         $scope.voteId = [];
         $scope.votesText = [];
         $scope.reamingAnswersText = $scope.event.num_answers;
@@ -7,13 +8,40 @@ angular.module('event')
         $scope.votesDate = [];
         $scope.reamingAnswersDate = $scope.event.num_answers;
 
+        $scope.goEvent = function () {
+            $location.path('/eventos/');
+        };
+
+        $scope.vote = function () {
+            $scope.loading_multi = true;
+            var data = $scope.votesText.concat($scope.votesDate);
+            var dict = {};
+            dict['votes'] = data;
+
+            $http.post(voteApi, dict)
+                .success(function () {
+                    Event.detail({id: $scope.id}, function (data) {
+                        $scope.event = data;
+                        $scope.getMyVotes();
+                        $scope.loading_multi = false;
+                    }, function (error) {
+                        console.log(error);
+                        $scope.loading_multi = false;
+                    });
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading_multi = false;
+                });
+        };
+
         $scope.initVotes = function () {
             angular.forEach($scope.myVotes, function (value) {
                 $scope.voteId[value.vote] = true
                 if (value.type == 'TX') {
                     $scope.votesText.push(value.vote);
                     $scope.reamingAnswersText -= 1;
-                }else if (value.type == 'DT') {
+                } else if (value.type == 'DT') {
                     $scope.votesDate.push(value.vote);
                     $scope.reamingAnswersDate -= 1;
                 }

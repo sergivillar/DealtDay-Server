@@ -210,4 +210,10 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   padding-bottom: 5px !important;
   padding-top: 5px !important; }
 
+.button-vote-back {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 10px;
+  margin-left: 10px; }
+
 /*# sourceMappingURL=custom-style.css.map */

@@ -1,60 +1,86 @@
-<div ng-controller="EventDetailMultiCtrl as eventDetailMultiController">
-    <md-toolbar class="toolbar-detail-event" ng-show="event.has_options">
-        <h1 class="md-toolbar-tools">
-            <span ng-show="event.num_answers == 1">Selecciona tu respuesta</span>
-            <div layout="column">
-                <span ng-show="event.num_answers > 1">Selecciona tus respuestas</span>
-                <span class="small" ng-show="event.num_answers > 1">Respuestas restantes: {{ reamingAnswersText }}</span>
-            </div>
-        </h1>
-    </md-toolbar>
-    <md-content ng-show="event.has_options">
-        <md-list>
-            <md-item ng-repeat="answer in event.answer | filter: { type: 'TX' }">
-                <md-item-content>
-                    <div class="md-tile-content show-answer" layout="row" layout-align="space-between center"
-                         ng-click="voteText(answer)">
-                        <div>
-                            <h3>{{ answer.answer }}</h3>
-                            <h4>Votos: {{ answer.votes }}</h4>
+<div ng-controller="EventDetailMultiCtrl as eventDetailMultiController" >
+
+
+    <div layout="column" layout-align="center center" layout-margin ng-show="loading_multi">
+        <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-show="!loading_multi">
+        <md-toolbar class="toolbar-detail-event" ng-show="event.has_options">
+            <h1 class="md-toolbar-tools">
+                <span ng-show="event.num_answers == 1">Selecciona tu respuesta</span>
+
+                <div layout="column">
+                    <span ng-show="event.num_answers > 1">Selecciona tus respuestas</span>
+                <span class="small"
+                      ng-show="event.num_answers > 1">Respuestas restantes: {{ reamingAnswersText }}</span>
+                </div>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="event.has_options">
+            <md-list>
+                <md-item ng-repeat="answer in event.answer | filter: { type: 'TX' }">
+                    <md-item-content>
+                        <div class="md-tile-content show-answer" layout="row" layout-align="space-between center"
+                             ng-click="voteText(answer)">
+                            <div>
+                                <h3>{{ answer.answer }}</h3>
+                                <h4>Votos: {{ answer.votes }}</h4>
+                            </div>
+                            <div layout="column" layout-align="center center">
+                                <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}"
+                                             class="md-warn">
+                                </md-checkbox>
+                            </div>
                         </div>
-                        <div layout="column" layout-align="center center">
-                            <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}" class="md-warn">
-                            </md-checkbox>
+                    </md-item-content>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
+        <md-toolbar class="toolbar-detail-event" ng-show="event.has_dates">
+            <h1 class="md-toolbar-tools">
+                <span ng-show="event.num_answers == 1">Selecciona tu fecha</span>
+
+                <div layout="column">
+                    <span ng-show="event.num_answers > 1">Selecciona tus fechas</span>
+                <span class="small"
+                      ng-show="event.num_answers > 1">Respuestas restantes: {{ reamingAnswersDate }}</span>
+                </div>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="event.has_dates">
+            <md-list>
+                <md-item ng-repeat="answer in event.answer | filter: { type: 'DT' }">
+                    <md-item-content>
+                        <div class="md-tile-content show-answer" layout="row" layout-align="space-between center"
+                             ng-click="voteDate(answer)">
+                            <div>
+                                <h3>{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
+                                <h4>Votos: {{ answer.votes }}</h4>
+                            </div>
+                            <div layout="column" layout-align="center center">
+                                <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}"
+                                             class="md-warn">
+                                </md-checkbox>
+                            </div>
                         </div>
-                    </div>
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-        </md-list>
-    </md-content>
-    <md-toolbar class="toolbar-detail-event" ng-show="event.has_dates">
-        <h1 class="md-toolbar-tools">
-            <span ng-show="event.num_answers == 1">Selecciona tu fecha</span>
-            <div layout="column">
-                <span ng-show="event.num_answers > 1">Selecciona tus fechas</span>
-                <span class="small" ng-show="event.num_answers > 1">Respuestas restantes: {{ reamingAnswersDate }}</span>
-            </div>
-        </h1>
-    </md-toolbar>
-    <md-content ng-show="event.has_dates">
-        <md-list>
-            <md-item ng-repeat="answer in event.answer | filter: { type: 'DT' }">
-                <md-item-content>
-                    <div class="md-tile-content show-answer" layout="row" layout-align="space-between center"
-                         ng-click="voteDate(answer)">
-                        <div>
-                            <h3>{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
-                            <h4>Votos: {{ answer.votes }}</h4>
-                        </div>
-                        <div layout="column" layout-align="center center">
-                            <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}" class="md-warn">
-                            </md-checkbox>
-                        </div>
-                    </div>
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-        </md-list>
-    </md-content>
+                    </md-item-content>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
+
+        <div layout="row"
+             layout-align="space-between center" layout-margin>
+
+            <md-button class="md-raised md-primary button-vote-back" ng-click="goEvent()">
+                Volver
+            </md-button>
+            <md-button class="md-raised md-warn button-vote-back" ng-disabled="loading" ng-click="vote()"
+                    >Votar
+            </md-button>
+
+        </div>
+    </div>
 </div>
