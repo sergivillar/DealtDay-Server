@@ -1,45 +1,20 @@
-<div ng-controller="CreateAnswersCrtl as createAnswersController" layout-fill>
+<div ng-controller="CreateAnswersCrtl as createAnswersController" layout-fill ng-enter="add()">
     <md-toolbar class="md-tall active-events">
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <div>
-                <!-- TODO poner en style disabled -->
                 <span class="md-flex">Añadir respuestas</span>
             </div>
         </div>
     </md-toolbar>
 
-    <p ng-if="answers.length == 0" layout style="padding-left: 16px; color: darkgray">Añade tu primera respuesta.</p>
-
-    <div ng-if="answers.length > 0">
-        <md-list>
-            <md-item ng-repeat="answer in answers" layout="row">
-                <md-item-content>
-                    <div class="md-tile-content answer-content" layout="row">
-                        <h3 ng-if="answer.type == 'TX' ">{{ answer.answer }}</h3>
-
-                        <h3 ng-if="answer.type == 'DT' ">{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
-                        <img class="clickable" src="static/icons/ic_delete_black_36dp.png"
-                             style="width: 18px; height: 18px; margin-left: 5px;"
-                             ng-click="deleteAnswer(answer)">
-                    </div>
-                </md-item-content>
-            </md-item>
-        </md-list>
-    </div>
-
-    <hr>
-
-    <div ng-show="!canCreateEvent" class="valitaion-error small" layout layout-align="center center">
-        Debes introducir mínimo {{ event.num_answers }} respuestas del mismo tipo que quieras crear.
-    </div>
-
     <form name="newAnswers" class="padding-form" novalidate>
-        <span>Tipo de respuesta</span>
-        <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-warn" style="margin-top: 5px;"
-                   ng-change="displayType(type)">
-            {{ type_text }}
-        </md-switch>
-
+        <div layout="row" layout-align="end center">
+            <span>Tipo &nbsp;</span>
+            <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-warn"
+                       ng-change="displayType(type)">
+                {{ type_text }}
+            </md-switch>
+        </div>
 
         <md-input-container ng-if="!type">
             <label>Respues</label>
@@ -52,8 +27,8 @@
                 <input name="date" ng-model="answer.time" type="text" ng-required="true" readonly>
             </md-input-container>
 
-            <md-input-container>
-                <md-button class="md-primary" ng-click="addDate($event)">
+            <md-input-container layout layout-align="center center">
+                <md-button class="md-primary" ng-click="addDate($event)" style="margin-bottom: 0px; margin-left: 0px;">
                     Seleccionar fecha
                 </md-button>
             </md-input-container>
@@ -69,6 +44,32 @@
             <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
         </div>
 
+        <md-content ng-if="answers.length > 0" style="overflow-y: hidden;">
+            <md-list>
+                <md-item ng-repeat="answer in answers">
+                    <md-item-content class="create-answer-list">
+                        <div class="md-tile-left">
+                            <img class="clickable face" src="static/icons/ic_delete_black_36dp.png"
+
+                                 ng-click="deleteAnswer(answer)">
+                        </div>
+                        <div class="md-tile-content">
+                            <h3 ng-if="answer.type == 'TX' ">{{ answer.answer }}</h3>
+
+                            <h3 ng-if="answer.type == 'DT' ">{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
+                        </div>
+                    </md-item-content>
+                    <md-divider></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
+        </br>
+
+        <div ng-show="!canCreateEvent" class="valitaion-error small" layout layout-align="center center">
+            Debes introducir mínimo {{ event.num_answers }} respuestas del mismo tipo que quieras crear.
+        </div>
+
+
         <div layout="column" layout-gt-md="row"
              layout-align-gt-md="space-between center" layout-align-sm="center center"
              layout-align-md="center center" layout-margin>
@@ -80,8 +81,7 @@
             <md-button class="md-raised md-warn" ng-click="create()"
                        ng-disabled="activeCreate()" flex-order="1" flex-order-gt-md="2">Crear
             </md-button>
-
         </div>
-    </form>
 
+    </form>
 </div>

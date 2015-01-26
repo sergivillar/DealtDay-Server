@@ -1317,7 +1317,7 @@ angular.module('event').
     });
 angular.module('event')
     .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
-        $scope.createAnswers = false;
+        $scope.createAnswers = true;
 
         $scope.event = new Event();
         $scope.event.open = false;
