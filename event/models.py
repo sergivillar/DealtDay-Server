@@ -35,7 +35,7 @@ class Event(models.Model):
 	open = models.BooleanField(default=False,
 	                           help_text="Si 'True', los usuarios invitados al evento pueden añadir mas opciones a la votación")
 	voters_public = models.BooleanField(default=False,
-	                                    help_text="Si 'True', otros usuarios pueden ver quieén ha votado cada opción")
+	                                    help_text="Si 'True', otros usuarios pueden ver quién ha votado cada opción")
 
 	owner = models.ForeignKey(Profile)
 

@@ -14,6 +14,11 @@ angular.module('event')
             $scope.loading = true;
             Event.detail({id: $scope.id}, function (data) {
                 $scope.event = data;
+                if ($scope.event.voters_public) {
+                    angular.forEach($scope.event.answer, function (value) {
+                        value.votes = value.votes.length;
+                    });
+                }
                 $scope.getMyVotes();
             }, function (error) {
                 console.log(error);

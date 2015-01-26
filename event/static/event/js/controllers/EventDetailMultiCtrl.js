@@ -33,6 +33,11 @@ angular.module('event')
                     .success(function () {
                         Event.detail({id: $scope.id}, function (data) {
                             $scope.event = data;
+                            if ($scope.event.voters_public) {
+                                angular.forEach($scope.event.answer, function (value) {
+                                    value.votes = value.votes.length;
+                                });
+                            }
                             $scope.getMyVotes();
                             $scope.loading_multi = false;
                         }, function (error) {
