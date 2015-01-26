@@ -1616,7 +1616,6 @@ angular.module('event')
 
         $scope.initVotes = function () {
             angular.forEach($scope.myVotes, function (value) {
-                console.log(value);
                 if (value.type == 'TX') {
                     $scope.voteText = value.vote;
                 } else if (value.type == 'DT') {
