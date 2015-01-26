@@ -10,6 +10,8 @@
 
     app.value('eventApi', '/api/event/');
     app.value('answerApi', '/api/answer/');
+    app.value('voteApi', '/api/vote/');
+    app.value('getMyVotes', '/api/vote/?evento=');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';

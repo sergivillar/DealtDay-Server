@@ -10,9 +10,15 @@ import datetime
 
 class VoteSerializer(serializers.ModelSerializer):
 	voter = serializers.RelatedField(read_only=True)
+	type = serializers.SerializerMethodField('get_vote_type')
 
 	class Meta:
 		model = Vote
+
+	def get_vote_type(self, obj):
+		answer = Answer.objects.get(pk=obj.vote.pk)
+		type = answer.type
+		return type
 
 	def validate(self, attrs):
 

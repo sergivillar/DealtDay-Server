@@ -7,6 +7,19 @@ angular.module('event')
         $scope.votesDate = [];
         $scope.reamingAnswersDate = $scope.event.num_answers;
 
+        $scope.initVotes = function () {
+            angular.forEach($scope.myVotes, function (value) {
+                $scope.voteId[value.vote] = true
+                if (value.type == 'TX') {
+                    $scope.votesText.push(value.vote);
+                    $scope.reamingAnswersText -= 1;
+                }else if (value.type == 'DT') {
+                    $scope.votesDate.push(value.vote);
+                    $scope.reamingAnswersDate -= 1;
+                }
+            });
+        };
+
         $scope.voteText = function (answer) {
             if ($scope.votesText.indexOf(answer.id) == -1) {
                 $scope.votesText.push(answer.id);
@@ -19,7 +32,7 @@ angular.module('event')
                 $scope.reamingAnswersText += 1;
             }
 
-            if ($scope.event.num_answers < $scope.votesText.length){
+            if ($scope.event.num_answers < $scope.votesText.length) {
                 var uncheck = $scope.votesText.shift();
                 $scope.voteId[uncheck] = false;
             }
@@ -37,10 +50,12 @@ angular.module('event')
                 $scope.reamingAnswersDate += 1;
             }
 
-            if ($scope.event.num_answers < $scope.votesDate.length){
+            if ($scope.event.num_answers < $scope.votesDate.length) {
                 var uncheck = $scope.votesDate.shift();
                 $scope.voteId[uncheck] = false;
             }
         };
+
+        $scope.initVotes();
 
     }]);

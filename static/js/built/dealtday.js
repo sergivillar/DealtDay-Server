@@ -843,6 +843,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     app.value('eventApi', '/api/event/');
     app.value('answerApi', '/api/answer/');
+    app.value('voteApi', '/api/vote/');
+    app.value('getMyVotes', '/api/vote/?evento=');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -1317,7 +1319,7 @@ angular.module('event').
     });
 angular.module('event')
     .controller('CreateEventCrtl', ['$scope', '$mdDialog', '$filter', '$location', 'Event', function ($scope, $mdDialog, $filter, $location, Event) {
-        $scope.createAnswers = true;
+        $scope.createAnswers = false;
 
         $scope.event = new Event();
         $scope.event.open = false;
@@ -1424,7 +1426,7 @@ angular.module('event')
         });
     }]);
 angular.module('event')
-    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', function ($scope, Event, $location, $routeParams) {
+    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', '$http', 'getMyVotes', function ($scope, Event, $location, $routeParams, $http, getMyVotes) {
         $scope.loading = true;
         $scope.id = $routeParams.id;
 
@@ -1438,23 +1440,32 @@ angular.module('event')
         $scope.getEventDetail = function () {
             $scope.loading = true;
             Event.detail({id: $scope.id}, function (data) {
-
-            console.log(data);
-                console.log(data);
                 $scope.event = data;
-                $scope.loading = false;
+                $scope.getMyVotes();
             }, function (error) {
                 console.log(error);
                 $scope.loading = false;
             });
         };
 
-        $scope.selectText = function (answer){
-          $scope.voteText = answer.id;
+        $scope.getMyVotes = function () {
+            $http.get(getMyVotes + $scope.id)
+                .success(function (data) {
+                    $scope.myVotes = data;
+                    $scope.loading = false;
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading = false;
+                });
         };
 
-        $scope.selectDate = function (answer){
-          $scope.voteDate = answer.id;
+        $scope.selectText = function (answer) {
+            $scope.voteText = answer.id;
+        };
+
+        $scope.selectDate = function (answer) {
+            $scope.voteDate = answer.id;
         };
 
         $scope.getEventDetail();
@@ -1468,6 +1479,19 @@ angular.module('event')
         $scope.votesDate = [];
         $scope.reamingAnswersDate = $scope.event.num_answers;
 
+        $scope.initVotes = function () {
+            angular.forEach($scope.myVotes, function (value) {
+                $scope.voteId[value.vote] = true
+                if (value.type == 'TX') {
+                    $scope.votesText.push(value.vote);
+                    $scope.reamingAnswersText -= 1;
+                }else if (value.type == 'DT') {
+                    $scope.votesDate.push(value.vote);
+                    $scope.reamingAnswersDate -= 1;
+                }
+            });
+        };
+
         $scope.voteText = function (answer) {
             if ($scope.votesText.indexOf(answer.id) == -1) {
                 $scope.votesText.push(answer.id);
@@ -1480,7 +1504,7 @@ angular.module('event')
                 $scope.reamingAnswersText += 1;
             }
 
-            if ($scope.event.num_answers < $scope.votesText.length){
+            if ($scope.event.num_answers < $scope.votesText.length) {
                 var uncheck = $scope.votesText.shift();
                 $scope.voteId[uncheck] = false;
             }
@@ -1498,11 +1522,13 @@ angular.module('event')
                 $scope.reamingAnswersDate += 1;
             }
 
-            if ($scope.event.num_answers < $scope.votesDate.length){
+            if ($scope.event.num_answers < $scope.votesDate.length) {
                 var uncheck = $scope.votesDate.shift();
                 $scope.voteId[uncheck] = false;
             }
         };
+
+        $scope.initVotes();
 
     }]);
 var app = angular.module('answer', ['mdDateTime', 'ngMessages']);

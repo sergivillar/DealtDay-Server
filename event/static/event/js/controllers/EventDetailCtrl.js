@@ -1,5 +1,5 @@
 angular.module('event')
-    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', function ($scope, Event, $location, $routeParams) {
+    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', '$http', 'getMyVotes', function ($scope, Event, $location, $routeParams, $http, getMyVotes) {
         $scope.loading = true;
         $scope.id = $routeParams.id;
 
@@ -13,23 +13,32 @@ angular.module('event')
         $scope.getEventDetail = function () {
             $scope.loading = true;
             Event.detail({id: $scope.id}, function (data) {
-
-            console.log(data);
-                console.log(data);
                 $scope.event = data;
-                $scope.loading = false;
+                $scope.getMyVotes();
             }, function (error) {
                 console.log(error);
                 $scope.loading = false;
             });
         };
 
-        $scope.selectText = function (answer){
-          $scope.voteText = answer.id;
+        $scope.getMyVotes = function () {
+            $http.get(getMyVotes + $scope.id)
+                .success(function (data) {
+                    $scope.myVotes = data;
+                    $scope.loading = false;
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading = false;
+                });
         };
 
-        $scope.selectDate = function (answer){
-          $scope.voteDate = answer.id;
+        $scope.selectText = function (answer) {
+            $scope.voteText = answer.id;
+        };
+
+        $scope.selectDate = function (answer) {
+            $scope.voteDate = answer.id;
         };
 
         $scope.getEventDetail();
