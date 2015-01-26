@@ -1,52 +1,75 @@
-<md-toolbar class="toolbar-detail-event" ng-show="event.has_options">
-    <h1 class="md-toolbar-tools">
-        <span ng-show="event.num_answers == 1">Selecciona tu respuesta</span>
-        <span ng-show="event.num_answers > 1">Selecciona tus respuestas</span>
-    </h1>
-</md-toolbar>
-<md-content ng-show="event.has_options">
-    <md-list>
-        <md-radio-group ng-model="voteText">
-            <md-item ng-repeat="answer in event.answer | filter: { type: 'TX' }">
-                <md-item-content>
-                    <div class="md-tile-content show-answer" layout="row" layout-align="space-between center" ng-click="selectText(answer)">
-                        <div>
-                            <h3>{{ answer.answer }}</h3>
-                            <h4>Votos: {{ answer.votes }}</h4>
-                        </div>
-                        <div layout="column" layout-align="center center">
-                            <md-radio-button value="{{ answer.id }}" aria-label="{{ answer.answer }}"></md-radio-button>
-                        </div>
-                    </div>
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-        </md-radio-group>
-    </md-list>
-</md-content>
-<md-toolbar class="toolbar-detail-event" ng-show="event.has_dates">
-    <h1 class="md-toolbar-tools">
-        <span ng-show="event.num_answers == 1">Selecciona tu fecha</span>
-        <span ng-show="event.num_answers > 1">Selecciona tus fechas</span>
-    </h1>
-</md-toolbar>
-<md-content ng-show="event.has_dates">
-    <md-list>
-        <md-radio-group ng-model="voteDate">
-            <md-item ng-repeat="answer in event.answer | filter: { type: 'DT' }">
-                <md-item-content>
-                    <div class="md-tile-content show-answer" layout="row" layout-align="space-between center" ng-click="selectDate(answer)">
-                        <div>
-                            <h3>{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
-                            <h4>Votos: {{ answer.votes }}</h4>
-                        </div>
-                        <div layout="column" layout-align="center center">
-                            <md-radio-button value="{{ answer.id }}" aria-label="{{ answer.answer }}"></md-radio-button>
-                        </div>
-                    </div>
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-        </md-radio-group>
-    </md-list>
-</md-content>
+<div ng-controller="EventDetailSimpleCtrl as eventDetailSimpleController">
+
+    <div layout="column" layout-align="center center" layout-margin ng-show="loading_simple">
+        <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-show="!loading_simple">
+        <md-toolbar class="toolbar-detail-event" ng-show="event.has_options">
+            <h1 class="md-toolbar-tools">
+                <span ng-show="event.num_answers == 1">Selecciona tu respuesta</span>
+                <span ng-show="event.num_answers > 1">Selecciona tus respuestas</span>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="event.has_options">
+            <md-list>
+                <md-radio-group ng-model="voteText">
+                    <md-item ng-repeat="answer in event.answer | filter: { type: 'TX' }">
+                        <md-item-content>
+                            <div class="md-tile-content show-answer" layout="row" layout-align="space-between center"
+                                 ng-click="clickText(answer)">
+                                <div>
+                                    <h3>{{ answer.answer }}</h3>
+                                    <h4>Votos: {{ answer.votes }}</h4>
+                                </div>
+                                <div layout="column" layout-align="center center">
+                                    <md-radio-button value="{{ answer.id }}"
+                                                     aria-label="{{ answer.answer }}"></md-radio-button>
+                                </div>
+                            </div>
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-item>
+                </md-radio-group>
+            </md-list>
+        </md-content>
+        <md-toolbar class="toolbar-detail-event" ng-show="event.has_dates">
+            <h1 class="md-toolbar-tools">
+                <span ng-show="event.num_answers == 1">Selecciona tu fecha</span>
+                <span ng-show="event.num_answers > 1">Selecciona tus fechas</span>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="event.has_dates">
+            <md-list>
+                <md-radio-group ng-model="voteDate">
+                    <md-item ng-repeat="answer in event.answer | filter: { type: 'DT' }">
+                        <md-item-content>
+                            <div class="md-tile-content show-answer" layout="row" layout-align="space-between center"
+                                 ng-click="clickDate(answer)">
+                                <div>
+                                    <h3>{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
+                                    <h4>Votos: {{ answer.votes }}</h4>
+                                </div>
+                                <div layout="column" layout-align="center center">
+                                    <md-radio-button value="{{ answer.id }}"
+                                                     aria-label="{{ answer.answer }}"></md-radio-button>
+                                </div>
+                            </div>
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-item>
+                </md-radio-group>
+            </md-list>
+        </md-content>
+
+        <div layout="row" layout-align="space-between center" layout-margin>
+
+            <md-button class="md-raised md-primary button-vote-back" ng-click="goEvent()">
+                Volver
+            </md-button>
+            <md-button class="md-raised md-warn button-vote-back" ng-disabled="loading_simple" ng-click="vote()">
+                Votar
+            </md-button>
+        </div>
+    </div>
+</div>
