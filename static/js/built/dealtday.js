@@ -1471,7 +1471,7 @@ angular.module('event')
         $scope.getEventDetail();
     }]);
 angular.module('event')
-    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', function ($scope, Event, $location, $http, voteApi) {
+    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', function ($scope, Event, $location, $http, voteApi, $mdDialog) {
         $scope.loading_multi = false;
         $scope.voteId = [];
         $scope.votesText = [];
@@ -1485,26 +1485,38 @@ angular.module('event')
         };
 
         $scope.vote = function () {
-            $scope.loading_multi = true;
             var data = $scope.votesText.concat($scope.votesDate);
             var dict = {};
             dict['votes'] = data;
 
-            $http.post(voteApi, dict)
-                .success(function () {
-                    Event.detail({id: $scope.id}, function (data) {
-                        $scope.event = data;
-                        $scope.getMyVotes();
-                        $scope.loading_multi = false;
-                    }, function (error) {
+            if (data.length == 0) {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .title('ERROR')
+                        .content('Selecciona primero una opción para votar.')
+                        .ariaLabel('Selecciona opciones votar')
+                        .ok('OK')
+                        .targetEvent()
+                );
+            } else {
+                $scope.loading_multi = true;
+
+                $http.post(voteApi, dict)
+                    .success(function () {
+                        Event.detail({id: $scope.id}, function (data) {
+                            $scope.event = data;
+                            $scope.getMyVotes();
+                            $scope.loading_multi = false;
+                        }, function (error) {
+                            console.log(error);
+                            $scope.loading_multi = false;
+                        });
+                    })
+                    .error(function (error) {
                         console.log(error);
                         $scope.loading_multi = false;
                     });
-                })
-                .error(function (error) {
-                    console.log(error);
-                    $scope.loading_multi = false;
-                });
+            }
         };
 
         $scope.initVotes = function () {
