@@ -1,5 +1,5 @@
 angular.module('event')
-    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', function ($scope, Event, $location, $http, voteApi, $mdDialog) {
+    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast) {
         $scope.loading_multi = false;
         $scope.voteId = [];
         $scope.votesText = [];
@@ -40,9 +40,21 @@ angular.module('event')
                             }
                             $scope.getMyVotes();
                             $scope.loading_multi = false;
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content('Votos guardados')
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
                         }, function (error) {
                             console.log(error);
                             $scope.loading_multi = false;
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content('Error al votar')
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
                         });
                     })
                     .error(function (error) {

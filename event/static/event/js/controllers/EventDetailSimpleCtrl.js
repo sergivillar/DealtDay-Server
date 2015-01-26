@@ -1,5 +1,5 @@
 angular.module('event')
-    .controller('EventDetailSimpleCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', function ($scope, Event, $location, $http, voteApi, $mdDialog) {
+    .controller('EventDetailSimpleCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast) {
         $scope.loading_simple = false;
         $scope.voteId = [];
 
@@ -25,6 +25,9 @@ angular.module('event')
                         .targetEvent()
                 );
             } else {
+                var msg = 'Votos guardados';
+                if($scope.voteId.length == 1)
+                    msg = 'Voto guardado';
                 $scope.loading_simple = true;
 
                 $http.post(voteApi, dict)
@@ -38,9 +41,21 @@ angular.module('event')
                             }
                             $scope.getMyVotes();
                             $scope.loading_simple = false;
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content(msg)
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
                         }, function (error) {
                             console.log(error);
                             $scope.loading_simple = false;
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content('Error al votar')
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
                         });
                     })
                     .error(function (error) {
