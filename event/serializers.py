@@ -1,12 +1,16 @@
 # -*- encoding: utf-8 -*-
 
 import datetime
+
 from django.utils import timezone
 from rest_framework import serializers
+
 from answer.models import Answer
-from answer.serializers import AnswerSerializer, AnswerVoteSerializer
+from answer.serializers import AnswerVoteSerializer
 from event.models import Event, UserHasEvent
 from friends.models import Friend
+from profile.serializers import ProfileSerializer
+
 
 MINIMUM_TITLE_LENGTH = 4
 MAXIMUM_TITLE_LENGTH = 120
@@ -67,9 +71,13 @@ class EventDetailSerializer(serializers.ModelSerializer):
 		return False
 
 	def users_in_event(self, obj):
-		users = UserHasEvent.objects.filter(event=obj)
-		serializer = ShareEventSerializer(instance=users, many=True)
-		return serializer.data
+		data = []
+
+		for user in UserHasEvent.objects.select_related('profile__user').filter(event=obj):
+			serializer = ProfileSerializer(user.profile)
+			data.append(serializer.data)
+
+		return data
 
 	def answers_in_event(self, obj):
 		answers = Answer.objects.filter(event=obj)
