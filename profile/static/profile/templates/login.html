@@ -13,17 +13,17 @@
         </div>
 
         <div layout="column" layout-align="center center" ng-show="loading">
-            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+            <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
         </div>
 
         <div layout-padding layout="column" layout-gt-lg="row"
                     layout-align-gt-lg="space-between center" layout-align-sm="center center" layout-align-md="center center" layout-align-lg="center center">
             <div  flex-order="2" flex-order-gt-lg="1">
-                <md-button class="md-raised md-primary" ng-click="goRecuperarPass()">Recuperar Contraseña</md-button>
+                <md-button class="md-raised md-accent md-hue-3" ng-click="goRecuperarPass()">Recuperar Contraseña</md-button>
             </div>
             <div layout="row" layout-sm="column" layout-align="end center" flex-order="1" flex-order-gt-lg="2">
-                <md-button class="md-raised md-primary" ng-click="goRegistro()" flex-order="2" flex-order-gt-lg="1">Registrarse</md-button>
-                <md-button class="md-raised md-primary" ng-click="login()" ng-disabled="loginForm.$invalid || loading" flex-order="1" flex-order-gt-lg="2">Login</md-button>
+                <md-button class="md-raised md-accent md-hue-3" ng-click="goRegistro()" flex-order="2" flex-order-gt-lg="1">Registrarse</md-button>
+                <md-button class="md-raised md-accent md-hue-3" ng-click="login()" ng-disabled="loginForm.$invalid || loading" flex-order="1" flex-order-gt-lg="2">Login</md-button>
             </div>
         </div>
     </form>

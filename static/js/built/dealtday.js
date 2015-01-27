@@ -1074,11 +1074,15 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     });
 
     app.config(function ($mdThemingProvider) {
-        $mdThemingProvider.theme('default')
+        /*$mdThemingProvider.theme('default')
             .primaryPalette('red', {
                 'default': '400'
             })
-            .accentPalette('green', {});
+            .accentPalette('green', {});*/
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('indigo')
+            .accentPalette('amber');
     });
 
     app.config(['$routeProvider', function ($routeProvider) {
