@@ -1071,10 +1071,10 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     app.config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
-            .primaryColor('red', {
+            .primaryPalette('red', {
                 'default': '400'
             })
-            .accentColor('green', {});
+            .accentPalette('green', {});
     });
 
     app.config(['$routeProvider', function ($routeProvider) {

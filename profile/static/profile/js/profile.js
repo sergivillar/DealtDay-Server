@@ -10,10 +10,10 @@
 
     app.config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
-            .primaryColor('red', {
+            .primaryPalette('red', {
                 'default': '400'
             })
-            .accentColor('green', {});
+            .accentPalette('green', {});
     });
 
     app.config(['$routeProvider', function ($routeProvider) {
