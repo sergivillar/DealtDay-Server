@@ -2,7 +2,7 @@
     <div ng-controller="EventDetailCtrl as eventDetailController" class="show-events" layout="column" layout-padding
          style="padding-bottom: 15px;">
         <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
-            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+            <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
         </md-content>
         <md-toolbar class="md-tall active-events" ng-if="!loading">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -18,7 +18,7 @@
                         </md-tooltip>
 
                         <md-button ng-click="createEvent()" aria-label="Crear evento"
-                                   class="md-fab md-button md-fab-bottom-right md-warn add-event">
+                                   class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
                         </md-button>
@@ -28,7 +28,7 @@
         </md-toolbar>
 
         <md-content class="small" ng-if="!loading">
-            <md-tabs class="md-accent" md-selected="data.selectedIndex" md-stretch-tabs>
+            <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
                 <md-tab id="tab1" aria-controls="tab1-content">
                     Respuestas
                 </md-tab>
@@ -49,7 +49,7 @@
                     TODO PARTICIPANTES
                 </div>
             </ng-switch>
-            <md-progress-circular class="md-warn" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+            <md-progress-circular class="md-accent" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
         </md-content>
     </div>
 </div>

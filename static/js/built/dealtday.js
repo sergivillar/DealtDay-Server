@@ -874,31 +874,35 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     });
 
     app.config(function ($mdThemingProvider) {
-        $mdThemingProvider.definePalette('dealtdayColors', {
-            '50': 'DEE7E9',
-            '100': 'B0C6CB',
-            '200': '81A4AC',
-            '300': '4D7F8A',
-            '400': '276471',
-            '500': '024959',
-            '600': '014251',
-            '700': '013B48',
-            '800': '01333F',
-            '900': '01262E',
-            'A100': '05C6F2',
-            'A200': '0488A5',
-            'A400': '025366',
-            'A700': '01343F',
-            'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
-                                                // on this palette should be dark or light
-            'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
-                '200', '300', '400', 'A100'],
-            'contrastLightColors': undefined    // could also specify this if default was 'dark'
-        });
+        /*$mdThemingProvider.definePalette('dealtdayColors', {
+         '50': 'DEE7E9',
+         '100': 'B0C6CB',
+         '200': '81A4AC',
+         '300': '4D7F8A',
+         '400': '276471',
+         '500': '024959',
+         '600': '014251',
+         '700': '013B48',
+         '800': '01333F',
+         '900': '01262E',
+         'A100': '05C6F2',
+         'A200': '0488A5',
+         'A400': '025366',
+         'A700': '01343F',
+         'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
+         // on this palette should be dark or light
+         'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+         '200', '300', '400', 'A100'],
+         'contrastLightColors': undefined    // could also specify this if default was 'dark'
+         });
+         $mdThemingProvider.theme('default')
+         .primaryPalette('dealtdayColors')
+         .accentPalette('red')
+         .warnPalette('red');*/
+
         $mdThemingProvider.theme('default')
-            .primaryPalette('dealtdayColors')
-            .accentPalette('red')
-            .warnPalette('red');
+            .primaryPalette('indigo')
+            .accentPalette('amber');
     });
 
     app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {

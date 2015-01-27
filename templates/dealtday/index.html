@@ -14,7 +14,7 @@
 {%  verbatim %}
 <div ng-controller="MenuCtrl" layout="row" flex>
         <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-size" md-component-id="left" md-is-locked-open="$media('gt-md')">
-            <md-toolbar>
+            <md-toolbar class=" md-hue-2">
                 <h1 class="md-toolbar-tools"><a href="/#/" ng-click="close()">DealtDay</a></h1>
             </md-toolbar>
             <div>
@@ -24,7 +24,7 @@
         </md-sidenav>
 
         <div layout="column" layout-fill>
-            <md-toolbar class="md-default-theme">
+            <md-toolbar class="md-default-theme md-hue-2">
 
                 <div class="md-toolbar-tools" ng-click="toggleLeft()">
                     <button class="menu-icon" hide-gt-md aria-label="Abrir menu">

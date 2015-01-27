@@ -1,5 +1,5 @@
 .color-background {
-  background-color: #037E8C; }
+  background-color: #3F51B5; }
 
 .small {
   font-size: 13px; }
@@ -99,7 +99,7 @@
   font-size: 16px !important; }
 
 .active-events {
-  background-color: #037E8C !important; }
+  background-color: #3F51B5 !important; }
 
 @media screen and (max-width: 600px) {
   .add-event {
@@ -150,13 +150,13 @@ input[type=number] {
   text-align: center !important; }
 
 .time-date > .control > .full-title {
-  background-color: #037E8C !important; }
+  background-color: #3F51B5 !important; }
 
 .time-date.full-mode > .buttons {
-  background-color: #037E8C !important; }
+  background-color: #3F51B5 !important; }
 
 .time-date > .control > .slider > .date-control > .days .day-cell.selected {
-  background-color: #037E8C !important; }
+  background-color: #3F51B5 !important; }
 
 .new-answer-form-event {
   width: 70%;
@@ -194,12 +194,12 @@ input[type=number] {
   padding: 5px; }
 
 md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
-  color: #F44336 !important; }
+  color: #2f2f2f !important; }
 
 md-tabs.md-default-theme md-tabs-ink-bar {
   margin-left: -2px !important;
-  color: #F44336 !important;
-  background-color: #F44336 !important; }
+  color: #ffca28 !important;
+  background-color: #ffca28 !important; }
 
 .toolbar-detail-event {
   background: #d6d6d6 !important; }

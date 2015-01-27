@@ -1,5 +1,6 @@
-$background-color: #037E8C;
-$button-color: #F44336;
+$background-color: #3F51B5;
+$button-color: #ffca28;
+$warning-color: #F44336;
 $screen-small: 600px;
 $font-size-small: 13px;
 $light-gray: #d6d6d6;
@@ -209,7 +210,7 @@ hr {
 }
 
 .valitaion-error {
-  color: $button-color;
+  color: $warning-color;
 }
 
 // Hide spinner buttons input type 'number'
@@ -301,13 +302,13 @@ input[type=number] {
 // Event detail
 
 md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
-  color: $button-color !important;
+  color: $light-dark !important;
 }
 
 md-tabs.md-default-theme md-tabs-ink-bar {
   margin-left: -2px !important;
   color: $button-color !important;
-  background-color: $button-color !important;;
+  background-color: $button-color !important;
 }
 
 .toolbar-detail-event {

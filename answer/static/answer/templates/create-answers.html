@@ -10,7 +10,7 @@
     <form name="newAnswers" class="padding-form" novalidate>
         <div layout="row" layout-align="end center">
             <span>Tipo &nbsp;</span>
-            <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-warn"
+            <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-accent"
                        ng-change="displayType(type)">
                 {{ type_text }}
             </md-switch>
@@ -35,13 +35,13 @@
         </div>
 
         <div layout layout-align="center center">
-            <md-button class="md-raised md-warn" ng-click="add()"
+            <md-button class="md-raised md-accent md-hue-3" ng-click="add()"
                        ng-disabled="newAnswers.$invalid || loading" flex-order="1" flex-order-gt-md="2">Añadir
             </md-button>
         </div>
 
         <div layout="column" layout-align="center center" ng-show="loading">
-            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+            <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
         </div>
 
         <md-content ng-if="answers.length > 0" style="overflow-y: hidden;">
@@ -78,7 +78,7 @@
                        flex-order-gt-md="1">
                 Atrás
             </md-button>
-            <md-button class="md-raised md-warn" ng-click="create()"
+            <md-button class="md-raised md-accent md-hue-3" ng-click="create()"
                        ng-disabled="activeCreate()" flex-order="1" flex-order-gt-md="2">Crear
             </md-button>
         </div>

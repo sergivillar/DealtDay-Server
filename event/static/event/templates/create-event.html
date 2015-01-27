@@ -1,7 +1,7 @@
 <div ng-controller="CreateEventCrtl as createEventController" layout layout-align="center center">
     <md-whiteframe class="md-whiteframe-z4 new-event-form"
                    layout="column" layout-align="center" layout-fill ng-hide="createAnswers">
-        <md-toolbar class="md-tall active-events">
+        <md-toolbar class="md-tall">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <div>
                     <span class="md-flex">Crear evento</span>
@@ -45,7 +45,7 @@
 
                 </div>
                 <div class="switch-create-event" layout="column" layout-align="center center" flex>
-                    <md-switch ng-model="event.open" aria-label="Evento abierto" class="md-warn"
+                    <md-switch ng-model="event.open" aria-label="Evento abierto" class="md-accent"
                                style="margin-top: 20px;">
                         <div layout="row" layout-align="space-between center" class="small">
                             Evento abierto
@@ -55,7 +55,7 @@
 
                         </div>
                     </md-switch>
-                    <md-switch ng-model="event.voters_public" aria-label="Votaciones publicas" class="md-warn "
+                    <md-switch ng-model="event.voters_public" aria-label="Votaciones publicas" class="md-accent"
                                style="margin-top: 20px;">
                         <div layout="row" layout-align="space-between center" class="small">
                             Votaciones públicas
@@ -74,7 +74,7 @@
                 <md-button class="md-raised md-primary" ng-click="goEvent()" flex-order="2" flex-order-gt-md="1">
                     Volver
                 </md-button>
-                <md-button class="md-raised md-warn" ng-click="next()"
+                <md-button class="md-raised md-accent md-hue-3" ng-click="next()"
                            ng-disabled="newEvent.$invalid" flex-order="1" flex-order-gt-md="2">Siguiente
                 </md-button>
 

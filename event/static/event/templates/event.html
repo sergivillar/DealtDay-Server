@@ -3,11 +3,11 @@
          style="padding-bottom: 15px;">
         <!-- TODO añadir cuando no hay ningun evento-->
 
-        <md-toolbar class="md-tall active-events">
+        <md-toolbar class="md-tall md-primary">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <div>
                     <span class="md-flex">Eventos</span>
-                    <md-switch ng-model="showInactive" aria-label="Show active" class="md-warn small"
+                    <md-switch ng-model="showInactive" aria-label="Show active" class="md-accent small"
                                style="margin-top: 20px;" ng-hide="loading">
                         Mostrar finalizados
                     </md-switch>
@@ -20,7 +20,7 @@
                         </md-tooltip>
 
                         <md-button ng-click="createEvent()" aria-label="Crear evento"
-                                   class="md-fab md-button md-fab-bottom-right md-warn add-event">
+                                   class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
                         </md-button>
@@ -29,11 +29,11 @@
             </div>
         </md-toolbar>
         <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
-            <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+            <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
         </md-content>
 
         <md-content class="small" ng-hide="showInactive || loading">
-            <md-progress-circular class="md-warn" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+            <md-progress-circular class="md-accent" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
             <md-list>
                 <md-item ng-repeat="event in events | greaterThanToday">
                     <a class="a-item-list" href="/#/eventos/{{ event.id }}">
@@ -58,7 +58,7 @@
             </md-list>
         </md-content>
 
-        <md-toolbar class="md-warn" ng-show="showInactive && !loading">
+        <md-toolbar class="md-accent" ng-show="showInactive && !loading">
             <h1 class="md-toolbar-tools">
                 <span>Eventos finalizados</span>
             </h1>

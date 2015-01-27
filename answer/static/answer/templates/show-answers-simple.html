@@ -1,7 +1,7 @@
 <div ng-controller="EventDetailSimpleCtrl as eventDetailSimpleController">
 
     <div layout="column" layout-align="center center" layout-margin ng-show="loading_simple">
-        <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+        <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
     </div>
 
     <div ng-show="!loading_simple">
@@ -67,7 +67,7 @@
             <md-button class="md-raised md-primary button-vote-back" ng-click="goEvent()">
                 Volver
             </md-button>
-            <md-button class="md-raised md-warn button-vote-back" ng-disabled="loading_simple" ng-click="vote()">
+            <md-button class="md-raised md-accent md-hue-3 button-vote-back" ng-disabled="loading_simple" ng-click="vote()">
                 Votar
             </md-button>
         </div>
