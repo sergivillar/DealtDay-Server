@@ -1,7 +1,9 @@
 <div ng-controller="EventDetailCtrl as eventDetailController" layout layout-align="center center">
+
     <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
         <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
     </md-content>
+
     <div class="show-events shadow-box" layout="column" ng-if="!loading" style="padding-bottom: 15px;">
         <md-toolbar class="md-tall active-events">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -16,7 +18,7 @@
                             Añadir respuesta
                         </md-tooltip>
 
-                        <md-button ng-click="createEvent()" aria-label="Crear evento"
+                        <md-button aria-label="Crear evento" ng-click="showCreateMode()" ng-show="event.is_owner || event.open"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
@@ -25,6 +27,44 @@
                 </div>
             </div>
         </md-toolbar>
+
+        <div ng-show="createMode" layout-fill>
+            <form name="addAnswers" class="padding-form" novalidate>
+                <div layout="row" layout-align="end center">
+                    <span>Tipo &nbsp;</span>
+                    <md-switch ng-model="type" aria-label="Votaciones publicas" class="md-accent"
+                               ng-change="displayType(type)">
+                        {{ type_text }}
+                    </md-switch>
+                </div>
+
+                <md-input-container ng-if="!type">
+                    <label>Respuesta</label>
+                    <input ng-model="answer.answer" type="text" ng-required="true" ng-minlength="1" md-maxlength="64">
+                </md-input-container>
+
+                <div layout="row" layout-sm="column" ng-if="type">
+                    <md-input-container style="width: 100%;">
+                        <label>Fecha finalización</label>
+                        <input name="date" ng-model="answer.time" type="text" ng-required="true" readonly>
+                    </md-input-container>
+
+                    <md-input-container layout layout-align="center center" style="width: 100%;">
+                        <md-button class="md-primary" ng-click="addDate($event)"
+                                   style="margin-bottom: 0px; margin-left: 0px;">
+                            Seleccionar fecha
+                        </md-button>
+                    </md-input-container>
+                </div>
+
+                <div layout layout-align="center center">
+                    <md-button class="md-raised md-accent md-hue-3" ng-click="add()"
+                               ng-disabled="addAnswers.$invalid || loading" flex-order="1" flex-order-gt-md="2">Añadir
+                    </md-button>
+                </div>
+
+            </form>
+        </div>
 
         <md-content class="small">
             <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>

@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('has_options', models.BooleanField(default=False)),
                 ('has_dates', models.BooleanField(default=False)),
                 ('open', models.BooleanField(default=False, help_text=b"Si 'True', los usuarios invitados al evento pueden a\xc3\xb1adir mas opciones a la votaci\xc3\xb3n")),
-                ('voters_public', models.BooleanField(default=False, help_text=b"Si 'True', otros usuarios pueden ver quie\xc3\xa9n ha votado cada opci\xc3\xb3n")),
+                ('voters_public', models.BooleanField(default=False, help_text=b"Si 'True', otros usuarios pueden ver qui\xc3\xa9n ha votado cada opci\xc3\xb3n")),
                 ('owner', models.ForeignKey(to='profile.Profile')),
             ],
             options={

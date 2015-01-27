@@ -115,4 +115,12 @@ angular.module('event')
 
         $scope.initVotes();
 
+        $scope.$on('partial_loading_start', function(){
+            $scope.loading_multi = true;
+        });
+
+        $scope.$on('partial_loading_end', function(){
+            $scope.loading_multi = false;
+        });
+
     }]);

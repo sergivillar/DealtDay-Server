@@ -29,6 +29,7 @@ angular.module('answer')
                 $scope.answer.type = ANSWER_TYPES[1].type;
                 var message = ANSWER_TYPES[1].name;
             }
+            $scope.answer.answer= '';
             $scope.type_text = message;
         };
 
