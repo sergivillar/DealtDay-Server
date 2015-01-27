@@ -6201,6 +6201,9 @@ md-tooltip {
 .small {
   font-size: 13px; }
 
+.shadow-box {
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.2); }
+
 .login-background md-whiteframe {
   background: #fff;
   margin: 20px;
@@ -6293,7 +6296,9 @@ md-tooltip {
 
 .show-events {
   width: 80%;
-  font-size: 16px !important; }
+  font-size: 16px !important;
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 .active-events {
   background-color: #3F51B5 !important; }

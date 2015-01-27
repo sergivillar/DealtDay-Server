@@ -1,5 +1,5 @@
 <div ng-controller="CreateEventCrtl as createEventController" layout layout-align="center center">
-    <md-whiteframe class="md-whiteframe-z4 new-event-form"
+    <md-whiteframe class="shadow-box new-event-form"
                    layout="column" layout-align="center" layout-fill ng-hide="createAnswers">
         <md-toolbar class="md-tall">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -83,6 +83,6 @@
 
     </md-whiteframe>
 
-    <md-whiteframe ng-include="'/static/answer/templates/create-answers.html'" class="md-whiteframe-z4 new-answer-form-event"
+    <md-whiteframe ng-include="'/static/answer/templates/create-answers.html'" class="shadow-box new-answer-form-event"
                    layout="column" layout-align="center" layout-fill ng-show="createAnswers"></md-whiteframe>
 </div>

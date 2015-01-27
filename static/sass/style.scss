@@ -14,6 +14,9 @@ $light-dark: #2f2f2f;
   font-size: $font-size-small;
 }
 
+.shadow-box {
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.20);
+}
 // Profile styles
 
 .login-background {
@@ -155,6 +158,8 @@ $light-dark: #2f2f2f;
 .show-events {
   width: 80%;
   font-size: 16px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .active-events {

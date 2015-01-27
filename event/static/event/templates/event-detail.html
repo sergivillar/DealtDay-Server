@@ -1,10 +1,9 @@
-<div layout layout-align="center center">
-    <div ng-controller="EventDetailCtrl as eventDetailController" class="show-events" layout="column" layout-padding
-         style="padding-bottom: 15px;">
-        <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
-            <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
-        </md-content>
-        <md-toolbar class="md-tall active-events" ng-if="!loading">
+<div ng-controller="EventDetailCtrl as eventDetailController" layout layout-align="center center">
+    <md-content layout="column" layout-align="center center" layout-padding layout-margin ng-show="loading">
+        <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
+    </md-content>
+    <div class="show-events shadow-box" layout="column" ng-if="!loading" style="padding-bottom: 15px;">
+        <md-toolbar class="md-tall active-events">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <div layout="column">
                     <span class="md-flex">{{ event.title }}</span>
@@ -27,7 +26,7 @@
             </div>
         </md-toolbar>
 
-        <md-content class="small" ng-if="!loading">
+        <md-content class="small">
             <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
                 <md-tab id="tab1" aria-controls="tab1-content">
                     Respuestas
@@ -40,8 +39,11 @@
                 <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0" md-swipe-left="next()"
                      md-swipe-right="previous()">
 
-                    <div ng-include="'/static/answer/templates/show-answers-simple.html'" ng-show="event.num_answers == 1">
-                    </div><div ng-include="'/static/answer/templates/show-answers-multi.html'" ng-show="event.num_answers > 1"></div>
+                    <div ng-include="'/static/answer/templates/show-answers-simple.html'"
+                         ng-show="event.num_answers == 1">
+                    </div>
+                    <div ng-include="'/static/answer/templates/show-answers-multi.html'"
+                         ng-show="event.num_answers > 1"></div>
 
                 </div>
                 <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()"
