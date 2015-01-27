@@ -2,6 +2,7 @@
 
 import re
 from rest_framework import serializers
+from profile.models import Profile
 
 MINIMUM_PASSWORD_LENGTH = 6
 MAXIMUM_PASSWORD_LENGTH = 20
@@ -71,3 +72,9 @@ class ChangeNickSerializer(serializers.Serializer):
 			raise serializers.ValidationError({"NickInvalido": "Nick muy largo. Máximo: " + str(MAXIMUM_NICK_LENGTH) + " caracteres."})
 
 		return attrs
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = Profile
