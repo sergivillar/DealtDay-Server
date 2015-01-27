@@ -1789,6 +1789,11 @@ angular.module('event')
             $scope.loading_multi = false;
         });
     }]);
+
+angular.module('event')
+    .controller('EventParticipantsCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
+        $scope.participants = $scope.event.users;
+    }]);
 var app = angular.module('answer', ['mdDateTime', 'ngMessages']);
 
 app.value('ANSWER_TYPES', [

@@ -4,7 +4,7 @@
         <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
     </md-content>
 
-    <div class="show-events shadow-box" layout="column" ng-if="!loading" style="padding-bottom: 15px;">
+    <div class="show-events shadow-box" layout="column" ng-if="!loading">
         <md-toolbar class="md-tall active-events">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <div layout="column">
@@ -88,7 +88,7 @@
                 </div>
                 <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()"
                      md-swipe-right="previous()">
-                    TODO PARTICIPANTES
+                    <div ng-include="'/static/event/templates/show-participants.html'"></div>
                 </div>
             </ng-switch>
             <md-progress-circular class="md-accent" md-mode="indeterminate" ng-show="loading"></md-progress-circular>

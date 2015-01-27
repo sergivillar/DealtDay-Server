@@ -1,0 +1,19 @@
+<div ng-controller="EventParticipantsCtrl as eventParticipantsController">
+
+    <div layout="column" layout-align="center center" layout-margin ng-show="loading_simple">
+        <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <md-list>
+        <md-item ng-repeat="user in participants">
+            <md-item-content>
+                <div class="md-tile-content" layout="row" layout-align="space-between center">
+                    <div>
+                        <h3>{{ user.nick }}</h3>
+                    </div>
+                </div>
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-item>
+    </md-list>
+</div>
