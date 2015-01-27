@@ -13,12 +13,24 @@
                 </div>
                 <div>
 
-                    <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
+                    <h2 class="md-toolbar-tools md-toolbar-tools-bottom" ng-if="!inviteFriend">
                         <md-tooltip>
                             Añadir respuesta
                         </md-tooltip>
 
                         <md-button aria-label="Crear evento" ng-click="showCreateMode()" ng-show="event.is_owner || event.open"
+                                   class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
+                            <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
+                            </md-icon>
+                        </md-button>
+                    </h2>
+
+                    <h2 class="md-toolbar-tools md-toolbar-tools-bottom" ng-if="inviteFriend">
+                        <md-tooltip>
+                            Invitar amigo
+                        </md-tooltip>
+
+                        <md-button aria-label="Invitar amigo" ng-click="invite()" ng-show="event.is_owner"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
@@ -68,14 +80,14 @@
 
         <md-content class="small">
             <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
-                <md-tab id="tab1" aria-controls="tab1-content">
+                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="inviteMode(false)">
                     Respuestas
                 </md-tab>
-                <md-tab id="tab2" aria-controls="tab2-content" ng-disabled="data.secondLocked">
+                <md-tab id="tab2" aria-controls="tab2-content" ng-disabled="data.secondLocked" md-on-select="inviteMode(true)">
                     Participantes
                 </md-tab>
             </md-tabs>
-            <ng-switch on="data.selectedIndex">
+            <ng-switch on="data.selectedIndex" >
                 <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0" md-swipe-left="next()"
                      md-swipe-right="previous()">
 

@@ -3,6 +3,7 @@ angular.module('event')
         var self = this;
 
         $scope.loading = true;
+        $scope.inviteFriend = false;
         $scope.id = $routeParams.id;
         $scope.createMode = false;
         $scope.type_text = ANSWER_TYPES[0].name;
@@ -116,6 +117,10 @@ angular.module('event')
             .then(function () {
                 $scope.getMyVotes();
             });
+
+        $scope.inviteMode = function (data) {
+            $scope.inviteFriend = data;
+        };
 
     }]);
 
