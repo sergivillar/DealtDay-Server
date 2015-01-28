@@ -17,6 +17,7 @@ $light-dark: #2f2f2f;
 .shadow-box {
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.20);
 }
+
 // Profile styles
 
 .login-background {
@@ -333,4 +334,14 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   padding-right: 15px;
   margin-bottom: 10px;
   margin-left: 10px;
+}
+
+// Friends
+
+.icon-person {
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  width: 35px;
+  padding: 5px;
+  background-color: $button-color;
 }

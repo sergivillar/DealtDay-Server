@@ -1981,9 +1981,20 @@ angular.module('friend')
         $scope.getFriends = function () {
             $http.get(getFriends)
                 .success(function (data) {
-                    console.log(data);
                     $scope.friends = data;
                     $scope.loading = false;
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading = false;
+                });
+        };
+
+        $scope.deleteFriend = function (friend) {
+            $scope.loading = true;
+            $http.delete(getFriends + friend.id)
+                .success(function (data) {
+                    $scope.getFriends();
                 })
                 .error(function (error) {
                     console.log(error);
