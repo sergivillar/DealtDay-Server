@@ -1977,6 +1977,7 @@ var app = angular.module('friend', ['ngMessages']);
 angular.module('friend')
     .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', function ($scope, getFriends, $http, $mdDialog, $mdToast) {
         $scope.loading = true;
+        $scope.addFriendMode = false;
 
         $scope.getFriends = function () {
             $http.get(getFriends)
@@ -2020,6 +2021,14 @@ angular.module('friend')
                 $scope.deleteFriend(friend);
             }, function () {
             });
+        };
+
+        $scope.showAddFriendMode = function () {
+            $scope.addFriendMode ? $scope.addFriendMode = false : $scope.addFriendMode = true;
+        };
+
+        $scope.sendFriendRequest = function (){
+            console.log("Friend request");
         };
 
         $scope.getFriends();
