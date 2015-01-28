@@ -838,13 +838,15 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         'ngRoute',
         'ngResource',
         'event',
-        'answer'
+        'answer',
+        'friend'
     ]);
 
     app.value('eventApi', '/api/event/');
     app.value('answerApi', '/api/answer/');
     app.value('voteApi', '/api/vote/');
     app.value('getMyVotes', '/api/vote/?evento=');
+    app.value('getFriends', '/api/friends/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -1969,3 +1971,25 @@ function DateTimePicker($scope, $mdDialog, $filter) {
     };
 }
 
+
+var app = angular.module('friend', ['ngMessages']);
+
+angular.module('friend')
+    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', function ($scope, getFriends, $http) {
+        $scope.loading = true;
+
+        $scope.getFriends = function () {
+            $http.get(getFriends)
+                .success(function (data) {
+                    console.log(data);
+                    $scope.friends = data;
+                    $scope.loading = false;
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading = false;
+                });
+        };
+
+        $scope.getFriends();
+    }]);

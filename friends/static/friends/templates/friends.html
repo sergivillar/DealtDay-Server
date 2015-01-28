@@ -1,1 +1,57 @@
-¡ AMIGOS !
+<div layout layout-align="center center">
+    <div ng-controller="FriendCtrl as friendController" class="show-events shadow-box" layout="column">
+
+        <md-toolbar class="md-tall active-events">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <div layout="column">
+                    <span class="md-flex">Amigos</span>
+                </div>
+                <div>
+
+                    <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
+                        <md-tooltip>
+                            Añadir amigo
+                        </md-tooltip>
+
+                        <md-button aria-label="Añadir amigo" ng-click="showAddFriendMode()"
+                                   class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
+                            <md-icon icon="static/icons/ic_person_add_white_36dp.png" style="width: 24px; height: 24px;">
+                            </md-icon>
+                        </md-button>
+                    </h2>
+                </div>
+            </div>
+        </md-toolbar>
+
+        <md-content class="small">
+            <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
+                <md-tab id="tab1" aria-controls="tab1-content">
+                    Amigos
+                </md-tab>
+                <md-tab id="tab2" aria-controls="tab2-content">
+                    Solicitudes enviadas
+                </md-tab>
+                <md-tab id="tab3" aria-controls="tab3-content">
+                    Solicitudes recibidas
+                </md-tab>
+            </md-tabs>
+            <ng-switch on="data.selectedIndex">
+                <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0" md-swipe-left="next()"
+                     md-swipe-right="previous()">
+
+                    <div ng-include="'/static/friends/templates/friend-list.html'"></div>
+
+                </div>
+                <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()"
+                     md-swipe-right="previous()">
+                    Solicitudes enviadas
+                </div>
+
+                <div role="tabpanel" id="tab3-content" aria-labelledby="tab3" ng-switch-when="2" md-swipe-left="next()"
+                     md-swipe-right="previous()">
+                    Solicitudes recibidas
+                </div>
+            </ng-switch>
+        </md-content>
+    </div>
+</div>

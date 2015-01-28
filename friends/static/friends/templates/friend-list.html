@@ -1,0 +1,26 @@
+<div layout="column" layout-align="center center" layout-margin>
+    <md-progress-circular class="md-accent" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+</div>
+
+<md-list ng-if="friends.length == 0">
+    <md-item>
+        <md-item-content>
+            <div class="md-tile-content">
+                <h3>Aún no tienes ningún amigo. Añade alguno o espera a que acepten tu petición de amistad.</h3>
+            </div>
+        </md-item-content>
+    </md-item>
+</md-list>
+
+<md-list ng-if="friends.length > 0">
+    <md-item ng-repeat="friend in friends">
+        <md-item-content>
+            <div class="md-tile-content" layout="row" layout-align="space-between center">
+                <div>
+                    <h3>{{ user.nick }}</h3>
+                </div>
+            </div>
+        </md-item-content>
+        <md-divider ng-if="!$last"></md-divider>
+    </md-item>
+</md-list>
