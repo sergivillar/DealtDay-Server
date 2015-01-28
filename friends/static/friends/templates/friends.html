@@ -15,7 +15,8 @@
 
                         <md-button aria-label="Añadir amigo" ng-click="showAddFriendMode()"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
-                            <md-icon icon="static/icons/ic_person_add_white_36dp.png" style="width: 24px; height: 24px;">
+                            <md-icon icon="static/icons/ic_person_add_white_36dp.png"
+                                     style="width: 24px; height: 24px;">
                             </md-icon>
                         </md-button>
                     </h2>
@@ -24,15 +25,21 @@
         </md-toolbar>
 
         <div ng-show="addFriendMode" layout-fill>
-            <form name="addFriend" class="padding-form" novalidate>
+            <form name="addFriendForm" class="padding-form" novalidate>
                 <md-input-container ng-if="!type">
                     <label>Email</label>
-                    <input ng-model="friend_email" type="text" ng-required="true" ng-minlength="1" md-maxlength="64">
+                    <input ng-model="addFriend.to_friend" type="email" ng-required="true" ng-minlength="1"
+                           md-maxlength="64">
                 </md-input-container>
+
+                <div ng-if="error_request" class="valitaion-error small">
+                    <div>{{ msg_error }}</div>
+                </div>
 
                 <div layout layout-align="center center">
                     <md-button class="md-raised md-accent md-hue-3" ng-click="sendFriendRequest()"
-                               ng-disabled="addFriend.$invalid || loading" flex-order="1" flex-order-gt-md="2">Añadir
+                               ng-disabled="addFriendForm.$invalid || loading" flex-order="1" flex-order-gt-md="2">
+                        Añadir
                     </md-button>
                 </div>
 

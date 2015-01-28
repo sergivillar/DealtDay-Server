@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from rest_framework import mixins, viewsets, status
@@ -44,7 +46,12 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 				if created:
 					return Response(serializer.data, status=status.HTTP_201_CREATED)
 				else:
-					return Response({"ErrorPeticionAmistad": "Ya eres amigos de este usuario."}, status=status.HTTP_400_BAD_REQUEST)
+					if Friend.objects.filter(from_friend=request.user.profile, to_friend=to_friend).exists():
+						return Response({"ErrorPeticionAmistad": "Ya eres amigo de este usuario."}, status=status.HTTP_400_BAD_REQUEST)
+					elif Friend.objects.filter(to_friend=request.user.profile, from_friend=to_friend).exists():
+						return Response({"ErrorPeticionAmistad": "Ya eres amigo de este usuario."}, status=status.HTTP_400_BAD_REQUEST)
+					else:
+						return Response({"ErrorPeticionAmistad": "Ya has enviado una petición de amistad a este usuario."}, status=status.HTTP_400_BAD_REQUEST)
 
 			except Profile.DoesNotExist:
 				return Response({"ErrorBuscando": "Este usuario no existe."}, status=status.HTTP_400_BAD_REQUEST)

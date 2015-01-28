@@ -847,6 +847,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     app.value('voteApi', '/api/vote/');
     app.value('getMyVotes', '/api/vote/?evento=');
     app.value('getFriends', '/api/friends/');
+    app.value('friendRequestApi', '/api/friend_request/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -1974,10 +1975,17 @@ function DateTimePicker($scope, $mdDialog, $filter) {
 
 var app = angular.module('friend', ['ngMessages']);
 
+angular.module('friend').
+    factory('FriendRequest', ['$resource', 'friendRequestApi', function ($resource, friendRequestApi) {
+        return $resource(friendRequestApi + ':id', {id: '@id'});
+    }]);
 angular.module('friend')
-    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', function ($scope, getFriends, $http, $mdDialog, $mdToast) {
+    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest) {
         $scope.loading = true;
         $scope.addFriendMode = false;
+        $scope.error_request = false;
+
+        $scope.addFriend = new FriendRequest();
 
         $scope.getFriends = function () {
             $http.get(getFriends)
@@ -2027,8 +2035,28 @@ angular.module('friend')
             $scope.addFriendMode ? $scope.addFriendMode = false : $scope.addFriendMode = true;
         };
 
-        $scope.sendFriendRequest = function (){
-            console.log("Friend request");
+        $scope.sendFriendRequest = function () {
+            $scope.addFriend.$save(function (data) {
+                $scope.error_request = false;
+                $scope.msg_error = '';
+
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Petición enviada')
+                        .position('bottom right')
+                        .hideDelay(1500)
+                );
+                $scope.addFriend = new FriendRequest();
+            }, function (error) {
+                $scope.error_request = true;
+                if ('ErrorBuscando' in error.data) {
+                    $scope.msg_error = error.data['ErrorBuscando'];
+                } else if ('ErrorPeticionAmistad' in error.data) {
+                    $scope.msg_error = error.data['ErrorPeticionAmistad'];
+                } else {
+                    $scope.msg_error = 'Error al realizar la petición. Vuelve a intentarlo.';
+                }
+            });
         };
 
         $scope.getFriends();

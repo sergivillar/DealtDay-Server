@@ -14,6 +14,7 @@
     app.value('voteApi', '/api/vote/');
     app.value('getMyVotes', '/api/vote/?evento=');
     app.value('getFriends', '/api/friends/');
+    app.value('friendRequestApi', '/api/friend_request/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
