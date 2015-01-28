@@ -1,13 +1,12 @@
-import warnings
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.http import Http404
 from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from friends.models import FriendRequest, Friend
 from friends.permissions import NoDeleteFriend, NoDeleteRequestFriend
-from friends.serializers import FriendRequestSerializer, FriendSerializer
+from friends.serializers import FriendRequestSerializer, FriendSerializer, CreateFriendRequestSerializer
+from profile.models import Profile
 
 
 class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
@@ -16,6 +15,12 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 	queryset = FriendRequest.objects.all()
 	serializer_class = FriendRequestSerializer
 	permission_classes = (IsAuthenticated, NoDeleteRequestFriend, )
+
+	def get_serializer_class(self):
+		if self.action == 'create':
+			return CreateFriendRequestSerializer
+		else:
+			return FriendRequestSerializer
 
 	def get_queryset(self):
 
@@ -29,10 +34,22 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 				queryset = FriendRequest.objects.filter((Q(from_friend=profile) | Q(to_friend=profile)), accepted=False)
 		return queryset
 
-	# Metodo para asignar "to_friend"
-	def pre_save(self, obj):
-		if self.request.method == 'POST':
-			obj.from_friend = self.request.user.profile
+	def create(self, request, *args, **kwargs):
+		serializer = self.get_serializer(data=request.DATA, files=request.FILES)
+
+		if serializer.is_valid():
+			try:
+				to_friend = Profile.objects.get(user__email=serializer.data['to_friend'])
+				friendship, created = FriendRequest.objects.get_or_create(from_friend=request.user.profile, to_friend=to_friend)
+				if created:
+					return Response(serializer.data, status=status.HTTP_201_CREATED)
+				else:
+					return Response({"ErrorPeticionAmistad": "Ya eres amigos de este usuario."}, status=status.HTTP_400_BAD_REQUEST)
+
+			except Profile.DoesNotExist:
+				return Response({"ErrorBuscando": "Este usuario no existe."}, status=status.HTTP_400_BAD_REQUEST)
+
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def update(self, request, *args, **kwargs):
 		partial = kwargs.pop('partial', False)
@@ -69,3 +86,17 @@ class FriendsViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin,
 			queryset = Friend.objects.filter(Q(from_friend=profile) | Q(to_friend=profile))\
 				.select_related('from_friend__user', 'to_friend__user')
 		return queryset
+
+	# Also delete friendship request
+	def post_delete(self, obj):
+		my = self.request.user.profile
+		if obj.to_friend == my:
+			other_user = obj.from_friend
+		else:
+			other_user = obj.to_friend
+
+		friendship = FriendRequest.objects.filter(from_friend=my, to_friend=other_user)
+		if friendship.exists():
+			friendship.delete()
+		else:
+			FriendRequest.objects.filter(to_friend=my, from_friend=other_user).delete()

@@ -54,3 +54,7 @@ class FriendSerializer(serializers.ModelSerializer):
 			return obj.from_friend.nick
 		elif obj.from_friend == profile:
 			return obj.to_friend.nick
+
+
+class CreateFriendRequestSerializer(serializers.Serializer):
+	to_friend = serializers.EmailField()
