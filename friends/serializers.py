@@ -42,7 +42,15 @@ class FriendRequestSerializer(serializers.ModelSerializer):
 
 
 class FriendSerializer(serializers.ModelSerializer):
+	friend = serializers.SerializerMethodField('get_friend')
 
 	class Meta:
 		model = Friend
-		depth = 1
+		write_only_fields = ('from_friend', 'to_friend',)
+
+	def get_friend(self, obj):
+		profile = self.context['request'].user.profile
+		if obj.to_friend == profile:
+			return obj.from_friend.nick
+		elif obj.from_friend == profile:
+			return obj.to_friend.nick

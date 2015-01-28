@@ -1,5 +1,7 @@
+import warnings
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.http import Http404
 from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -60,10 +62,10 @@ class FriendsViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin,
 	permission_classes = (IsAuthenticated, NoDeleteFriend, )
 
 	def get_queryset(self):
-
 		if self.request.user.is_superuser:
 			queryset = Friend.objects.all()
 		else:
 			profile = self.request.user.profile
-			queryset = Friend.objects.filter(Q(from_friend=profile) | Q(to_friend=profile))
+			queryset = Friend.objects.filter(Q(from_friend=profile) | Q(to_friend=profile))\
+				.select_related('from_friend__user', 'to_friend__user')
 		return queryset

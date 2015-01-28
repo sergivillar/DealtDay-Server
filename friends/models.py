@@ -23,7 +23,7 @@ class FriendRequest(models.Model):
 		unique_together = (('to_friend', 'from_friend'), )
 
 	def __unicode__(self):
-		return u'{0} ({1})'.format(self.from_user.username, self.to_user.username)
+		return u'{0} ({1})'.format(self.from_friend.nick, self.to_friend.nick)
 
 
 class Friend(models.Model):
@@ -35,4 +35,4 @@ class Friend(models.Model):
 		unique_together = (('to_friend', 'from_friend'), )
 
 	def __unicode__(self):
-		return u'{0} ({1})'.format(self.from_user.email, self.to_user.email)
+		return u'{0} ({1})'.format(self.from_friend.nick, self.to_friend.nick)
