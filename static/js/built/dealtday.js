@@ -1442,8 +1442,9 @@ angular.module('event')
 
         $scope.loading = true;
         $scope.inviteFriend = false;
-        $scope.id = $routeParams.id;
         $scope.createMode = false;
+        $scope.inviteMode = false;
+        $scope.id = $routeParams.id;
         $scope.type_text = ANSWER_TYPES[0].name;
 
         $scope.answer = new Answer();
@@ -1490,7 +1491,7 @@ angular.module('event')
                 $scope.answer.type = ANSWER_TYPES[1].type;
                 var message = ANSWER_TYPES[1].name;
             }
-            $scope.answer.answer= '';
+            $scope.answer.answer = '';
             $scope.type_text = message;
         };
 
@@ -1533,16 +1534,16 @@ angular.module('event')
             });
         };
 
+        $scope.sendInvitation = function (){
+          console.log("Enviar invitacion");
+        };
+
         $scope.selectText = function (answer) {
             $scope.voteText = answer.id;
         };
 
         $scope.selectDate = function (answer) {
             $scope.voteDate = answer.id;
-        };
-
-        $scope.showCreateMode = function () {
-            $scope.createMode ? $scope.createMode = false : $scope.createMode = true;
         };
 
         $scope.getEventDetail()
@@ -1556,8 +1557,17 @@ angular.module('event')
                 $scope.getMyVotes();
             });
 
-        $scope.inviteMode = function (data) {
+        $scope.showCreateMode = function () {
+            $scope.createMode ? $scope.createMode = false : $scope.createMode = true;
+        };
+
+        $scope.showInviteMode = function () {
+            $scope.inviteMode ? $scope.inviteMode = false : $scope.inviteMode = true;
+        };
+
+        $scope.inviteButton = function (data) {
             $scope.inviteFriend = data;
+            data ? $scope.createMode = false : $scope.inviteMode = false;
         };
 
     }]);

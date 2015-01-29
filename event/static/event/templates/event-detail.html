@@ -12,7 +12,6 @@
                     <span class="small">Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</span>
                 </div>
                 <div>
-
                     <h2 class="md-toolbar-tools md-toolbar-tools-bottom" ng-if="!inviteFriend">
                         <md-tooltip>
                             Añadir respuesta
@@ -30,7 +29,7 @@
                             Invitar amigo
                         </md-tooltip>
 
-                        <md-button aria-label="Invitar amigo" ng-click="invite()" ng-show="event.is_owner"
+                        <md-button aria-label="Invitar amigo" ng-click="showInviteMode()" ng-show="event.is_owner"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
@@ -78,12 +77,34 @@
             </form>
         </div>
 
+        <div ng-show="inviteMode" layout-fill>
+            <form name="inviteFriendForm" class="padding-form" novalidate>
+                <md-input-container ng-if="!type">
+                    <label>Email</label>
+                    <input ng-model="addFriend.to_friend" type="email" ng-required="true" ng-minlength="1"
+                           md-maxlength="64">
+                </md-input-container>
+
+                <div ng-if="error_request" class="valitaion-error small">
+                    <div>{{ msg_error }}</div>
+                </div>
+
+                <div layout layout-align="center center">
+                    <md-button class="md-raised md-accent md-hue-3" ng-click="sendInvitation()"
+                               ng-disabled="inviteFriendForm.$invalid || loading" flex-order="1" flex-order-gt-md="2">
+                        Añadir
+                    </md-button>
+                </div>
+
+            </form>
+        </div>
+
         <md-content class="small">
             <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
-                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="inviteMode(false)">
+                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="inviteButton(false)">
                     Respuestas
                 </md-tab>
-                <md-tab id="tab2" aria-controls="tab2-content" md-on-select="inviteMode(true)">
+                <md-tab id="tab2" aria-controls="tab2-content" md-on-select="inviteButton(true)">
                     Participantes
                 </md-tab>
             </md-tabs>
