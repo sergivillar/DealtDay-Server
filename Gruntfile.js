@@ -31,6 +31,7 @@ module.exports = function (grunt) {
                     'profile/static/profile/js/*.js',
                     'profile/static/profile/js/controllers/*.js',
                     'profile/static/profile/js/directives/*.js',
+                    'profile/static/profile/js/services/*.js',
 
                     // Event
                     'event/static/event/js/*.js',

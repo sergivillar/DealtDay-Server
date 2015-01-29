@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^api/change-password', 'profile.api.change_password'),
     url(r'^api/forgot-password', 'profile.api.forgot_password'),
     url(r'^api/nick', 'profile.api.change_nick'),
+    url(r'^api/me/$', 'profile.api.user_info'),
     #TODO cambiar template reset pass form
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         views.password_reset_confirm, {'template_name': 'profile/password_reset_confirm.html'}, name='password_reset_confirm'),
