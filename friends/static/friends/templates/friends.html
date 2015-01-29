@@ -67,12 +67,16 @@
                 </div>
                 <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()"
                      md-swipe-right="previous()">
-                    Solicitudes enviadas
+
+                    <div ng-include="'/static/friends/templates/request-sent.html'"></div>
+
                 </div>
 
                 <div role="tabpanel" id="tab3-content" aria-labelledby="tab3" ng-switch-when="2" md-swipe-left="next()"
                      md-swipe-right="previous()">
-                    Solicitudes recibidas
+
+                    <div ng-include="'/static/friends/templates/request-received.html'"></div>
+
                 </div>
             </ng-switch>
         </md-content>

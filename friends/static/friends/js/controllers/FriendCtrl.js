@@ -79,6 +79,4 @@ angular.module('friend')
         };
 
         $scope.getFriends();
-    }
-    ])
-;
+    }]);

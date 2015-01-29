@@ -2070,6 +2070,12 @@ angular.module('friend')
         };
 
         $scope.getFriends();
-    }
-    ])
-;
+    }]);
+angular.module('friend')
+    .controller('RequestReceivedCtrl', ['$scope', function ($scope) {
+
+    }]);
+angular.module('friend')
+    .controller('RequestSentCtrl', ['$scope', function ($scope) {
+
+    }]);
