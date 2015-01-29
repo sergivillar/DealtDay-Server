@@ -25,7 +25,6 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 			return FriendRequestSerializer
 
 	def get_queryset(self):
-
 		if self.request.user.is_superuser:
 			queryset = FriendRequest.objects.all()
 		else:
@@ -33,7 +32,8 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 			if self.request.method == 'PATCH':
 				queryset = FriendRequest.objects.filter(to_friend=profile, accepted=False)
 			else:
-				queryset = FriendRequest.objects.filter((Q(from_friend=profile) | Q(to_friend=profile)), accepted=False)
+				queryset = FriendRequest.objects.filter((Q(from_friend=profile) | Q(to_friend=profile)), accepted=False)\
+					.select_related('from_friend__user', 'to_friend__user')
 		return queryset
 
 	def create(self, request, *args, **kwargs):

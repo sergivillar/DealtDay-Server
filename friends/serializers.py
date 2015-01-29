@@ -2,13 +2,28 @@
 
 from rest_framework import serializers
 from friends.models import FriendRequest, Friend
+from profile.serializers import ProfileSerializer
 
 
 class FriendRequestSerializer(serializers.ModelSerializer):
+	from_friend = serializers.SerializerMethodField('get_from_friend')
+	to_friend = serializers.SerializerMethodField('get_to_friend')
 
 	class Meta:
 		model = FriendRequest
-		read_only_fields = ('from_friend',)
+		# read_only_fields = ('from_friend',)
+
+	def get_to_friend(self, obj):
+		data = {}
+		data['email'] = obj.to_friend.user.email
+		data['nick'] = obj.to_friend.nick
+		return data
+
+	def get_from_friend(self, obj):
+		data = {}
+		data['email'] = obj.from_friend.user.email
+		data['nick'] = obj.from_friend.nick
+		return data
 
 	def validate(self, attrs):
 
@@ -23,13 +38,16 @@ class FriendRequestSerializer(serializers.ModelSerializer):
 				raise serializers.ValidationError({"ErrorPeticion": "Ya sois amigos."})
 
 			if from_profile == to_profile:
-				raise serializers.ValidationError({"ErrorPeticion": "No te puedes enviar una solicitud de amistad a ti mismo."})
+				raise serializers.ValidationError(
+					{"ErrorPeticion": "No te puedes enviar una solicitud de amistad a ti mismo."})
 
 			if FriendRequest.objects.filter(from_friend=from_profile, to_friend=to_profile, accepted=False).exists():
-				raise serializers.ValidationError({"PeticionExistente": "Ya le has enviado una solicitud de amistad a ese usuario."})
+				raise serializers.ValidationError(
+					{"PeticionExistente": "Ya le has enviado una solicitud de amistad a ese usuario."})
 
 			if FriendRequest.objects.filter(from_friend=to_profile, to_friend=from_profile, accepted=False).exists():
-				raise serializers.ValidationError({"PeticionExistente": "Ese usuario ya te ha envitado una solicitud de amistad."})
+				raise serializers.ValidationError(
+					{"PeticionExistente": "Ese usuario ya te ha envitado una solicitud de amistad."})
 
 		if self.context['request'].method == 'PATCH':
 			if 'from_friend' in attrs or 'to_friend' in attrs:
