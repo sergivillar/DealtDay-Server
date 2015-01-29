@@ -839,7 +839,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         'ngResource',
         'event',
         'answer',
-        'friend'
+        'friend',
+        'profile'
     ]);
 
     app.value('eventApi', '/api/event/');
@@ -848,6 +849,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     app.value('getMyVotes', '/api/vote/?evento=');
     app.value('getFriends', '/api/friends/');
     app.value('friendRequestApi', '/api/friend_request/');
+    app.value('getMyInfo', '/api/me/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -1251,6 +1253,38 @@ angular.module('profile').directive('ngEnter', function () {
         });
     };
 });
+angular.module('profile').service('UserInfo', ['$http', '$q', 'getMyInfo', function ($http, $q, getMyInfo) {
+
+    var user = {
+        userInfo: {
+            username: '',
+            first_name: '',
+            last_name: '',
+            email: ''
+
+        },
+
+        retrieveInfo: function () {
+            var deferred = $q.defer();
+
+            $http.get(getMyInfo).then(function (response) {
+                user.userInfo.username = response.data.username;
+                user.userInfo.first_name = response.data.first_name;
+                user.userInfo.last_name = response.data.last_name;
+                user.userInfo.email = response.data.email;
+
+            }, function (error) {
+                console.log(error);
+
+            });
+
+        }
+
+    };
+
+    return user;
+
+}]);
 var app = angular.module('event', ['mdDateTime', 'ngMessages']);
 
 angular.module('event').
@@ -2072,7 +2106,9 @@ angular.module('friend')
         $scope.getFriends();
     }]);
 angular.module('friend')
-    .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', function ($scope, FriendRequest) {
+    .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', 'UserInfo', function ($scope, FriendRequest, UserInfo) {
+
+        console.log(UserInfo.userInfo);
 
         $scope.getRequestReceived = function () {
             FriendRequest.query(function (data){

@@ -6,7 +6,8 @@
         'ngResource',
         'event',
         'answer',
-        'friend'
+        'friend',
+        'profile'
     ]);
 
     app.value('eventApi', '/api/event/');
@@ -15,6 +16,7 @@
     app.value('getMyVotes', '/api/vote/?evento=');
     app.value('getFriends', '/api/friends/');
     app.value('friendRequestApi', '/api/friend_request/');
+    app.value('getMyInfo', '/api/me/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';

@@ -10,9 +10,10 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
 from profile.models import Profile
 from profile.serializers import LoginSerializer, ForgotPasswordSerializer, ChangePasswordSerializer, \
-	ChangeNickSerializer
+	ChangeNickSerializer, UserInfoSerializer
 
 
 @api_view(['POST'])
@@ -30,8 +31,9 @@ def login_user(request):
 				response['token'] = user.auth_token.key
 				return Response(response, status=status.HTTP_200_OK)
 			else:
-				return Response({"ErrorLogin": "El usuario aun no ha sido activado. Revisa tu correo para activar la cuenta."},
-				                status=status.HTTP_400_BAD_REQUEST)
+				return Response(
+					{"ErrorLogin": "El usuario aun no ha sido activado. Revisa tu correo para activar la cuenta."},
+					status=status.HTTP_400_BAD_REQUEST)
 		else:
 			return Response({"ErrorLogin": "Password o usuario incorrectos."}, status=status.HTTP_400_BAD_REQUEST)
 	else:
@@ -56,7 +58,7 @@ def forgot_password(request):
 			}
 
 
-			#subject = loader.render_to_string('registration/password_reset_subject.txt', c)
+			# subject = loader.render_to_string('registration/password_reset_subject.txt', c)
 			# Email subject *must not* contain newlines
 			#subject = ''.join(subject.splitlines())
 			message = loader.render_to_string('profile/password_reset_email.html', c)
@@ -94,3 +96,13 @@ def change_nick(request):
 		return Response({'NickCambiado': 'Nick actualizado correctamente.'}, status=status.HTTP_200_OK)
 	else:
 		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def user_info(request):
+	if request.user.is_authenticated():
+		serializer = UserInfoSerializer(instance=request.user.profile)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+	else:
+		return Response(status=status.HTTP_403_FORBIDDEN)
