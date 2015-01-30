@@ -1,8 +1,10 @@
 angular.module('friend')
-    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest) {
+    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', 'UserInfo', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest, UserInfo) {
         $scope.loading = true;
         $scope.addFriendMode = false;
         $scope.error_request = false;
+
+        $scope.user = UserInfo.userInfo;
 
         $scope.addFriend = new FriendRequest();
 
