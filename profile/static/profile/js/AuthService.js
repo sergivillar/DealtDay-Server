@@ -20,7 +20,6 @@
                     password: password
                 })
                     .success(function (response, status, headers, config) {
-                        Authentication.setAuthenticatedAccount(response.email);
 
                         deferred.resolve(response, status, headers, config);
                     })
@@ -34,7 +33,6 @@
             logout: function () {
                 $http.get(logout)
                     .success(function (response, status, headers, config) {
-                        Authentication.unautheticate();
 
                         $window.location = '/';
                     }).error(function (response, status, headers, config) {
@@ -89,36 +87,10 @@
                     });
 
                 return deferred.promise;
-            },
-
-            isUserAuthenticate: function () {
-                return !!$cookies.authenticatedAccount;
-            },
-
-            setAuthenticatedAccount: function (account) {
-                $cookies.authenticatedAccount = account.split("@")[0];
-            },
-
-            unautheticate: function () {
-                delete $cookies.authenticatedAccount;
             }
         };
 
         return Authentication;
-    }]);
-
-    // TODO mejorar este metodo cuando este montada la navegacion de la web
-    app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', 'templateRecuperarPass', function ($rootScope, $location, AuthService, templateRegistro, templateRecuperarPass) {
-        $rootScope.$on("$routeChangeStart", function (event, nextPath, currentPath) {
-            if (!AuthService.isUserAuthenticate()) {
-                if (nextPath.templateUrl === templateRegistro || nextPath.templateUrl === templateRecuperarPass) {
-                } else {
-                    $rootScope.$evalAsync(function () {
-                        $location.url('/');
-                    });
-                }
-            }
-        });
     }]);
 
 })();

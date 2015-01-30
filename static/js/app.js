@@ -36,8 +36,6 @@
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
             templateUrl: '/static/profile/templates/profile.html'
-        }).otherwise({
-            redirectTo: '/'
         });
     }]);
 
@@ -104,7 +102,6 @@
         $scope.navClass = function (page) {
             var currentRoute = $location.path().substring(1).split('/')[0];
             $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);
-            ;
             return page === currentRoute ? 'active' : '';
         };
 

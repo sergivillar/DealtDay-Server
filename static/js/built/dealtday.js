@@ -869,8 +869,6 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
             templateUrl: '/static/profile/templates/profile.html'
-        }).otherwise({
-            redirectTo: '/'
         });
     }]);
 
@@ -937,7 +935,6 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         $scope.navClass = function (page) {
             var currentRoute = $location.path().substring(1).split('/')[0];
             $scope.currentPage = currentRoute.charAt(0).toUpperCase() + currentRoute.slice(1);
-            ;
             return page === currentRoute ? 'active' : '';
         };
 
@@ -966,7 +963,6 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                     password: password
                 })
                     .success(function (response, status, headers, config) {
-                        Authentication.setAuthenticatedAccount(response.email);
 
                         deferred.resolve(response, status, headers, config);
                     })
@@ -980,7 +976,6 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             logout: function () {
                 $http.get(logout)
                     .success(function (response, status, headers, config) {
-                        Authentication.unautheticate();
 
                         $window.location = '/';
                     }).error(function (response, status, headers, config) {
@@ -1035,36 +1030,10 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                     });
 
                 return deferred.promise;
-            },
-
-            isUserAuthenticate: function () {
-                return !!$cookies.authenticatedAccount;
-            },
-
-            setAuthenticatedAccount: function (account) {
-                $cookies.authenticatedAccount = account.split("@")[0];
-            },
-
-            unautheticate: function () {
-                delete $cookies.authenticatedAccount;
             }
         };
 
         return Authentication;
-    }]);
-
-    // TODO mejorar este metodo cuando este montada la navegacion de la web
-    app.run(["$rootScope", "$location", 'AuthService', 'templateRegistro', 'templateRecuperarPass', function ($rootScope, $location, AuthService, templateRegistro, templateRecuperarPass) {
-        $rootScope.$on("$routeChangeStart", function (event, nextPath, currentPath) {
-            if (!AuthService.isUserAuthenticate()) {
-                if (nextPath.templateUrl === templateRegistro || nextPath.templateUrl === templateRecuperarPass) {
-                } else {
-                    $rootScope.$evalAsync(function () {
-                        $location.url('/');
-                    });
-                }
-            }
-        });
     }]);
 
 })();
