@@ -122,6 +122,9 @@ hr {
   width: 70%;
   margin: 20px;
   margin-bottom: 40px !important; }
+  @media screen and (max-width: 600px) {
+    .new-event-form {
+      width: 90%; } }
   .new-event-form form md-input-container {
     width: 100%; }
   .new-event-form form > div > a, .new-event-form form > div button {

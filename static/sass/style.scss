@@ -185,6 +185,9 @@ hr {
 }
 
 .new-event-form {
+  @media screen and (max-width: $screen-small) {
+    width: 90%;
+  }
   width: 70%;
   margin: 20px;
   margin-bottom: 40px !important;
