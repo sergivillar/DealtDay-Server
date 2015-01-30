@@ -2109,12 +2109,12 @@ angular.module('friend')
     .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', '$mdDialog', '$mdToast', function ($scope, FriendRequest, $mdDialog, $mdToast) {
 
         $scope.loading = false;
-        $scope.requestSent = [];
+        $scope.requestReceived = [];
 
         $scope.getRequestReceived = function () {
             $scope.loading = true;
             FriendRequest.query(function (data) {
-                $scope.requestSent = data;
+                $scope.requestReceived = data;
                 $scope.loading = false;
             }, function (error) {
                 console.log(error);
