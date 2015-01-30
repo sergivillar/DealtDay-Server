@@ -107,4 +107,8 @@
 
     });
 
+    app.run(function (UserInfo){
+        UserInfo.retrieveInfo();
+    });
+
 })();
