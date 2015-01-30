@@ -1,5 +1,6 @@
 angular.module('event')
-    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', '$http', 'getMyVotes', '$mdDialog', 'Answer', 'ANSWER_TYPES', '$q', function ($scope, Event, $location, $routeParams, $http, getMyVotes, $mdDialog, Answer, ANSWER_TYPES, $q) {
+    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', '$http', 'getMyVotes', '$mdDialog', 'Answer', 'ANSWER_TYPES', '$q', 'getFriends',
+        function ($scope, Event, $location, $routeParams, $http, getMyVotes, $mdDialog, Answer, ANSWER_TYPES, $q, getFriends) {
         var self = this;
 
         $scope.loading = true;
@@ -37,6 +38,18 @@ angular.module('event')
             $http.get(getMyVotes + $scope.id)
                 .success(function (data) {
                     $scope.myVotes = data;
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading = false;
+                });
+        };
+
+        $scope.getFriends = function () {
+            $scope.loading = true;
+            $http.get(getFriends)
+                .success(function (data) {
+                    $scope.friends = data;
                     $scope.loading = false;
                 })
                 .error(function (error) {
@@ -96,8 +109,8 @@ angular.module('event')
             });
         };
 
-        $scope.sendInvitation = function (){
-          console.log("Enviar invitacion");
+        $scope.sendInvitation = function () {
+            console.log("Enviar invitacion");
         };
 
         $scope.selectText = function (answer) {
@@ -117,6 +130,9 @@ angular.module('event')
             })
             .then(function () {
                 $scope.getMyVotes();
+            })
+            .then(function () {
+                $scope.getFriends();
             });
 
         $scope.showCreateMode = function () {

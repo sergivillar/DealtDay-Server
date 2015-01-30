@@ -78,25 +78,9 @@
         </div>
 
         <div ng-show="inviteMode" layout-fill>
-            <form name="inviteFriendForm" class="padding-form" novalidate>
-                <md-input-container ng-if="!type">
-                    <label>Email</label>
-                    <input ng-model="addFriend.to_friend" type="email" ng-required="true" ng-minlength="1"
-                           md-maxlength="64">
-                </md-input-container>
 
-                <div ng-if="error_request" class="valitaion-error small">
-                    <div>{{ msg_error }}</div>
-                </div>
+            <div auto-complete-email friends="friends"></div>
 
-                <div layout layout-align="center center">
-                    <md-button class="md-raised md-accent md-hue-3" ng-click="sendInvitation()"
-                               ng-disabled="inviteFriendForm.$invalid || loading" flex-order="1" flex-order-gt-md="2">
-                        Añadir
-                    </md-button>
-                </div>
-
-            </form>
         </div>
 
         <md-content class="small">

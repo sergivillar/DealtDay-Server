@@ -374,3 +374,26 @@ md-tabs.md-default-theme md-tabs-ink-bar {
     display: none;
   }
 }
+
+// Search friends
+
+.select-friend-directive {
+  div {
+    width: 100%;
+    md-input-container {
+      padding-bottom: 0px !important;
+    }
+
+    div {
+      button {
+        @media screen and (max-width: $screen-small) {
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}
+
+.select-friend :hover {
+  background-color: darken(#ffffff, 5.5%);
+}

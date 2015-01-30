@@ -1275,6 +1275,53 @@ angular.module('event').
             }
         });
     }]);
+angular.module('event').directive('autoCompleteEmail', ['$http', function ($http) {
+    return {
+        restrict: 'AE',
+        scope: {
+            email: '=',
+            friends: '=friends'
+        },
+        templateUrl: '/static/event/templates/autocomplete-email.html',
+        link: function (scope, elem, attrs) {
+
+            scope.suggestions = [];
+            scope.idInvite = '';
+            scope.nick = '';
+            scope.canInvite = false;
+
+            scope.search = function () {
+                scope.suggestions = [];
+
+                if (scope.searchText != null) {
+                    var q = scope.searchText.toLowerCase().trim();
+                }
+
+                for (var i = 0; i < scope.friends.length && scope.suggestions.length < 4; i++) {
+                    var friend = scope.friends[i];
+                    if (friend.friend.toLowerCase().indexOf(q) === 0)
+                        scope.suggestions.push(friend);
+                }
+
+                scope.selectedIndex = -1;
+            };
+
+            scope.addToSelectedTags = function (friend) {
+                scope.searchText = friend.friend;
+                scope.nick = friend.friend;
+                scope.idInvite = friend.id;
+                scope.suggestions = [];
+                scope.canInvite = true;
+            };
+
+            scope.$watch('searchText', function (val) {
+                if (scope.nick != val)
+                    scope.canInvite = false;
+            });
+
+        }
+    }
+}]);
 angular.module('event').directive('checkTime', function () {
     return {
         require: 'ngModel',
@@ -1440,7 +1487,8 @@ angular.module('event')
         });
     }]);
 angular.module('event')
-    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', '$http', 'getMyVotes', '$mdDialog', 'Answer', 'ANSWER_TYPES', '$q', function ($scope, Event, $location, $routeParams, $http, getMyVotes, $mdDialog, Answer, ANSWER_TYPES, $q) {
+    .controller('EventDetailCtrl', ['$scope', 'Event', '$location', '$routeParams', '$http', 'getMyVotes', '$mdDialog', 'Answer', 'ANSWER_TYPES', '$q', 'getFriends',
+        function ($scope, Event, $location, $routeParams, $http, getMyVotes, $mdDialog, Answer, ANSWER_TYPES, $q, getFriends) {
         var self = this;
 
         $scope.loading = true;
@@ -1478,6 +1526,18 @@ angular.module('event')
             $http.get(getMyVotes + $scope.id)
                 .success(function (data) {
                     $scope.myVotes = data;
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $scope.loading = false;
+                });
+        };
+
+        $scope.getFriends = function () {
+            $scope.loading = true;
+            $http.get(getFriends)
+                .success(function (data) {
+                    $scope.friends = data;
                     $scope.loading = false;
                 })
                 .error(function (error) {
@@ -1537,8 +1597,8 @@ angular.module('event')
             });
         };
 
-        $scope.sendInvitation = function (){
-          console.log("Enviar invitacion");
+        $scope.sendInvitation = function () {
+            console.log("Enviar invitacion");
         };
 
         $scope.selectText = function (answer) {
@@ -1558,6 +1618,9 @@ angular.module('event')
             })
             .then(function () {
                 $scope.getMyVotes();
+            })
+            .then(function () {
+                $scope.getFriends();
             });
 
         $scope.showCreateMode = function () {
@@ -2029,12 +2092,12 @@ angular.module('friend')
 
         $scope.addFriend = new FriendRequest();
 
-        $scope.next = function() {
-      $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2) ;
-    };
-    $scope.previous = function() {
-      $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
-    };
+        $scope.next = function () {
+            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+        };
+        $scope.previous = function () {
+            $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+        };
 
         $scope.getFriends = function () {
             $scope.loading = true;
