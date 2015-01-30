@@ -228,4 +228,24 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   padding: 5px;
   background-color: #ffca28; }
 
+.show-friends {
+  width: 80%;
+  font-size: 16px !important;
+  margin-top: 20px;
+  margin-bottom: 20px; }
+  @media screen and (max-width: 600px) {
+    .show-friends {
+      width: 90%; } }
+
+.icon-request {
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  width: 30px;
+  margin: 16px 3px 16px 3px;
+  padding: 5px; }
+
+@media screen and (max-width: 500px) {
+  .hide-lt-500 {
+    display: none; } }
+
 /*# sourceMappingURL=custom-style.css.map */

@@ -1992,11 +1992,26 @@ angular.module('friend').
     factory('FriendRequest', ['$resource', 'friendRequestApi', function ($resource, friendRequestApi) {
         return $resource(friendRequestApi + ':id', {id: '@id'});
     }]);
+angular.module('friend').
+    filter('filterFromFriend', function () {
+        return function (items, user_email) {
+            var retn = [];
+
+            angular.forEach(items, function (item) {
+                if (item.from_friend.email != user_email) {
+                    retn.push(item);
+                }
+            });
+            return retn;
+        }
+    });
 angular.module('friend')
-    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest) {
+    .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', 'UserInfo', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest, UserInfo) {
         $scope.loading = true;
         $scope.addFriendMode = false;
         $scope.error_request = false;
+
+        $scope.user = UserInfo.userInfo;
 
         $scope.addFriend = new FriendRequest();
 
@@ -2075,16 +2090,49 @@ angular.module('friend')
         $scope.getFriends();
     }]);
 angular.module('friend')
-    .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', 'UserInfo', function ($scope, FriendRequest, UserInfo) {
+    .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', '$mdDialog', function ($scope, FriendRequest, $mdDialog) {
 
-        console.log(UserInfo.userInfo);
+        $scope.loading = false;
+        $scope.requestReceived = [];
 
         $scope.getRequestReceived = function () {
-            FriendRequest.query(function (data){
-                console.log(data);
-            }, function(error){
+            $scope.loading = true;
+            FriendRequest.query(function (data) {
+                $scope.requestReceived = data;
+                $scope.loading = false;
+            }, function (error) {
                 console.log(error);
+                $scope.loading = false;
             })
+        };
+
+        $scope.acceptRequest = function (request) {
+            console.log(request);
+        };
+
+        $scope.showRejectRequest = function (request) {
+            var confirm = $mdDialog.confirm()
+                .title('RECHAZAR PETICION')
+                .content('¿Seguro que deseas rechazar está petición?')
+                .ariaLabel('Rechazar petición')
+                .ok('SI')
+                .cancel('NO')
+                .targetEvent(request);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.rejectRequest(request);
+            }, function () {
+            });
+        };
+
+        $scope.rejectRequest = function (request) {
+            FriendRequest.delete({id: request.id},
+                function (data) {
+                console.log(data);
+            }, function (error) {
+                console.log(error);
+            });
+
         };
 
         $scope.getRequestReceived();

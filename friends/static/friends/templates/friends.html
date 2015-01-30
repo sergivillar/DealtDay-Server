@@ -1,5 +1,5 @@
 <div layout layout-align="center center">
-    <div ng-controller="FriendCtrl as friendController" class="show-events shadow-box" layout="column">
+    <div ng-controller="FriendCtrl as friendController" class="show-friends shadow-box" layout="column">
 
         <md-toolbar class="md-tall active-events">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -68,7 +68,7 @@
                 <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()"
                      md-swipe-right="previous()">
 
-                    <div ng-include="'/static/friends/templates/request-received.html'"></div>
+                    <div ng-controller="RequestReceivedCtrl as requestReceivedController" ng-include="'/static/friends/templates/request-received.html'"></div>
 
                 </div>
                 <div role="tabpanel" id="tab3-content" aria-labelledby="tab3" ng-switch-when="2" md-swipe-left="next()"

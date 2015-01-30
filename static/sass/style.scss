@@ -345,3 +345,29 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   padding: 5px;
   background-color: $button-color;
 }
+
+// Request
+
+.show-friends {
+  @media screen and (max-width: $screen-small) {
+    width: 90%;
+  }
+  width: 80%;
+  font-size: 16px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.icon-request {
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  width: 30px;
+  margin: 16px 3px 16px 3px;
+  padding: 5px;
+}
+
+.hide-lt-500 {
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+}
