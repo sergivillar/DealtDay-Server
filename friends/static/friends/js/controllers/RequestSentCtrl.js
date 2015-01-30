@@ -32,7 +32,6 @@ angular.module('friend')
 
         $scope.rejectRequest = function (request) {
             $scope.loading = true;
-            console.log(request);
             FriendRequest.delete({id: request.id},
                 function (data) {
                     $scope.getRequestSent();
@@ -47,6 +46,10 @@ angular.module('friend')
                 });
 
         };
+
+        $scope.$on('refresh', function (){
+            $scope.getRequestSent();
+        });
 
         $scope.getRequestSent();
     }]);

@@ -2089,6 +2089,7 @@ angular.module('friend')
                         .position('bottom right')
                         .hideDelay(1500)
                 );
+                $scope.$broadcast('refresh');
                 $scope.addFriend = new FriendRequest();
             }, function (error) {
                 $scope.error_request = true;
@@ -2205,7 +2206,6 @@ angular.module('friend')
 
         $scope.rejectRequest = function (request) {
             $scope.loading = true;
-            console.log(request);
             FriendRequest.delete({id: request.id},
                 function (data) {
                     $scope.getRequestSent();
@@ -2220,6 +2220,10 @@ angular.module('friend')
                 });
 
         };
+
+        $scope.$on('refresh', function (){
+            $scope.getRequestSent();
+        });
 
         $scope.getRequestSent();
     }]);

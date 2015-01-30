@@ -68,6 +68,7 @@ angular.module('friend')
                         .position('bottom right')
                         .hideDelay(1500)
                 );
+                $scope.$broadcast('refresh');
                 $scope.addFriend = new FriendRequest();
             }, function (error) {
                 $scope.error_request = true;
