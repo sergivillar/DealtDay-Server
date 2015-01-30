@@ -2006,6 +2006,18 @@ angular.module('friend').
             });
             return retn;
         }
+    })
+    .filter('filterToFriend', function () {
+        return function (items, user_email) {
+            var retn = [];
+
+            angular.forEach(items, function (item) {
+                if (item.from_friend.email == user_email) {
+                    retn.push(item);
+                }
+            });
+            return retn;
+        }
     });
 angular.module('friend')
     .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', 'UserInfo', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest, UserInfo) {
