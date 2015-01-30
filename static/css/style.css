@@ -6250,6 +6250,9 @@ md-tooltip {
     .forgot-content > form > div > a:hover span, .forgot-content > form > div button:hover span {
       color: #ffffff; }
 
+.nick {
+  font-size: 14px; }
+
 .sidenav-size {
   min-width: 100px !important; }
 

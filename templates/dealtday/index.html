@@ -11,35 +11,40 @@
 </head>
 <body ng-cloak layout="column">
 
-{%  verbatim %}
+{% verbatim %}
 <div ng-controller="MenuCtrl" layout="row" flex>
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-size" md-component-id="left" md-is-locked-open="$media('gt-md')">
-            <md-toolbar class=" md-hue-2">
-                <h1 class="md-toolbar-tools"><a href="/#/" ng-click="close()">DealtDay</a></h1>
-            </md-toolbar>
-            <div>
-                <a href="#/{{ navLink.url }}" ng-repeat="navLink in navLinks" class="menu-item" ng-class="navClass('{{navLink.url}}')" ng-click="close()">{{ navLink.Title }}</a>
-            </div>
-                <a href="logout" class="menu-item" >Salir</a>
-        </md-sidenav>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2 sidenav-size" md-component-id="left"
+                md-is-locked-open="$media('gt-md')">
+        <md-toolbar class=" md-hue-2">
+            <h1 class="md-toolbar-tools"><a href="/#/" ng-click="close()">DealtDay</a></h1>
+        </md-toolbar>
+        <div>
+            <a href="#/{{ navLink.url }}" ng-repeat="navLink in navLinks" class="menu-item"
+               ng-class="navClass('{{navLink.url}}')" ng-click="close()">{{ navLink.Title }}</a>
+        </div>
+        <a href="logout" class="menu-item">Salir</a>
+    </md-sidenav>
 
-        <div layout="column" layout-fill>
-            <md-toolbar class="md-default-theme md-hue-2">
+    <div layout="column" layout-fill>
+        <md-toolbar class="md-default-theme md-hue-2">
 
-                <div class="md-toolbar-tools" ng-click="toggleLeft()">
-                    <button class="menu-icon" hide-gt-md aria-label="Abrir menu">
-                        <img src="static/icons/ic_menu_white_36dp.png" style="width: 24px; height: 24px; margin-top: 5px;">
-                    </button>
-                    <div layout="row" flex>
-                        <div class="md-toolbar-item md-breadcrumb">
-                            {{ currentPage }}
-                        </div>
+            <div class="md-toolbar-tools" ng-click="toggleLeft()">
+                <button class="menu-icon" hide-gt-md aria-label="Abrir menu">
+                    <img src="static/icons/ic_menu_white_36dp.png" style="width: 24px; height: 24px; margin-top: 5px;">
+                </button>
+                <div layout="row" layout-align="space-between center" flex>
+                    <div class="md-toolbar-item md-breadcrumb">
+                        {{ currentPage }}
+                    </div>
+                    <div class="nick">
+                        {{ user.nick }}
                     </div>
                 </div>
-            </md-toolbar>
+            </div>
+        </md-toolbar>
 
-            <div ng-view style="overflow-y: auto; overflow-x: hidden;"></div>
-        </div>
+        <div ng-view style="overflow-y: auto; overflow-x: hidden;"></div>
+    </div>
 </div>
 
 {% endverbatim %}

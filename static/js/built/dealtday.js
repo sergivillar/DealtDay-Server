@@ -908,9 +908,11 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
             .accentPalette('amber');
     });
 
-    app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
+    app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location, UserInfo) {
 
         $scope.currentPage = '';
+
+        $scope.user = UserInfo.userInfo;
 
         $scope.toggleLeft = function () {
             $mdSidenav('left').toggle();
@@ -1239,7 +1241,7 @@ angular.module('profile').service('UserInfo', ['$http', 'getMyInfo', function ($
         retrieveInfo: function () {
 
             $http.get(getMyInfo).then(function (response) {
-                user.userInfo.username = response.data.nick;
+                user.userInfo.nick = response.data.nick;
                 user.userInfo.first_name = response.data.user.first_name;
                 user.userInfo.last_name = response.data.user.last_name;
                 user.userInfo.email = response.data.user.email;

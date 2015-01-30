@@ -75,9 +75,11 @@
             .accentPalette('amber');
     });
 
-    app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location) {
+    app.controller('MenuCtrl', function ($scope, $timeout, $mdSidenav, $log, $location, UserInfo) {
 
         $scope.currentPage = '';
+
+        $scope.user = UserInfo.userInfo;
 
         $scope.toggleLeft = function () {
             $mdSidenav('left').toggle();

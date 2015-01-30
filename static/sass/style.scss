@@ -18,7 +18,7 @@ $light-dark: #2f2f2f;
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.20);
 }
 
-// Profile styles
+// Register, login, forgot styles
 
 .login-background {
   md-whiteframe {
@@ -102,6 +102,10 @@ $light-dark: #2f2f2f;
 }
 
 // Menu
+
+.nick {
+  font-size: 14px;
+}
 
 .sidenav-size {
   min-width: 100px !important;
