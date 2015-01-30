@@ -48,13 +48,13 @@
 
         <md-content class="small">
             <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
-                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="getFriends()">
+                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="getFriends()"  md-on-deselect="addFriendMode = false">
                     Amigos
                 </md-tab>
-                <md-tab id="tab2" aria-controls="tab2-content">
+                <md-tab id="tab2" aria-controls="tab2-content" md-on-deselect="addFriendMode = false">
                     Solicitudes recibidas
                 </md-tab>
-                <md-tab id="tab3" aria-controls="tab3-content">
+                <md-tab id="tab3" aria-controls="tab3-content" md-on-deselect="addFriendMode = false">
                     Solicitudes enviadas
                 </md-tab>
             </md-tabs>
