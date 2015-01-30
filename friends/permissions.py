@@ -17,7 +17,7 @@ class NoDeleteRequestFriend(permissions.BasePermission):
 		if request.method == 'PATCH':
 			return obj.to_friend.user == request.user
 
-		return obj.from_friend.user == request.user
+		return (obj.from_friend.user == request.user) or (obj.to_friend.user == request.user)
 
 
 class NoDeleteFriend(permissions.BasePermission):

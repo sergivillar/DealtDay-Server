@@ -1990,7 +1990,9 @@ var app = angular.module('friend', ['ngMessages']);
 
 angular.module('friend').
     factory('FriendRequest', ['$resource', 'friendRequestApi', function ($resource, friendRequestApi) {
-        return $resource(friendRequestApi + ':id', {id: '@id'});
+        return $resource(friendRequestApi + ':id', {id: '@id'}, {
+            'update': {method: 'PATCH'}
+        });
     }]);
 angular.module('friend').
     filter('filterFromFriend', function () {
@@ -2007,7 +2009,7 @@ angular.module('friend').
     });
 angular.module('friend')
     .controller('FriendCtrl', ['$scope', 'getFriends', '$http', '$mdDialog', '$mdToast', 'FriendRequest', 'UserInfo', function ($scope, getFriends, $http, $mdDialog, $mdToast, FriendRequest, UserInfo) {
-        $scope.loading = true;
+        $scope.loading = false;
         $scope.addFriendMode = false;
         $scope.error_request = false;
 
@@ -2016,6 +2018,7 @@ angular.module('friend')
         $scope.addFriend = new FriendRequest();
 
         $scope.getFriends = function () {
+            $scope.loading = true;
             $http.get(getFriends)
                 .success(function (data) {
                     $scope.friends = data;
@@ -2090,7 +2093,7 @@ angular.module('friend')
         $scope.getFriends();
     }]);
 angular.module('friend')
-    .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', '$mdDialog', function ($scope, FriendRequest, $mdDialog) {
+    .controller('RequestReceivedCtrl', ['$scope', 'FriendRequest', '$mdDialog', '$mdToast', function ($scope, FriendRequest, $mdDialog, $mdToast) {
 
         $scope.loading = false;
         $scope.requestReceived = [];
@@ -2107,7 +2110,19 @@ angular.module('friend')
         };
 
         $scope.acceptRequest = function (request) {
-            console.log(request);
+            $scope.loading = true;
+            FriendRequest.update({id: request.id}, {accepted: true},
+                function (data) {
+                    $scope.getRequestReceived();
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Petición aceptada')
+                            .position('bottom right')
+                            .hideDelay(1500)
+                    );
+                }, function (error) {
+                    console.log(error);
+                });
         };
 
         $scope.showRejectRequest = function (request) {
@@ -2126,12 +2141,19 @@ angular.module('friend')
         };
 
         $scope.rejectRequest = function (request) {
+            $scope.loading = true;
             FriendRequest.delete({id: request.id},
                 function (data) {
-                console.log(data);
-            }, function (error) {
-                console.log(error);
-            });
+                    $scope.getRequestReceived();
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Petición rechazada')
+                            .position('bottom right')
+                            .hideDelay(1500)
+                    );
+                }, function (error) {
+                    console.log(error);
+                });
 
         };
 

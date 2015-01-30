@@ -2,7 +2,7 @@
     <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
 </div>
 
-<md-list ng-if="requestReceived.length == 0" ng-hide="loading">
+<md-list ng-if="(requestReceived | filterFromFriend: user.email).length == 0" ng-hide="loading">
     <md-item>
         <md-item-content>
             <div class="md-tile-content">
