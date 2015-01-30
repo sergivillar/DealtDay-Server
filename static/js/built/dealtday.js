@@ -2029,6 +2029,13 @@ angular.module('friend')
 
         $scope.addFriend = new FriendRequest();
 
+        $scope.next = function() {
+      $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2) ;
+    };
+    $scope.previous = function() {
+      $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+    };
+
         $scope.getFriends = function () {
             $scope.loading = true;
             $http.get(getFriends)
