@@ -46,7 +46,6 @@ angular.module('event')
         };
 
         $scope.getFriends = function () {
-            $scope.loading = true;
             $http.get(getFriends)
                 .success(function (data) {
                     $scope.friends = data;

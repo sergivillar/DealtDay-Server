@@ -28,7 +28,7 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
 
                     for (var i = 0; i < scope.friends.length && scope.suggestions.length < 4; i++) {
                         var friend = scope.friends[i];
-                        if (friend.friend.toLowerCase().indexOf(q) === 0)
+                        if (friend.friend.nick.toLowerCase().indexOf(q) === 0)
                             scope.suggestions.push(friend);
                     }
                 }
@@ -36,9 +36,9 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
 
             scope.addToSelectedTags = function (friend) {
                 if (friend.friend != without_friends) {
-                    scope.searchText = friend.friend;
-                    scope.nick = friend.friend;
-                    scope.idInvite = friend.id;
+                    scope.searchText = friend.friend.nick;
+                    scope.nick = friend.friend.nick;
+                    scope.idInvite = friend.friend.id;
                     scope.suggestions = [];
                     scope.canInvite = true;
                 } else {

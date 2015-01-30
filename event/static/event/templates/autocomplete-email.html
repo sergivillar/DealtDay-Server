@@ -2,7 +2,7 @@
     <div layout="row" layout-sm="column" layout-align="center center" class="select-friend-directive">
         <div>
             <md-input-container>
-                <label>Email</label>
+                <label>Nick</label>
                 <input ng-model="searchText" ng-change="search()" type="text" ng-required="true" ng-minlength="1">
             </md-input-container>
 
@@ -11,7 +11,7 @@
                     <md-item ng-repeat="suggestion in suggestions">
                         <md-item-content class="select-friend" ng-click="addToSelectedTags(suggestion)">
                             <div class="md-tile-content" style="padding: 5px;">
-                                <h4>{{ suggestion.friend }}</h4>
+                                <h4>{{ suggestion.friend.nick }}</h4>
                             </div>
                         </md-item-content>
                         <md-divider ng-if="!$last"></md-divider>
@@ -24,7 +24,7 @@
             <div layout layout-align="center center">
                 <md-button class="md-raised md-accent md-hue-3" ng-click="sendInvitation()"
                            ng-disabled="!canInvite || loading">
-                    Añadir
+                    Invitar
                 </md-button>
             </div>
         </div>

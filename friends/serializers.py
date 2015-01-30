@@ -69,9 +69,17 @@ class FriendSerializer(serializers.ModelSerializer):
 	def get_friend(self, obj):
 		profile = self.context['request'].user.profile
 		if obj.to_friend == profile:
-			return obj.from_friend.nick
+			data = {}
+			data['nick'] = obj.from_friend.nick
+			data['id'] = obj.from_friend.id
+			data['email'] = obj.from_friend.user.email
+			return data
 		elif obj.from_friend == profile:
-			return obj.to_friend.nick
+			data = {}
+			data['nick'] = obj.to_friend.nick
+			data['id'] = obj.to_friend.id
+			data['email'] = obj.to_friend.user.email
+			return data
 
 
 class CreateFriendRequestSerializer(serializers.Serializer):
