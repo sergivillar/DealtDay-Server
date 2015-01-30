@@ -1,1 +1,44 @@
-Solicitudes enviadas
+<div layout="column" layout-align="center center" ng-show="loading" layout-margin>
+    <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<md-list ng-if="(requestSent | filterToFriend: user.email).length == 0" ng-hide="loading">
+    <md-item>
+        <md-item-content>
+            <div class="md-tile-content">
+                <h3>No tienes ninguna petición de amistad enviada.</h3>
+            </div>
+        </md-item-content>
+    </md-item>
+</md-list>
+
+<md-list ng-if="requestSent.length > 0" ng-hide="loading">
+    <md-item ng-repeat="request in requestSent | filterToFriend: user.email ">
+        <md-item-content>
+            <div class="md-tile-content" layout="row" layout-align="space-between center"
+                 style="padding: 0 16px 0 16px;">
+                <div layout="row" layout-align="center center">
+                    <div class="md-tile-left hide-lt-500">
+                        <img class="icon-person" src="static/icons/ic_person_black_36dp.png">
+                    </div>
+                    <div>
+                        <h3>{{ request.to_friend.nick }}</h3>
+                        <h4>{{ request.to_friend.email }}</h4>
+                    </div>
+                </div>
+                <!-- TODO si el email es muy grande puede ocupar parte de los botones -->
+                <div layout="row" class="md-tile-rigth">
+                    <div>
+                        <md-tooltip>
+                            Rechazar petición
+                        </md-tooltip>
+
+                        <img class="clickable icon-request" src="static/icons/ic_delete_black_36dp.png"
+                             ng-click="showRejectRequest(request)">
+                    </div>
+                </div>
+            </div>
+        </md-item-content>
+        <md-divider ng-if="!$last"></md-divider>
+    </md-item>
+</md-list>
