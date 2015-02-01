@@ -9,12 +9,11 @@
                 <div>
 
                     <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
-                        <md-tooltip>
-                            Añadir amigo
-                        </md-tooltip>
-
                         <md-button aria-label="Añadir amigo" ng-click="showAddFriendMode()"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
+                            <md-tooltip>
+                                Añadir amigo
+                            </md-tooltip>
                             <md-icon icon="static/icons/ic_person_add_white_36dp.png"
                                      style="width: 24px; height: 24px;">
                             </md-icon>
@@ -48,7 +47,8 @@
 
         <md-content class="small">
             <md-tabs class="md-accent md-hue-2" md-selected="data.selectedIndex" md-stretch-tabs>
-                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="getFriends()"  md-on-deselect="addFriendMode = false">
+                <md-tab id="tab1" aria-controls="tab1-content" md-on-select="getFriends()"
+                        md-on-deselect="addFriendMode = false">
                     Amigos
                 </md-tab>
                 <md-tab id="tab2" aria-controls="tab2-content" md-on-deselect="addFriendMode = false">
@@ -68,13 +68,15 @@
                 <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="next()"
                      md-swipe-right="previous()">
 
-                    <div ng-controller="RequestReceivedCtrl as requestReceivedController" ng-include="'/static/friends/templates/request-received.html'"></div>
+                    <div ng-controller="RequestReceivedCtrl as requestReceivedController"
+                         ng-include="'/static/friends/templates/request-received.html'"></div>
 
                 </div>
                 <div role="tabpanel" id="tab3-content" aria-labelledby="tab3" ng-switch-when="2" md-swipe-left="next()"
                      md-swipe-right="previous()">
 
-                    <div ng-controller="RequestSentCtrl as requestSentController" ng-include="'/static/friends/templates/request-sent.html'"></div>
+                    <div ng-controller="RequestSentCtrl as requestSentController"
+                         ng-include="'/static/friends/templates/request-sent.html'"></div>
 
                 </div>
             </ng-switch>

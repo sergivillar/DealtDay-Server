@@ -13,24 +13,23 @@
                 </div>
                 <div>
                     <h2 class="md-toolbar-tools md-toolbar-tools-bottom" ng-if="!inviteFriend">
-                        <md-tooltip>
-                            Añadir respuesta
-                        </md-tooltip>
-
-                        <md-button aria-label="Crear evento" ng-click="showCreateMode()" ng-show="event.is_owner || event.open"
+                        <md-button aria-label="Crear evento" ng-click="showCreateMode()"
+                                   ng-show="event.is_owner || event.open"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
+                            <md-tooltip>
+                                Añadir respuesta
+                            </md-tooltip>
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
                         </md-button>
                     </h2>
 
                     <h2 class="md-toolbar-tools md-toolbar-tools-bottom" ng-if="inviteFriend">
-                        <md-tooltip>
-                            Invitar amigo
-                        </md-tooltip>
-
                         <md-button aria-label="Invitar amigo" ng-click="showInviteMode()" ng-show="event.is_owner"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
+                            <md-tooltip>
+                                Invitar amigo
+                            </md-tooltip>
                             <md-icon icon="static/icons/ic_group_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
                         </md-button>
@@ -92,7 +91,7 @@
                     Participantes
                 </md-tab>
             </md-tabs>
-            <ng-switch on="data.selectedIndex" >
+            <ng-switch on="data.selectedIndex">
                 <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0" md-swipe-left="next()"
                      md-swipe-right="previous()">
 

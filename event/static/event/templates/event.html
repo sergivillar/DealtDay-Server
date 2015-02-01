@@ -3,22 +3,22 @@
 
         <md-toolbar class="md-tall md-primary">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-                <div>
-                    <span class="md-flex">Eventos</span>
+                <div style="margin-top: 20px;">
+                    <span>Eventos</span>
                     <md-switch ng-model="showInactive" aria-label="Show active" class="md-accent small"
-                               style="margin-top: 20px;" ng-hide="loading">
+                               ng-hide="loading">
                         Mostrar finalizados
                     </md-switch>
                 </div>
                 <div>
 
                     <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
-                        <md-tooltip>
-                            Crear evento
-                        </md-tooltip>
 
                         <md-button ng-click="createEvent()" aria-label="Crear evento"
                                    class="md-fab md-button md-fab-bottom-right md-accent md-hue-3 add-event">
+                            <md-tooltip>
+                                Crear evento
+                            </md-tooltip>
                             <md-icon icon="static/icons/ic_add_white_36dp.png" style="width: 24px; height: 24px;">
                             </md-icon>
                         </md-button>
