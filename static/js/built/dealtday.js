@@ -1681,6 +1681,7 @@ angular.module('event')
             var data = $scope.votesText.concat($scope.votesDate);
             var dict = {};
             dict['votes'] = data;
+            console.log($scope.votesText);
 
             if (data.length == 0) {
                 $mdDialog.show(
@@ -1703,6 +1704,10 @@ angular.module('event')
                                     value.votes = value.votes.length;
                                 });
                             }
+
+                            $scope.votesText = [];
+                            $scope.votesDate = [];
+
                             $scope.getMyVotes();
                             $scope.loading_multi = false;
                             $mdToast.show(
@@ -1730,6 +1735,9 @@ angular.module('event')
         };
 
         $scope.initVotes = function () {
+            $scope.reamingAnswersText = $scope.event.num_answers;
+            $scope.reamingAnswersDate = $scope.event.num_answers;
+
             angular.forEach($scope.myVotes, function (value) {
                 $scope.voteId[value.vote] = true
                 if (value.type == 'TX') {
@@ -1779,7 +1787,8 @@ angular.module('event')
         };
 
         $scope.$watch('myVotes', function(){
-            $scope.initVotes();
+            if($scope.myVotes !=null)
+                $scope.initVotes();
         });
 
         $scope.$on('partial_loading_start', function(){
@@ -1832,6 +1841,9 @@ angular.module('event')
                                     value.votes = value.votes.length;
                                 });
                             }
+
+                            $scope.voteId = []
+                            
                             $scope.getMyVotes();
                             $scope.loading_simple = false;
                             $mdToast.show(
@@ -1877,7 +1889,8 @@ angular.module('event')
         };
 
         $scope.$watch('myVotes', function(){
-            $scope.initVotes();
+            if($scope.myVotes !=null)
+                $scope.initVotes();
         });
 
         $scope.$on('partial_loading_start', function(){

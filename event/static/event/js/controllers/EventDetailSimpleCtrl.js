@@ -39,6 +39,9 @@ angular.module('event')
                                     value.votes = value.votes.length;
                                 });
                             }
+
+                            $scope.voteId = []
+                            
                             $scope.getMyVotes();
                             $scope.loading_simple = false;
                             $mdToast.show(
@@ -84,7 +87,8 @@ angular.module('event')
         };
 
         $scope.$watch('myVotes', function(){
-            $scope.initVotes();
+            if($scope.myVotes !=null)
+                $scope.initVotes();
         });
 
         $scope.$on('partial_loading_start', function(){
