@@ -83,7 +83,9 @@ angular.module('event')
             });
         };
 
-        $scope.initVotes();
+        $scope.$watch('myVotes', function(){
+            $scope.initVotes();
+        });
 
         $scope.$on('partial_loading_start', function(){
             $scope.loading_multi = true;
