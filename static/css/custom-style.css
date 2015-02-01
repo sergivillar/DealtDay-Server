@@ -53,9 +53,6 @@
     .forgot-content > form > div > a:hover span, .forgot-content > form > div button:hover span {
       color: #ffffff; }
 
-.nick {
-  font-size: 14px; }
-
 .sidenav-size {
   min-width: 100px !important; }
 
@@ -208,7 +205,6 @@ md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
   color: #2f2f2f !important; }
 
 md-tabs.md-default-theme md-tabs-ink-bar {
-  margin-left: -2px !important;
   color: #ffca28 !important;
   background-color: #ffca28 !important; }
 

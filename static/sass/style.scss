@@ -104,7 +104,7 @@ $light-dark: #2f2f2f;
 // Menu
 
 .nick {
-  font-size: 14px;
+
 }
 
 .sidenav-size {
@@ -319,7 +319,6 @@ md-tabs.md-default-theme.md-accent md-tab:not([disabled]).active {
 }
 
 md-tabs.md-default-theme md-tabs-ink-bar {
-  margin-left: -2px !important;
   color: $button-color !important;
   background-color: $button-color !important;
 }
