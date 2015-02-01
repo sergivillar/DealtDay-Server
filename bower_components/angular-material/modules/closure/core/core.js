@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.7.0-master-7965f59
+ * v0.7.1
  */
 goog.provide('ng.material.core');
 
@@ -13,64 +13,52 @@ goog.provide('ng.material.core');
  * Initialization function that validates environment
  * requirements.
  */
-angular.module('material.core', ['material.core.theming'])
-  .run(MdCoreInitialize)
+angular
+  .module('material.core', ['material.core.theming'])
   .config(MdCoreConfigure);
 
-function MdCoreInitialize() {
-  if (typeof Hammer === 'undefined') {
-    throw new Error(
-      'ngMaterial requires HammerJS to be preloaded.'
-    );
-  }
-  // By default, Hammer disables user selection on desktop if swipe is enabled.
-  // We don't want this, so we make sure Hammer doesn't set a user-select: none.
-  Hammer.defaults.cssProps.userSelect = '';
-}
 
 function MdCoreConfigure($provide, $mdThemingProvider) {
-  $provide.decorator('$$rAF', ['$delegate', '$rootScope', rAFDecorator]);
+  $provide.decorator('$$rAF', ["$delegate", rAFDecorator]);
 
   $mdThemingProvider.theme('default')
     .primaryPalette('indigo')
     .accentPalette('pink')
     .warnPalette('red')
     .backgroundPalette('grey');
-
-  function rAFDecorator($$rAF, $rootScope) {
-    /**
-     * Use this to debounce events that come in often.
-     * The debounced function will always use the *last* invocation before the
-     * coming frame.
-     *
-     * For example, window resize events that fire many times a second:
-     * If we set to use an raf-debounced callback on window resize, then
-     * our callback will only be fired once per frame, with the last resize
-     * event that happened before that frame.
-     *
-     * @param {function} callback function to debounce
-     */
-    $$rAF.debounce = function(cb) {
-      var queueArgs, alreadyQueued, queueCb, context;
-      return function debounced() {
-        queueArgs = arguments;
-        context = this;
-        queueCb = cb;
-        if (!alreadyQueued) {
-          alreadyQueued = true;
-          $$rAF(function() {
-            queueCb.apply(context, queueArgs);
-            alreadyQueued = false;
-          });
-        }
-      };
-    };
-    return $$rAF;
-
-  }
-
 }
 MdCoreConfigure.$inject = ["$provide", "$mdThemingProvider"];
+
+function rAFDecorator( $delegate ) {
+  /**
+   * Use this to throttle events that come in often.
+   * The throttled function will always use the *last* invocation before the
+   * coming frame.
+   *
+   * For example, window resize events that fire many times a second:
+   * If we set to use an raf-throttled callback on window resize, then
+   * our callback will only be fired once per frame, with the last resize
+   * event that happened before that frame.
+   *
+   * @param {function} callback function to debounce
+   */
+  $delegate.throttle = function(cb) {
+    var queueArgs, alreadyQueued, queueCb, context;
+    return function debounced() {
+      queueArgs = arguments;
+      context = this;
+      queueCb = cb;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        $delegate(function() {
+          queueCb.apply(context, queueArgs);
+          alreadyQueued = false;
+        });
+      }
+    };
+  };
+  return $delegate;
+}
 
 })();
 
@@ -318,8 +306,8 @@ MdConstantFactory.$inject = ["$$rAF", "$sniffer"];
      * determine whether the next item is valid. If not valid, it will try to find the
      * next item again.
      * @param item
-     * @param {optional} validate function
-     * @param {optional} recursion limit
+     * @param {optional} validate Validate function
+     * @param {optional} limit Recursion limit
      * @returns {*}
      */
     function findSubsequentItem(backwards, item, validate, limit) {
@@ -365,21 +353,19 @@ angular.module('material.core')
  * @example $mdMedia('(min-width: 1200px)') == true if device-width >= 1200px
  * @example $mdMedia('max-width: 300px') == true if device-width <= 300px (sanitizes input, adding parens)
  */
-function mdMediaFactory($mdConstant, $mdUtil, $rootScope, $window) {
-  var queriesCache = $mdUtil.cacheFactory('$mdMedia:queries', {capacity: 15});
-  var resultsCache = $mdUtil.cacheFactory('$mdMedia:results', {capacity: 15});
-
-  angular.element($window).on('resize', updateAll);
+function mdMediaFactory($mdConstant, $rootScope, $window) {
+  var queries = {};
+  var results = {};
 
   return $mdMedia;
 
   function $mdMedia(query) {
-    var validated = queriesCache.get(query);
+    var validated = queries[query];
     if (angular.isUndefined(validated)) {
-      validated = queriesCache.put(query, validate(query));
+      validated = queries[query] = validate(query);
     }
 
-    var result = resultsCache.get(validated);
+    var result = results[validated];
     if (angular.isUndefined(result)) {
       result = add(validated);
     }
@@ -393,24 +379,20 @@ function mdMediaFactory($mdConstant, $mdUtil, $rootScope, $window) {
   }
 
   function add(query) {
-    return resultsCache.put(query, !!$window.matchMedia(query).matches);
+    var result = $window.matchMedia(query);
+    result.addListener(onQueryChange);
+    return (results[result.media] = !!result.matches);
   }
 
-  function updateAll() {
-    var keys = resultsCache.keys();
-    var len = keys.length;
-
-    if (len) {
-      for (var i = 0; i < len; i++) {
-        add(keys[i]);
-      }
-
-      // Trigger a $digest() if not already in progress
-      $rootScope.$evalAsync();
-    }
+  function onQueryChange() {
+    var query = this;
+    $rootScope.$evalAsync(function() {
+      results[query.media] = !!query.matches;
+    });
   }
+
 }
-mdMediaFactory.$inject = ["$mdConstant", "$mdUtil", "$rootScope", "$window"];
+mdMediaFactory.$inject = ["$mdConstant", "$rootScope", "$window"];
 
 (function() {
 'use strict';
@@ -424,12 +406,11 @@ mdMediaFactory.$inject = ["$mdConstant", "$mdUtil", "$rootScope", "$window"];
 var nextUniqueId = ['0','0','0'];
 
 angular.module('material.core')
-.factory('$mdUtil', ["$cacheFactory", "$document", "$timeout", function($cacheFactory, $document, $timeout) {
+.factory('$mdUtil', ["$document", "$timeout", function($document, $timeout) {
   var Util;
+
   return Util = {
     now: window.performance ? angular.bind(window.performance, window.performance.now) : Date.now,
-
-    attachDragBehavior: attachDragBehavior,
 
     elementRect: function(element, offsetParent) {
       var node = element[0];
@@ -462,11 +443,6 @@ angular.module('material.core')
         $render: angular.noop
       };
     },
-
-    /**
-     * @see cacheFactory below
-     */
-    cacheFactory: cacheFactory,
 
     // Returns a function, that, as long as it continues to be invoked, will not
     // be triggered. The function will be called after it stops being called for
@@ -598,145 +574,6 @@ angular.module('material.core')
     }
   };
 
-
-  function attachDragBehavior(scope, element, options) {
-    // The state of the current drag & previous drag
-    var drag;
-    var previousDrag;
-    // Whether the pointer is currently down on this element.
-    var pointerIsDown;
-    var START_EVENTS = 'mousedown touchstart pointerdown';
-    var MOVE_EVENTS = 'mousemove touchmove pointermove';
-    var END_EVENTS = 'mouseup mouseleave touchend touchcancel pointerup pointercancel';
-
-    // Listen to move and end events on document. End events especially could have bubbled up
-    // from the child.
-    element.on(START_EVENTS, startDrag);
-    $document.on(MOVE_EVENTS, doDrag)
-      .on(END_EVENTS, endDrag);
-
-    scope.$on('$destroy', cleanup);
-
-    return cleanup;
-
-    function cleanup() {
-      if (cleanup.called) return;
-      cleanup.called = true;
-
-      element.off(START_EVENTS, startDrag);
-      $document.off(MOVE_EVENTS, doDrag)
-        .off(END_EVENTS, endDrag);
-      drag = pointerIsDown = false;
-    }
-
-    function startDrag(ev) {
-      var eventType = ev.type.charAt(0);
-      var now = Util.now();
-      // iOS & old android bug: after a touch event, iOS sends a click event 350 ms later.
-      // Don't allow a drag of a different pointerType than the previous drag if it has been
-      // less than 400ms.
-      if (previousDrag && previousDrag.pointerType !== eventType &&
-          (now - previousDrag.endTime < 400)) {
-        return;
-      }
-      if (pointerIsDown) return;
-      pointerIsDown = true;
-
-      drag = {
-        // Restrict this drag to whatever started it: if a mousedown started the drag,
-        // don't let anything but mouse events continue it.
-        pointerType: eventType,
-        startX: getPosition(ev),
-        startTime: now
-      };
-
-      element.one('$md.dragstart', function(ev) {
-        // Allow user to cancel by preventing default
-        if (ev.defaultPrevented) drag = null;
-      });
-      element.triggerHandler('$md.dragstart', drag);
-    }
-    function doDrag(ev) {
-      if (!drag || !isProperEventType(ev, drag)) return;
-
-      if (drag.pointerType === 't' || drag.pointerType === 'p') {
-        // No scrolling for touch/pointer events
-        ev.preventDefault();
-      }
-      updateDragState(ev);
-      element.triggerHandler('$md.drag', drag);
-    }
-    function endDrag(ev) {
-      pointerIsDown = false;
-      if (!drag || !isProperEventType(ev, drag)) return;
-
-      drag.endTime = Util.now();
-      updateDragState(ev);
-
-      element.triggerHandler('$md.dragend', drag);
-
-      previousDrag = drag;
-      drag = null;
-    }
-
-    function updateDragState(ev) {
-      var x = getPosition(ev);
-      drag.distance = drag.startX - x;
-      drag.direction = drag.distance > 0 ? 'left' : (drag.distance < 0 ? 'right' : '');
-      drag.duration = drag.startTime - Util.now();
-      drag.velocity = Math.abs(drag.duration) / drag.time;
-    }
-    function getPosition(ev) {
-      ev = ev.originalEvent || ev; //support jQuery events
-      var point = (ev.touches && ev.touches[0]) ||
-        (ev.changedTouches && ev.changedTouches[0]) ||
-        ev;
-      return point.pageX;
-    }
-    function isProperEventType(ev, drag) {
-      return drag && ev && (ev.type || '').charAt(0) === drag.pointerType;
-    }
-  }
-
-  /*
-   * Inject a 'keys()' method into Angular's $cacheFactory. Then
-   * head-hook all other methods
-   *
-   */
-  function cacheFactory(id, options) {
-    var cache = $cacheFactory(id, options);
-    var keys = {};
-
-    cache._put = cache.put;
-    cache.put = function(k,v) {
-      keys[k] = true;
-      return cache._put(k, v);
-    };
-
-    cache._remove = cache.remove;
-    cache.remove = function(k) {
-      delete keys[k];
-      return cache._remove(k);
-    };
-
-    cache._removeAll = cache.removeAll;
-    cache.removeAll = function() {
-      keys = {};
-      return cache._removeAll();
-    };
-
-    cache._destroy = cache.destroy;
-    cache.destroy = function() {
-      keys = {};
-      return cache._destroy();
-    };
-
-    cache.keys = function() {
-      return Object.keys(keys);
-    };
-
-    return cache;
-  }
 }]);
 
 /*
@@ -976,6 +813,400 @@ function mdCompilerService($q, $http, $injector, $compile, $controller, $templat
   };
 }
 mdCompilerService.$inject = ["$q", "$http", "$injector", "$compile", "$controller", "$templateCache"];
+})();
+
+(function() {
+'use strict';
+
+/*
+ * TODO: Add support for multiple fingers on the `pointer` object (enables pinch gesture)
+ */
+
+var START_EVENTS = 'mousedown touchstart pointerdown';
+var MOVE_EVENTS = 'mousemove touchmove pointermove';
+var END_EVENTS = 'mouseup mouseleave touchend touchcancel pointerup pointercancel';
+var HANDLERS;
+
+document.contains || (document.contains = function(node) {
+  return document.body.contains(node);
+});
+
+// TODO add windows phone to this
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var isIos = userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i);
+var isAndroid = userAgent.match(/Android/i);
+var shouldHijackClicks = isIos || isAndroid;
+
+if (shouldHijackClicks) {
+  document.addEventListener('click', function(ev) {
+    // Space/enter on a button, and submit events, can send clicks
+    var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
+    if (isKeyClick || ev.$material) return;
+
+    // Prevent clicks unless they're sent by material
+    ev.preventDefault();
+    ev.stopPropagation();
+  }, true);
+}
+
+angular.element(document)
+  .on(START_EVENTS, gestureStart)
+  .on(MOVE_EVENTS, gestureMove)
+  .on(END_EVENTS, gestureEnd)
+  // For testing
+  .on('$$mdGestureReset', function() {
+    lastPointer = pointer = null;
+  });
+
+// The state of the current and previous 'pointer' (user's hand)
+var pointer, lastPointer;
+
+function runHandlers(handlerEvent, event) {
+  var handler;
+  for (var handlerName in HANDLERS) {
+    handler = HANDLERS[handlerName];
+    if (handlerEvent === 'start') {
+      // Run cancel to reset any handlers' state
+      handler.cancel();
+    }
+    handler[handlerEvent](event, pointer);
+  }
+}
+
+function gestureStart(ev) {
+  // If we're already touched down, abort
+  if (pointer) return;
+
+  var now = +Date.now();
+
+  // iOS & old android bug: after a touch event, a click event is sent 350 ms later.
+  // If <400ms have passed, don't allow an event of a different type than the previous event
+  if (lastPointer && !typesMatch(ev, lastPointer) && (now - lastPointer.endTime < 1500)) {
+    return;
+  }
+
+  pointer = makeStartPointer(ev);
+
+  runHandlers('start', ev);
+}
+
+function gestureMove(ev) {
+  if (!pointer || !typesMatch(ev, pointer)) return;
+
+  updatePointerState(ev, pointer);
+  runHandlers('move', ev);
+}
+
+function gestureEnd(ev) {
+  if (!pointer || !typesMatch(ev, pointer)) return;
+
+  updatePointerState(ev, pointer);
+  pointer.endTime = +Date.now();
+
+  runHandlers('end', ev);
+
+  lastPointer = pointer;
+  pointer = null;
+}
+
+/******** Helpers *********/
+function typesMatch(ev, pointer) {
+  return ev && pointer && ev.type.charAt(0) === pointer.type;
+}
+
+function getEventPoint(ev) {
+  ev = ev.originalEvent || ev; // support jQuery events
+  return (ev.touches && ev.touches[0]) ||
+    (ev.changedTouches && ev.changedTouches[0]) ||
+    ev;
+}
+
+function updatePointerState(ev, pointer) {
+  var point = getEventPoint(ev);
+  var x = pointer.x = point.pageX;
+  var y = pointer.y = point.pageY;
+
+  pointer.distanceX = x - pointer.startX;
+  pointer.distanceY = y - pointer.startY;
+  pointer.distance = Math.sqrt(
+    pointer.distanceX * pointer.distanceX + pointer.distanceY * pointer.distanceY
+  );
+
+  pointer.directionX = pointer.distanceX > 0 ? 'right' : pointer.distanceX < 0 ? 'left' : '';
+  pointer.directionY = pointer.distanceY > 0 ? 'up' : pointer.distanceY < 0 ? 'down' : '';
+
+  pointer.duration = +Date.now() - pointer.startTime;
+  pointer.velocityX = pointer.distanceX / pointer.duration;
+  pointer.velocityY = pointer.distanceY / pointer.duration;
+}
+
+
+function makeStartPointer(ev) {
+  var point = getEventPoint(ev);
+  var startPointer = {
+    startTime: +Date.now(),
+    target: ev.target,
+    // 'p' for pointer, 'm' for mouse, 't' for touch
+    type: ev.type.charAt(0)
+  };
+  startPointer.startX = startPointer.x = point.pageX;
+  startPointer.startY = startPointer.y = point.pageY;
+  return startPointer;
+}
+
+angular.module('material.core')
+.run(["$mdGesture", function($mdGesture) {}]) // make sure $mdGesture is always instantiated
+.factory('$mdGesture', ["$$MdGestureHandler", "$$rAF", "$timeout", function($$MdGestureHandler, $$rAF, $timeout) {
+  HANDLERS = {};
+
+  if (shouldHijackClicks) {
+    addHandler('click', {
+      options: {
+        maxDistance: 6
+      },
+      onEnd: function(ev, pointer) {
+        if (pointer.distance < this.state.options.maxDistance) {
+          this.dispatchEvent(ev, 'click', null, ev);
+        }
+      }
+    });
+  }
+
+  addHandler('press', {
+    onStart: function(ev, pointer) {
+      this.dispatchEvent(ev, '$md.pressdown');
+    },
+    onEnd: function(ev, pointer) {
+      this.dispatchEvent(ev, '$md.pressup');
+    }
+  });
+
+
+  addHandler('hold', {
+    options: {
+      // If the user keeps his finger within the same <maxDistance> area for
+      // <delay> ms, dispatch a hold event.
+      maxDistance: 6,
+      delay: 500,
+    },
+    onCancel: function() {
+      $timeout.cancel(this.state.timeout);
+    },
+    onStart: function(ev, pointer) {
+      // For hold, require a parent to be registered with $mdGesture.register()
+      // Because we prevent scroll events, this is necessary.
+      if (!this.state.registeredParent) return this.cancel();
+
+      this.state.pos = {x: pointer.x, y: pointer.y};
+      this.state.timeout = $timeout(angular.bind(this, function holdDelayFn() {
+        this.dispatchEvent(ev, '$md.hold');
+        this.cancel(); //we're done!
+      }), this.state.options.delay, false);
+    },
+    onMove: function(ev, pointer) {
+      // Don't scroll while waiting for hold
+      ev.preventDefault();
+      var dx = this.state.pos.x - pointer.x;
+      var dy = this.state.pos.y - pointer.y;
+      if (Math.sqrt(dx*dx + dy*dy) > this.options.maxDistance) {
+        this.cancel();
+      }
+    },
+    onEnd: function(ev, pointer) {
+      this.onCancel();
+    },
+  });
+
+  addHandler('drag', {
+    options: {
+      minDistance: 6,
+      horizontal: true,
+    },
+    onStart: function(ev) {
+      // For drag, require a parent to be registered with $mdGesture.register()
+      if (!this.state.registeredParent) this.cancel();
+    },
+    onMove: function(ev, pointer) {
+      var shouldStartDrag, shouldCancel;
+      // Don't allow touch events to scroll while we're dragging or
+      // deciding if this touchmove is a proper drag
+      ev.preventDefault();
+
+      if (!this.state.dragPointer) {
+        if (this.state.options.horizontal) {
+          shouldStartDrag = Math.abs(pointer.distanceX) > this.state.options.minDistance;
+          shouldCancel = Math.abs(pointer.distanceY) > this.state.options.minDistance * 1.5;
+        } else {
+          shouldStartDrag = Math.abs(pointer.distanceY) > this.state.options.minDistance;
+          shouldCancel = Math.abs(pointer.distanceX) > this.state.options.minDistance * 1.5;
+        }
+
+        if (shouldStartDrag) {
+          // Create a new pointer, starting at this point where the drag started.
+          this.state.dragPointer = makeStartPointer(ev);
+          updatePointerState(ev, this.state.dragPointer);
+          this.dispatchEvent(ev, '$md.dragstart', this.state.dragPointer);
+
+        } else if (shouldCancel) {
+          this.cancel();
+        }
+      } else {
+        this.dispatchDragMove(ev);
+      }
+    },
+    // Only dispatch these every frame; any more is unnecessray
+    dispatchDragMove: $$rAF.throttle(function(ev) {
+      // Make sure the drag didn't stop while waiting for the next frame
+      if (this.state.isRunning) {
+        updatePointerState(ev, this.state.dragPointer);
+        this.dispatchEvent(ev, '$md.drag', this.state.dragPointer);
+      }
+    }),
+    onEnd: function(ev, pointer) {
+      if (this.state.dragPointer) {
+        updatePointerState(ev, this.state.dragPointer);
+        this.dispatchEvent(ev, '$md.dragend', this.state.dragPointer);
+      }
+    }
+  });
+
+  addHandler('swipe', {
+    options: {
+      minVelocity: 0.65,
+      minDistance: 10,
+    },
+    onEnd: function(ev, pointer) {
+      if (Math.abs(pointer.velocityX) > this.state.options.minVelocity &&
+          Math.abs(pointer.distanceX) > this.state.options.minDistance) {
+        var eventType = pointer.directionX == 'left' ? '$md.swipeleft' : '$md.swiperight';
+        this.dispatchEvent(ev, eventType);
+      }
+    }
+  });
+
+  var self;
+  return self = {
+    handler: addHandler,
+    register: register
+  };
+
+  function addHandler(name, definition) {
+    var handler = new $$MdGestureHandler(name);
+    angular.extend(handler, definition);
+    HANDLERS[name] = handler;
+    return self;
+  }
+
+  function register(element, handlerName, options) {
+    var handler = HANDLERS[ handlerName.replace(/^\$md./, '') ];
+    if (!handler) {
+      throw new Error('Failed to register element with handler ' + handlerName + '. ' +
+                      'Available handlers: ' + Object.keys(HANDLERS).join(', '));
+    }
+    return handler.registerElement(element, options);
+  }
+}])
+.factory('$$MdGestureHandler', ["$$rAF", function($$rAF) {
+
+  function GestureHandler(name) {
+    this.name = name;
+    this.state = {};
+  }
+  GestureHandler.prototype = {
+    onStart: angular.noop,
+    onMove: angular.noop,
+    onEnd: angular.noop,
+    onCancel: angular.noop,
+    options: {},
+
+    dispatchEvent: dispatchEvent,
+
+    start: function(ev, pointer) {
+      if (this.state.isRunning) return;
+      var parentTarget = this.getNearestParent(ev.target);
+      var parentTargetOptions = parentTarget && parentTarget.$mdGesture[this.name] || {};
+
+      this.state = {
+        isRunning: true,
+        options: angular.extend({}, this.options, parentTargetOptions),
+        registeredParent: parentTarget
+      };
+      this.onStart(ev, pointer);
+    },
+    move: function(ev, pointer) {
+      if (!this.state.isRunning) return;
+      this.onMove(ev, pointer);
+    },
+    end: function(ev, pointer) {
+      if (!this.state.isRunning) return;
+      this.onEnd(ev, pointer);
+      this.state.isRunning = false;
+    },
+    cancel: function(ev, pointer) {
+      this.onCancel(ev, pointer);
+      this.state = {};
+    },
+
+    // Find and return the nearest parent element that has been registered via
+    // $mdGesture.register(element, 'handlerName').
+    getNearestParent: function(node) {
+      var current = node;
+      while (current) {
+        if ( (current.$mdGesture || {})[this.name] ) {
+          return current;
+        }
+        current = current.parentNode;
+      }
+    },
+
+    registerElement: function(element, options) {
+      var self = this;
+      element[0].$mdGesture = element[0].$mdGesture || {};
+      element[0].$mdGesture[this.name] = options || {};
+      element.on('$destroy', onDestroy);
+
+      return onDestroy;
+      
+      function onDestroy() {
+        delete element[0].$mdGesture[self.name];
+        element.off('$destroy', onDestroy);
+      }
+    },
+  };
+
+  var customEventOptions = {
+    bubbles: true,
+    cancelable: true
+  };
+  /*
+   * NOTE: dispatchEvent is very performance sensitive. 
+   */
+  function dispatchEvent(srcEvent, eventType, eventPointer, /*original DOMEvent */ev) {
+    eventPointer = eventPointer || pointer;
+    var eventObj;
+
+    if (eventType === 'click') {
+      eventObj = document.createEvent('MouseEvents');
+      eventObj.initMouseEvent(
+        'click', true, true, window, ev.detail,
+        ev.screenX, ev.screenY, ev.clientX, ev.clientY, 
+        ev.ctrlKey, ev.altKey, ev.shiftKey, ev.metaKey,
+        ev.button, ev.relatedTarget || null
+      );
+
+    } else {
+      eventObj = document.createEvent('CustomEvent');
+      eventObj.initCustomEvent(eventType, true, true, {});
+    }
+    eventObj.$material = true;
+    eventObj.pointer = eventPointer;
+    eventObj.srcEvent = srcEvent;
+    eventPointer.target.dispatchEvent(eventObj);
+  }
+
+  return GestureHandler;
+}]);
+
 })();
 
 (function() {
@@ -1541,7 +1772,8 @@ function InkRippleService($window, $timeout) {
   function attachCheckboxBehavior(scope, element, options) {
     return attach(scope, element, angular.extend({
       center: true,
-      dimBackground: false
+      dimBackground: false,
+      fitRipple: true
     }, options));
   }
 
@@ -1566,10 +1798,11 @@ function InkRippleService($window, $timeout) {
       dimBackground: false,
       outline: false,
       isFAB: false,
-      isMenuItem: false
+      isMenuItem: false,
+      fitRipple: false
     }, options);
 
-    var rippleContainer, rippleSize,
+    var rippleSize,
         controller = element.controller('mdInkRipple') || {},
         counter = 0,
         ripples = [],
@@ -1578,13 +1811,23 @@ function InkRippleService($window, $timeout) {
         isActive = false,
         isHeld = false,
         node = element[0],
-        hammertime = new Hammer(node),
+        rippleSizeSetting = element.attr('md-ripple-size'),
         color = parseColor(element.attr('md-ink-ripple')) || parseColor($window.getComputedStyle(options.colorElement[0]).color || 'rgb(0, 0, 0)');
 
-    // expose onInput for ripple testing
-    scope._onInput = onInput;
+    switch (rippleSizeSetting) {
+      case 'full':
+        options.isFAB = true;
+        break;
+      case 'partial':
+        options.isFAB = false;
+        break;
+    }
 
-    options.mousedown && hammertime.on('hammer.input', onInput);
+    // expose onInput for ripple testing
+    if (options.mousedown) {
+      element.on('$md.pressdown', onPressDown)
+        .on('$md.pressup', onPressUp);
+    }
 
     controller.createRipple = createRipple;
 
@@ -1600,9 +1843,25 @@ function InkRippleService($window, $timeout) {
 
     // Publish self-detach method if desired...
     return function detach() {
-      hammertime.destroy();
-      rippleContainer && rippleContainer.remove();
+      element.off('$md.pressdown', onPressDown)
+        .off('$md.pressup', onPressUp);
+      getRippleContainer().remove();
     };
+
+    /**
+     * Gets the current ripple container
+     * If there is no ripple container, it creates one and returns it
+     *
+     * @returns {angular.element} ripple container element
+     */
+    function getRippleContainer() {
+      var container = element.data('$mdRippleContainer');
+      if (container) return container;
+      container = angular.element('<div class="md-ripple-container">');
+      element.append(container);
+      element.data('$mdRippleContainer', container);
+      return container;
+    }
 
     function parseColor(color) {
       if (!color) return;
@@ -1647,7 +1906,7 @@ function InkRippleService($window, $timeout) {
     function removeElement(elem, wait) {
       ripples.splice(ripples.indexOf(elem), 1);
       if (ripples.length === 0) {
-        rippleContainer && rippleContainer.css({ backgroundColor: '' });
+        getRippleContainer().css({ backgroundColor: '' });
       }
       $timeout(function () { elem.remove(); }, wait, false);
     }
@@ -1755,7 +2014,10 @@ function InkRippleService($window, $timeout) {
           size = 2 * Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
         } else {
           multiplier = options.isFAB ? 1.1 : 0.8;
-          size = Math.max(width, height) * multiplier;
+          size = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) * multiplier;
+          if (options.fitRipple) {
+            size = Math.min(height, width, size);
+          }
         }
         return size;
       }
@@ -1806,54 +2068,39 @@ function InkRippleService($window, $timeout) {
           return color.replace('rgba', 'rgb').replace(/,[^\)\,]+\)/, ')');
         }
       }
-
-      /**
-       * Gets the current ripple container
-       * If there is no ripple container, it creates one and returns it
-       *
-       * @returns {angular.element} ripple container element
-       */
-      function getRippleContainer() {
-        if (rippleContainer) return rippleContainer;
-        var container = angular.element('<div class="md-ripple-container"></div>');
-        rippleContainer = container;
-        element.append(container);
-        return container;
-      }
     }
 
     /**
      * Handles user input start and stop events
      *
-     * @param {event} event fired by hammer.js
      */
-    function onInput(ev) {
-      var ripple, index;
-      if (ev.eventType === Hammer.INPUT_START && ev.isFirst && isRippleAllowed()) {
-        ripple = createRipple(ev.center.x, ev.center.y);
-        isHeld = true;
-      } else if (ev.eventType === Hammer.INPUT_END && ev.isFinal) {
-        isHeld = false;
-        index = ripples.length - 1;
-        ripple = ripples[index];
-        $timeout(function () { updateElement(ripple); }, 0, false);
-      }
+    function onPressDown(ev) {
+      if (!isRippleAllowed()) return;
 
-      /**
-       * Determines if the ripple is allowed
-       *
-       * @returns {boolean} true if the ripple is allowed, false if not
-       */
-      function isRippleAllowed() {
-        var parent = node.parentNode;
-        var grandparent = parent && parent.parentNode;
-        var ancestor = grandparent && grandparent.parentNode;
-        return !isDisabled(node) && !isDisabled(parent) && !isDisabled(grandparent) && !isDisabled(ancestor);
-        function isDisabled (elem) {
-          return elem && elem.hasAttribute && elem.hasAttribute('disabled');
-        }
+      var ripple = createRipple(ev.pointer.x, ev.pointer.y);
+      isHeld = true;
+    }
+    function onPressUp(ev) {
+      isHeld = false;
+      var ripple = ripples[ ripples.length - 1 ];
+      $timeout(function () { updateElement(ripple); }, 0, false);
+    }
+
+    /**
+     * Determines if the ripple is allowed
+     *
+     * @returns {boolean} true if the ripple is allowed, false if not
+     */
+    function isRippleAllowed() {
+      var parent = node.parentNode;
+      var grandparent = parent && parent.parentNode;
+      var ancestor = grandparent && grandparent.parentNode;
+      return !isDisabled(node) && !isDisabled(parent) && !isDisabled(grandparent) && !isDisabled(ancestor);
+      function isDisabled (elem) {
+        return elem && elem.hasAttribute && elem.hasAttribute('disabled');
       }
     }
+
   }
 }
 InkRippleService.$inject = ["$window", "$timeout"];
@@ -2370,7 +2617,7 @@ function ThemingProvider($mdColorPalette) {
 
   // Default theme defined in core.js
 
-  ThemingService.$inject = ["$rootScope"];
+  ThemingService.$inject = ["$rootScope", "$log"];
   return themingProvider = {
     definePalette: definePalette,
     extendPalette: extendPalette,
@@ -2549,7 +2796,7 @@ function ThemingProvider($mdColorPalette) {
    * @param {el=} element to apply theming to
    */
   /* @ngInject */
-  function ThemingService($rootScope) {
+  function ThemingService($rootScope, $log) {
     applyTheme.inherit = function(el, parent) {
       var ctrl = parent.controller('mdTheme');
 
@@ -2565,6 +2812,10 @@ function ThemingProvider($mdColorPalette) {
       }
 
       function changeTheme(theme) {
+        if (!registered(theme)) {
+          $log.warn('Attempted to use unregistered theme \'' + theme + '\'. ' +
+                    'Register it with $mdThemingProvider.theme().');
+        }
         var oldTheme = el.data('$mdThemeName');
         if (oldTheme) el.removeClass('md-' + oldTheme +'-theme');
         el.addClass('md-' + theme + '-theme');
@@ -2572,7 +2823,14 @@ function ThemingProvider($mdColorPalette) {
       }
     };
 
+    applyTheme.registered = registered;
+
     return applyTheme;
+
+    function registered(theme) {
+      if (theme === undefined || theme === '') return true;
+      return THEMES[theme] !== undefined;
+    }
 
     function applyTheme(scope, el) {
       // Allow us to be invoked via a linking function signature.
@@ -2589,13 +2847,16 @@ function ThemingProvider($mdColorPalette) {
 }
 ThemingProvider.$inject = ["$mdColorPalette"];
 
-function ThemingDirective($interpolate) {
+function ThemingDirective($mdTheming, $interpolate, $log) {
   return {
     priority: 100,
     link: {
       pre: function(scope, el, attrs) {
         var ctrl = {
           $setTheme: function(theme) {
+            if (!$mdTheming.registered(theme)) {
+              $log.warn('attempted to use unregistered theme \'' + theme + '\'');
+            }
             ctrl.$mdTheme = theme;
           }
         };
@@ -2606,7 +2867,7 @@ function ThemingDirective($interpolate) {
     }
   };
 }
-ThemingDirective.$inject = ["$interpolate"];
+ThemingDirective.$inject = ["$mdTheming", "$interpolate", "$log"];
 
 function ThemableDirective($mdTheming) {
   return $mdTheming;
@@ -2734,7 +2995,7 @@ function generateThemes($injector) {
 
     // These colors are provided as space-separated lists
     if (typeof lightColors === 'string') lightColors = lightColors.split(' ');
-    if (typeof strongLongColors === 'string') strongLightColors = strongLightColors.split(' ');
+    if (typeof strongLightColors === 'string') strongLightColors = strongLightColors.split(' ');
     if (typeof darkColors === 'string') darkColors = darkColors.split(' ');
 
     // Cleanup after ourselves
@@ -2819,7 +3080,7 @@ function colorToRgbaArray(clr) {
 function rgba(rgbArray, opacity) {
   if (rgbArray.length == 4) {
     rgbArray = angular.copy(rgbArray);
-    opacity = rgbArray.pop();
+    opacity ? rgbArray.pop() : opacity = rgbArray.pop();
   }
   return opacity && (typeof opacity == 'number' || (typeof opacity == 'string' && opacity.length)) ?
     'rgba(' + rgbArray.join(',') + ',' + opacity + ')' :

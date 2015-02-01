@@ -1,6 +1,5 @@
 md-backdrop.md-opaque.md-THEME_NAME-theme {
-  background-color: '{{foreground-4-0.5}}';
-  position: absolute; }
+  background-color: '{{foreground-4-0.5}}'; }
 
 md-bottom-sheet.md-THEME_NAME-theme {
   background-color: '{{background-50}}';
@@ -11,6 +10,11 @@ md-bottom-sheet.md-THEME_NAME-theme {
     background-color: '{{background-50}}'; }
   md-bottom-sheet.md-THEME_NAME-theme .md-subheader {
     color: '{{foreground-1}}'; }
+
+md-card.md-THEME_NAME-theme {
+  border-radius: 2px; }
+  md-card.md-THEME_NAME-theme .md-card-image {
+    border-radius: 2px 2px 0 0; }
 
 md-toolbar .md-button.md-THEME_NAME-theme.md-fab {
   background-color: white; }
@@ -34,9 +38,9 @@ md-toolbar .md-button.md-THEME_NAME-theme.md-fab {
       background-color: '{{accent-A700}}'; }
   .md-button.md-THEME_NAME-theme.md-raised {
     color: '{{background-contrast}}';
-    background-color: '{{background-500-0.185}}'; }
+    background-color: '{{background-50}}'; }
     .md-button.md-THEME_NAME-theme.md-raised:not([disabled]):hover, .md-button.md-THEME_NAME-theme.md-raised:not([disabled]):focus {
-      background-color: '{{background-500-0.3}}'; }
+      background-color: '{{background-200}}'; }
   .md-button.md-THEME_NAME-theme.md-warn {
     color: '{{warn-color}}'; }
     .md-button.md-THEME_NAME-theme.md-warn.md-raised, .md-button.md-THEME_NAME-theme.md-warn.md-fab {
@@ -55,11 +59,6 @@ md-toolbar .md-button.md-THEME_NAME-theme.md-fab {
     color: '{{foreground-3}}';
     background-color: transparent;
     cursor: not-allowed; }
-
-md-card.md-THEME_NAME-theme {
-  border-radius: 2px; }
-  md-card.md-THEME_NAME-theme .md-card-image {
-    border-radius: 2px 2px 0 0; }
 
 md-checkbox.md-THEME_NAME-theme .md-ripple {
   color: '{{accent-600}}'; }
