@@ -40,8 +40,8 @@ angular.module('event')
                                 });
                             }
 
-                            $scope.voteId = []
-                            
+                            $scope.voteId = [];
+
                             $scope.getMyVotes();
                             $scope.loading_simple = false;
                             $mdToast.show(

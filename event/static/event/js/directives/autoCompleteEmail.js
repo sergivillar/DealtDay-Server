@@ -9,6 +9,7 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
         link: function (scope, elem, attrs) {
 
             var without_friends = 'Aun no tienes amigos';
+            var not_found = 'Ningun amigo con ese nick';
 
             scope.suggestions = [];
             scope.idInvite = '';
@@ -23,7 +24,12 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
                 }
 
                 if (scope.friends.length == 0) {
-                    scope.suggestions.push({friend: without_friends});
+                    scope.suggestions.push({
+                        friend: {
+                            nick: without_friends
+                        }
+                    });
+                    
                 } else {
 
                     for (var i = 0; i < scope.friends.length && scope.suggestions.length < 4; i++) {
@@ -31,11 +37,19 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
                         if (friend.friend.nick.toLowerCase().indexOf(q) === 0)
                             scope.suggestions.push(friend);
                     }
+
+                    if (scope.suggestions.length == 0 && scope.searchText != null) {
+                        scope.suggestions.push({
+                            friend: {
+                                nick: not_found
+                            }
+                        });
+                    }
                 }
             };
 
             scope.addToSelectedTags = function (friend) {
-                if (friend.friend != without_friends) {
+                if (friend.friend.nick != without_friends && friend.friend.nick != not_found) {
                     scope.searchText = friend.friend.nick;
                     scope.nick = friend.friend.nick;
                     scope.idInvite = friend.friend.id;
