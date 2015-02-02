@@ -1154,6 +1154,10 @@ angular.module('profile').controller('LoginCtrl', ['$scope', 'AuthService', '$wi
     };
 
 }]);
+angular.module('profile').controller('ProfileCtrl', ['$scope', function ($scope) {
+
+
+}]);
 angular.module('profile').controller('RegisterCtrl', ['$scope', 'AuthService', '$mdDialog', '$location', function ($scope, AuthService, $mdDialog, $location) {
 
     $scope.goLogin = function () {

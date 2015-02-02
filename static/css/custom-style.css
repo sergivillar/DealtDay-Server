@@ -105,6 +105,9 @@
   font-size: 16px !important;
   margin-top: 20px;
   margin-bottom: 20px; }
+  @media screen and (max-width: 600px) {
+    .show-events {
+      width: 90%; } }
 
 .active-events {
   background-color: #3F51B5 !important; }
@@ -263,5 +266,14 @@ md-tabs.md-default-theme md-tabs-ink-bar {
 
 .select-friend :hover {
   background-color: #f1f1f1; }
+
+.show-profile {
+  width: 80%;
+  font-size: 16px !important;
+  margin-top: 20px;
+  margin-bottom: 20px; }
+  @media screen and (max-width: 600px) {
+    .show-profile {
+      width: 90%; } }
 
 /*# sourceMappingURL=custom-style.css.map */
