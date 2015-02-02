@@ -3,7 +3,8 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
         restrict: 'AE',
         scope: {
             email: '=',
-            friends: '=friends'
+            friends: '=friends',
+            event: '=event'
         },
         templateUrl: '/static/event/templates/autocomplete-email.html',
         link: function (scope, elem, attrs) {
@@ -29,7 +30,7 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
                             nick: without_friends
                         }
                     });
-                    
+
                 } else {
 
                     for (var i = 0; i < scope.friends.length && scope.suggestions.length < 4; i++) {
@@ -66,6 +67,33 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
                     scope.canInvite = false;
             });
 
+        }, controller: function ($scope, $http, $mdToast) {
+            $scope.sendInvitation = function () {
+                $http.post('/api/share/ ', {event: $scope.event, profile: $scope.idInvite})
+                    .success(function (data) {
+                        $scope.$emit('refresh_event');
+                        
+                        $mdToast.show(
+                                $mdToast.simple()
+                                    .content('Usuario añadido')
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
+                    })
+                    .error(function (error) {
+                        $scope.$root.$emit('refresh_event');
+                        console.log(error);
+
+                        if (error['YaInvitado'] != null) {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content(error['YaInvitado'][0])
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
+                        }
+                    });
+            };
         }
     }
 }]);

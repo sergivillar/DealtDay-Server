@@ -1281,7 +1281,8 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
         restrict: 'AE',
         scope: {
             email: '=',
-            friends: '=friends'
+            friends: '=friends',
+            event: '=event'
         },
         templateUrl: '/static/event/templates/autocomplete-email.html',
         link: function (scope, elem, attrs) {
@@ -1307,7 +1308,7 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
                             nick: without_friends
                         }
                     });
-                    
+
                 } else {
 
                     for (var i = 0; i < scope.friends.length && scope.suggestions.length < 4; i++) {
@@ -1344,6 +1345,33 @@ angular.module('event').directive('autoCompleteEmail', ['$http', function ($http
                     scope.canInvite = false;
             });
 
+        }, controller: function ($scope, $http, $mdToast) {
+            $scope.sendInvitation = function () {
+                $http.post('/api/share/ ', {event: $scope.event, profile: $scope.idInvite})
+                    .success(function (data) {
+                        $scope.$emit('refresh_event');
+                        
+                        $mdToast.show(
+                                $mdToast.simple()
+                                    .content('Usuario añadido')
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
+                    })
+                    .error(function (error) {
+                        $scope.$root.$emit('refresh_event');
+                        console.log(error);
+
+                        if (error['YaInvitado'] != null) {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .content(error['YaInvitado'][0])
+                                    .position('bottom right')
+                                    .hideDelay(1500)
+                            );
+                        }
+                    });
+            };
         }
     }
 }]);
@@ -1622,10 +1650,6 @@ angular.module('event')
                 });
             };
 
-            $scope.sendInvitation = function () {
-                console.log("Enviar invitacion");
-            };
-
             $scope.selectText = function (answer) {
                 $scope.voteText = answer.id;
             };
@@ -1634,19 +1658,21 @@ angular.module('event')
                 $scope.voteDate = answer.id;
             };
 
-            $scope.getEventDetail()
-                .then(function (data) {
-                    self.successGetDetail(data);
-                }, function (error) {
-                    console.log(error);
-                    $scope.loading = false;
-                })
-                .then(function () {
-                    $scope.getMyVotes();
-                })
-                .then(function () {
-                    $scope.getFriends();
-                });
+            $scope.init = function () {
+                return $scope.getEventDetail()
+                    .then(function (data) {
+                        self.successGetDetail(data);
+                    }, function (error) {
+                        console.log(error);
+                        $scope.loading = false;
+                    })
+                    .then(function () {
+                        $scope.getMyVotes();
+                    })
+                    .then(function () {
+                        $scope.getFriends();
+                    });
+            };
 
             $scope.showCreateMode = function () {
                 $scope.createMode ? $scope.createMode = false : $scope.createMode = true;
@@ -1660,6 +1686,8 @@ angular.module('event')
                 $scope.inviteFriend = data;
                 data ? $scope.createMode = false : $scope.inviteMode = false;
             };
+
+            $scope.init();
 
         }]);
 
@@ -1695,7 +1723,6 @@ angular.module('event')
             var data = $scope.votesText.concat($scope.votesDate);
             var dict = {};
             dict['votes'] = data;
-            console.log($scope.votesText);
 
             if (data.length == 0) {
                 $mdDialog.show(
@@ -1753,7 +1780,7 @@ angular.module('event')
             $scope.reamingAnswersDate = $scope.event.num_answers;
 
             angular.forEach($scope.myVotes, function (value) {
-                $scope.voteId[value.vote] = true
+                $scope.voteId[value.vote] = true;
                 if (value.type == 'TX') {
                     $scope.votesText.push(value.vote);
                     $scope.reamingAnswersText -= 1;
@@ -1915,10 +1942,19 @@ angular.module('event')
             $scope.loading_multi = false;
         });
     }]);
-
 angular.module('event')
-    .controller('EventParticipantsCtrl', ['$scope', 'Event', '$location', function ($scope, Event, $location) {
+    .controller('EventParticipantsCtrl', ['$scope', function ($scope) {
+        $scope.loading_participants = false;
         $scope.participants = $scope.event.users;
+
+        $scope.$root.$on('refresh_event', function () {
+            $scope.loading_participants = true;
+            $scope.init()
+                .then(function () {
+                    $scope.participants = $scope.event.users;
+                    $scope.loading_participants = false;
+                });
+        });
     }]);
 var app = angular.module('answer', ['mdDateTime', 'ngMessages']);
 

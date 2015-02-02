@@ -16,7 +16,6 @@ angular.module('event')
             var data = $scope.votesText.concat($scope.votesDate);
             var dict = {};
             dict['votes'] = data;
-            console.log($scope.votesText);
 
             if (data.length == 0) {
                 $mdDialog.show(
@@ -74,7 +73,7 @@ angular.module('event')
             $scope.reamingAnswersDate = $scope.event.num_answers;
 
             angular.forEach($scope.myVotes, function (value) {
-                $scope.voteId[value.vote] = true
+                $scope.voteId[value.vote] = true;
                 if (value.type == 'TX') {
                     $scope.votesText.push(value.vote);
                     $scope.reamingAnswersText -= 1;

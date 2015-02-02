@@ -1,12 +1,12 @@
 <div ng-controller="EventParticipantsCtrl as eventParticipantsController">
 
-    <div layout="column" layout-align="center center" layout-margin ng-show="loading_simple">
+    <div layout="column" layout-align="center center" layout-margin ng-show="loading_participants">
         <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
     </div>
 
     <!-- TODO mostrar quien soy yo de los participantes -->
 
-    <md-list>
+    <md-list ng-show="!loading_participants">
         <md-item ng-repeat="user in participants">
             <md-item-content>
                 <div class="md-tile-content" layout="row" layout-align="space-between center">

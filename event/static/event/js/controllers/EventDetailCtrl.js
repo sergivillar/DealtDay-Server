@@ -109,10 +109,6 @@ angular.module('event')
                 });
             };
 
-            $scope.sendInvitation = function () {
-                console.log("Enviar invitacion");
-            };
-
             $scope.selectText = function (answer) {
                 $scope.voteText = answer.id;
             };
@@ -121,19 +117,21 @@ angular.module('event')
                 $scope.voteDate = answer.id;
             };
 
-            $scope.getEventDetail()
-                .then(function (data) {
-                    self.successGetDetail(data);
-                }, function (error) {
-                    console.log(error);
-                    $scope.loading = false;
-                })
-                .then(function () {
-                    $scope.getMyVotes();
-                })
-                .then(function () {
-                    $scope.getFriends();
-                });
+            $scope.init = function () {
+                return $scope.getEventDetail()
+                    .then(function (data) {
+                        self.successGetDetail(data);
+                    }, function (error) {
+                        console.log(error);
+                        $scope.loading = false;
+                    })
+                    .then(function () {
+                        $scope.getMyVotes();
+                    })
+                    .then(function () {
+                        $scope.getFriends();
+                    });
+            };
 
             $scope.showCreateMode = function () {
                 $scope.createMode ? $scope.createMode = false : $scope.createMode = true;
@@ -147,6 +145,8 @@ angular.module('event')
                 $scope.inviteFriend = data;
                 data ? $scope.createMode = false : $scope.inviteMode = false;
             };
+
+            $scope.init();
 
         }]);
 
