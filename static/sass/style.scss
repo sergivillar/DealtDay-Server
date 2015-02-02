@@ -414,4 +414,36 @@ md-tabs.md-default-theme md-tabs-ink-bar {
   font-size: 16px !important;
   margin-top: 20px;
   margin-bottom: 20px;
+  md-content {
+    margin: 20px;
+    margin-bottom: 40px !important;
+    form {
+      div {
+        md-input-container {
+          width: 100%;
+        }
+        div {
+          width: 100%;
+          img {
+            width: 100px;
+          }
+          md-input-container {
+            width: 100%;
+          }
+          > div {
+            > a, button {
+              padding-left: 15px;
+              padding-right: 15px;
+              margin-bottom: 10px;
+              &:hover {
+                span {
+                  color: #ffffff;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

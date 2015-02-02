@@ -867,7 +867,13 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         }).when('/amigos/', {
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
-            templateUrl: '/static/profile/templates/profile.html'
+            templateUrl: '/static/profile/templates/profile.html',
+            controller: 'ProfileCtrl',
+            resolve: {
+                user: function (UserInfo) {
+                    return UserInfo.retrieveInfo();
+                }
+            }
         });
     }]);
 
@@ -941,8 +947,14 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     });
 
-    app.run(function (UserInfo){
-        UserInfo.retrieveInfo();
+    app.run(function (UserInfo) {
+
+        UserInfo.retrieveInfo().then(function (data) {
+            UserInfo.userInfo.nick = data.data.nick;
+            UserInfo.userInfo.first_name = data.data.user.first_name;
+            UserInfo.userInfo.last_name = data.data.user.last_name;
+            UserInfo.userInfo.email = data.data.user.email;
+        });
     });
 
 })();
@@ -1154,8 +1166,9 @@ angular.module('profile').controller('LoginCtrl', ['$scope', 'AuthService', '$wi
     };
 
 }]);
-angular.module('profile').controller('ProfileCtrl', ['$scope', function ($scope) {
+angular.module('profile').controller('ProfileCtrl', ['$scope', 'user', function ($scope, user) {
 
+    $scope.nick = user.data.nick;
 
 }]);
 angular.module('profile').controller('RegisterCtrl', ['$scope', 'AuthService', '$mdDialog', '$location', function ($scope, AuthService, $mdDialog, $location) {
@@ -1243,15 +1256,7 @@ angular.module('profile').service('UserInfo', ['$http', 'getMyInfo', function ($
 
         retrieveInfo: function () {
 
-            $http.get(getMyInfo).then(function (response) {
-                user.userInfo.nick = response.data.nick;
-                user.userInfo.first_name = response.data.user.first_name;
-                user.userInfo.last_name = response.data.user.last_name;
-                user.userInfo.email = response.data.user.email;
-            }, function (error) {
-                console.log(error);
-            });
-
+            return $http.get(getMyInfo);
         }
 
     };

@@ -35,7 +35,13 @@
         }).when('/amigos/', {
             templateUrl: '/static/friends/templates/friends.html'
         }).when('/perfil/', {
-            templateUrl: '/static/profile/templates/profile.html'
+            templateUrl: '/static/profile/templates/profile.html',
+            controller: 'ProfileCtrl',
+            resolve: {
+                user: function (UserInfo) {
+                    return UserInfo.retrieveInfo();
+                }
+            }
         });
     }]);
 
@@ -109,8 +115,14 @@
 
     });
 
-    app.run(function (UserInfo){
-        UserInfo.retrieveInfo();
+    app.run(function (UserInfo) {
+
+        UserInfo.retrieveInfo().then(function (data) {
+            UserInfo.userInfo.nick = data.data.nick;
+            UserInfo.userInfo.first_name = data.data.user.first_name;
+            UserInfo.userInfo.last_name = data.data.user.last_name;
+            UserInfo.userInfo.email = data.data.user.email;
+        });
     });
 
 })();
