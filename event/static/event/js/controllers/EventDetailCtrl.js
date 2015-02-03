@@ -15,10 +15,13 @@ angular.module('event')
             $scope.answer.type = ANSWER_TYPES[0].type;
 
             this.successGetDetail = function (data) {
+
                 $scope.event = data;
                 $scope.answer.event = $scope.event.id;
+
                 if ($scope.event.voters_public) {
                     angular.forEach($scope.event.answer, function (value) {
+                        value.votes_owners = value.votes;
                         value.votes = value.votes.length;
                     });
                 }

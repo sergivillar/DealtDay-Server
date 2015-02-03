@@ -26,7 +26,7 @@ angular.module('event')
                 );
             } else {
                 var msg = 'Votos guardados';
-                if($scope.voteId.length == 1)
+                if ($scope.voteId.length == 1)
                     msg = 'Voto guardado';
                 $scope.loading_simple = true;
 
@@ -36,6 +36,7 @@ angular.module('event')
                             $scope.event = data;
                             if ($scope.event.voters_public) {
                                 angular.forEach($scope.event.answer, function (value) {
+                                    value.votes_owners = value.votes;
                                     value.votes = value.votes.length;
                                 });
                             }
@@ -86,16 +87,16 @@ angular.module('event')
             });
         };
 
-        $scope.$watch('myVotes', function(){
-            if($scope.myVotes !=null)
+        $scope.$watch('myVotes', function () {
+            if ($scope.myVotes != null)
                 $scope.initVotes();
         });
 
-        $scope.$on('partial_loading_start', function(){
+        $scope.$on('partial_loading_start', function () {
             $scope.loading_multi = true;
         });
 
-        $scope.$on('partial_loading_end', function(){
+        $scope.$on('partial_loading_end', function () {
             $scope.loading_multi = false;
         });
     }]);

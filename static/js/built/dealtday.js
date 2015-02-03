@@ -1614,10 +1614,13 @@ angular.module('event')
             $scope.answer.type = ANSWER_TYPES[0].type;
 
             this.successGetDetail = function (data) {
+
                 $scope.event = data;
                 $scope.answer.event = $scope.event.id;
+
                 if ($scope.event.voters_public) {
                     angular.forEach($scope.event.answer, function (value) {
+                        value.votes_owners = value.votes;
                         value.votes = value.votes.length;
                     });
                 }
@@ -1800,6 +1803,7 @@ angular.module('event')
                             $scope.event = data;
                             if ($scope.event.voters_public) {
                                 angular.forEach($scope.event.answer, function (value) {
+                                    value.votes_owners = value.votes;
                                     value.votes = value.votes.length;
                                 });
                             }
@@ -1847,6 +1851,18 @@ angular.module('event')
                     $scope.reamingAnswersDate -= 1;
                 }
             });
+
+            if($scope.event.open)
+                $scope.initOwners();
+        };
+
+        $scope.initOwners = function (){
+            angular.forEach($scope.event.answer, function(answer){
+
+                if(answer.votes_owners.length > 0){
+                    console.log(answer.votes_owners);
+                }
+            });
         };
 
         $scope.voteText = function (answer) {
@@ -1885,6 +1901,18 @@ angular.module('event')
             }
         };
 
+        $scope.viewVoters = function (ev, answer) {
+            $mdDialog.show({
+                controller: GreetingController,
+                templateUrl: '/static/event/templates/vote-owners.html',
+                targetEvent: ev,
+                locals: { answer: answer}
+            })
+                .then(function (data) {
+                }, function () {
+                });
+        };
+
         $scope.$watch('myVotes', function(){
             if($scope.myVotes !=null)
                 $scope.initVotes();
@@ -1899,6 +1927,16 @@ angular.module('event')
         });
 
     }]);
+
+function GreetingController($scope, $mdDialog, answer) {
+    // Assigned from construction <code>locals</code> options...
+    $scope.answer = answer;
+    $scope.closeDialog = function() {
+      // Easily hides most recent dialog shown...
+      // no specific instance reference is needed.
+      $mdDialog.hide();
+    };
+  }
 angular.module('event')
     .controller('EventDetailSimpleCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast) {
         $scope.loading_simple = false;
@@ -1927,7 +1965,7 @@ angular.module('event')
                 );
             } else {
                 var msg = 'Votos guardados';
-                if($scope.voteId.length == 1)
+                if ($scope.voteId.length == 1)
                     msg = 'Voto guardado';
                 $scope.loading_simple = true;
 
@@ -1937,6 +1975,7 @@ angular.module('event')
                             $scope.event = data;
                             if ($scope.event.voters_public) {
                                 angular.forEach($scope.event.answer, function (value) {
+                                    value.votes_owners = value.votes;
                                     value.votes = value.votes.length;
                                 });
                             }
@@ -1987,16 +2026,16 @@ angular.module('event')
             });
         };
 
-        $scope.$watch('myVotes', function(){
-            if($scope.myVotes !=null)
+        $scope.$watch('myVotes', function () {
+            if ($scope.myVotes != null)
                 $scope.initVotes();
         });
 
-        $scope.$on('partial_loading_start', function(){
+        $scope.$on('partial_loading_start', function () {
             $scope.loading_multi = true;
         });
 
-        $scope.$on('partial_loading_end', function(){
+        $scope.$on('partial_loading_end', function () {
             $scope.loading_multi = false;
         });
     }]);

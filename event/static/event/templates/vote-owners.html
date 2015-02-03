@@ -1,0 +1,19 @@
+<md-dialog aria-label="Ver votantes" layout-align="center center">
+    <md-content layout-fill>
+        <md-list>
+            <md-item ng-repeat="owner in answer.votes_owners">
+                <md-item-content>
+                    <div class="md-tile-content show-voters">
+                        {{ owner.voter }}
+                    </div>
+                </md-item-content>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-item>
+        </md-list>
+    </md-content>
+    <div class="md-actions button-show-voters">
+        <md-button ng-click="closeDialog()">
+            Close
+        </md-button>
+    </div>
+</md-dialog>

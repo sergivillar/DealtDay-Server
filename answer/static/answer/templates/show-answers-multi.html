@@ -1,4 +1,4 @@
-<div ng-controller="EventDetailMultiCtrl as eventDetailMultiController" >
+<div ng-controller="EventDetailMultiCtrl as eventDetailMultiController">
 
 
     <div layout="column" layout-align="center center" layout-margin ng-show="loading_multi">
@@ -25,7 +25,16 @@
                              ng-click="voteText(answer)">
                             <div>
                                 <h3>{{ answer.answer }}</h3>
-                                <h4>Votos: {{ answer.votes }}</h4>
+                                <h4>Votos: {{ answer.votes }}
+                                    <span ng-if="answer.votes_owners.length > 0">
+                                        <md-tooltip>
+                                            Ver votos
+                                        </md-tooltip>
+                                        <img class="clickable" src="static/icons/ic_help_black_36dp.png"
+                                             style="width: 18px; height: 18px; margin-left: 5px;"
+                                             ng-click="viewVoters($event, answer)">
+                                    </span>
+                                </h4>
                             </div>
                             <div layout="column" layout-align="center center">
                                 <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}"
