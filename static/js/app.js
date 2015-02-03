@@ -17,6 +17,8 @@
     app.value('getFriends', '/api/friends/');
     app.value('friendRequestApi', '/api/friend_request/');
     app.value('getMyInfo', '/api/me/');
+    app.value('changeNick', '/api/nick/');
+    app.value('changePass', '/api/change-password/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -42,7 +44,7 @@
                     return UserInfo.retrieveInfo();
                 }
             }
-        });
+        }).otherwise('/eventos/');
     }]);
 
     app.config(function ($resourceProvider) {
@@ -117,12 +119,7 @@
 
     app.run(function (UserInfo) {
 
-        UserInfo.retrieveInfo().then(function (data) {
-            UserInfo.userInfo.nick = data.data.nick;
-            UserInfo.userInfo.first_name = data.data.user.first_name;
-            UserInfo.userInfo.last_name = data.data.user.last_name;
-            UserInfo.userInfo.email = data.data.user.email;
-        });
+        UserInfo.retrieveInfo();
     });
 
 })();

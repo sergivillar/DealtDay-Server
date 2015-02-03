@@ -849,6 +849,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
     app.value('getFriends', '/api/friends/');
     app.value('friendRequestApi', '/api/friend_request/');
     app.value('getMyInfo', '/api/me/');
+    app.value('changeNick', '/api/nick/');
+    app.value('changePass', '/api/change-password/');
 
     app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -874,7 +876,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                     return UserInfo.retrieveInfo();
                 }
             }
-        });
+        }).otherwise('/eventos/');
     }]);
 
     app.config(function ($resourceProvider) {
@@ -949,12 +951,7 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     app.run(function (UserInfo) {
 
-        UserInfo.retrieveInfo().then(function (data) {
-            UserInfo.userInfo.nick = data.data.nick;
-            UserInfo.userInfo.first_name = data.data.user.first_name;
-            UserInfo.userInfo.last_name = data.data.user.last_name;
-            UserInfo.userInfo.email = data.data.user.email;
-        });
+        UserInfo.retrieveInfo();
     });
 
 })();
@@ -1166,9 +1163,26 @@ angular.module('profile').controller('LoginCtrl', ['$scope', 'AuthService', '$wi
     };
 
 }]);
-angular.module('profile').controller('ProfileCtrl', ['$scope', 'user', function ($scope, user) {
+angular.module('profile').controller('ProfileCtrl', ['$scope', 'user', 'changeNick', 'changePass', '$http', 'UserInfo', '$mdToast', function ($scope, user, changeNick, changePass, $http, UserInfo, $mdToast) {
 
-    $scope.nick = user.data.nick;
+    $scope.nick = user.nick;
+
+    $scope.changeNick = function (nick) {
+
+        $http.post(changeNick, {nick: nick})
+            .success(function (data) {
+                UserInfo.retrieveInfo();
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Nick cambiado')
+                        .position('bottom right')
+                        .hideDelay(1500)
+                );
+            })
+            .error(function (error) {
+                console.log(error);
+            })
+    };
 
 }]);
 angular.module('profile').controller('RegisterCtrl', ['$scope', 'AuthService', '$mdDialog', '$location', function ($scope, AuthService, $mdDialog, $location) {
@@ -1256,7 +1270,14 @@ angular.module('profile').service('UserInfo', ['$http', 'getMyInfo', function ($
 
         retrieveInfo: function () {
 
-            return $http.get(getMyInfo);
+            return $http.get(getMyInfo).then(function (data) {
+                user.userInfo.nick = data.data.nick;
+                user.userInfo.first_name = data.data.user.first_name;
+                user.userInfo.last_name = data.data.user.last_name;
+                user.userInfo.email = data.data.user.email;
+
+                return data.data;
+            });
         }
 
     };

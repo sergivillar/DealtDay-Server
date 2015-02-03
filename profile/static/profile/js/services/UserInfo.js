@@ -10,7 +10,14 @@ angular.module('profile').service('UserInfo', ['$http', 'getMyInfo', function ($
 
         retrieveInfo: function () {
 
-            return $http.get(getMyInfo);
+            return $http.get(getMyInfo).then(function (data) {
+                user.userInfo.nick = data.data.nick;
+                user.userInfo.first_name = data.data.user.first_name;
+                user.userInfo.last_name = data.data.user.last_name;
+                user.userInfo.email = data.data.user.email;
+
+                return data.data;
+            });
         }
 
     };
