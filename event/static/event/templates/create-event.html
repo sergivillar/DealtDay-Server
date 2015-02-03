@@ -51,7 +51,7 @@
                             Evento abierto
                             <img class="clickable" src="static/icons/ic_help_black_36dp.png"
                                  style="width: 18px; height: 18px; margin-left: 5px;"
-                                 ng-click="showAlertOpenEvent($event)">
+                                 ng-click="showAlertOpenEvent($event); $event.stopPropagation();">
 
                         </div>
                     </md-switch>
@@ -61,7 +61,7 @@
                             Votaciones públicas
                             <img class="clickable" src="static/icons/ic_help_black_36dp.png"
                                  style="width: 18px; height: 18px; margin-left: 5px;"
-                                 ng-click="showAlertPublicVotes($event)">
+                                 ng-click="showAlertPublicVotes($event); $event.stopPropagation();">
                         </div>
                     </md-switch>
                 </div>
