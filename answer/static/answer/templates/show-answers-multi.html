@@ -32,7 +32,7 @@
                                         </md-tooltip>
                                         <img class="clickable" src="static/icons/ic_help_black_36dp.png"
                                              style="width: 18px; height: 18px; margin-left: 5px;"
-                                             ng-click="viewVoters($event, answer)">
+                                             ng-click="viewVoters($event, answer); $event.stopPropagation();">
                                     </span>
                                 </h4>
                             </div>

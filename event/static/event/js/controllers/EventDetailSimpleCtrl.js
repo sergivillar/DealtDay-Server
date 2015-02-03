@@ -69,6 +69,18 @@ angular.module('event')
             }
         };
 
+        $scope.viewVoters = function (ev, answer) {
+            $mdDialog.show({
+                controller: VoteOwnersController,
+                templateUrl: '/static/event/templates/vote-owners.html',
+                targetEvent: ev,
+                locals: {answer: answer}
+            })
+                .then(function (data) {
+                }, function () {
+                });
+        };
+
         $scope.clickText = function (answer) {
             $scope.voteText = answer.id;
         };
@@ -100,3 +112,10 @@ angular.module('event')
             $scope.loading_multi = false;
         });
     }]);
+
+function VoteOwnersController($scope, $mdDialog, answer) {
+    $scope.answer = answer;
+    $scope.closeDialog = function () {
+        $mdDialog.hide();
+    };
+}

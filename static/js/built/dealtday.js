@@ -1851,18 +1851,6 @@ angular.module('event')
                     $scope.reamingAnswersDate -= 1;
                 }
             });
-
-            if($scope.event.open)
-                $scope.initOwners();
-        };
-
-        $scope.initOwners = function (){
-            angular.forEach($scope.event.answer, function(answer){
-
-                if(answer.votes_owners.length > 0){
-                    console.log(answer.votes_owners);
-                }
-            });
         };
 
         $scope.voteText = function (answer) {
@@ -1903,7 +1891,7 @@ angular.module('event')
 
         $scope.viewVoters = function (ev, answer) {
             $mdDialog.show({
-                controller: GreetingController,
+                controller: VoteOwnersController,
                 templateUrl: '/static/event/templates/vote-owners.html',
                 targetEvent: ev,
                 locals: { answer: answer}
@@ -1928,15 +1916,12 @@ angular.module('event')
 
     }]);
 
-function GreetingController($scope, $mdDialog, answer) {
-    // Assigned from construction <code>locals</code> options...
+function VoteOwnersController($scope, $mdDialog, answer) {
     $scope.answer = answer;
-    $scope.closeDialog = function() {
-      // Easily hides most recent dialog shown...
-      // no specific instance reference is needed.
-      $mdDialog.hide();
+    $scope.closeDialog = function () {
+        $mdDialog.hide();
     };
-  }
+}
 angular.module('event')
     .controller('EventDetailSimpleCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast) {
         $scope.loading_simple = false;
@@ -2008,6 +1993,18 @@ angular.module('event')
             }
         };
 
+        $scope.viewVoters = function (ev, answer) {
+            $mdDialog.show({
+                controller: VoteOwnersController,
+                templateUrl: '/static/event/templates/vote-owners.html',
+                targetEvent: ev,
+                locals: {answer: answer}
+            })
+                .then(function (data) {
+                }, function () {
+                });
+        };
+
         $scope.clickText = function (answer) {
             $scope.voteText = answer.id;
         };
@@ -2039,6 +2036,13 @@ angular.module('event')
             $scope.loading_multi = false;
         });
     }]);
+
+function VoteOwnersController($scope, $mdDialog, answer) {
+    $scope.answer = answer;
+    $scope.closeDialog = function () {
+        $mdDialog.hide();
+    };
+}
 angular.module('event')
     .controller('EventParticipantsCtrl', ['$scope', function ($scope) {
         $scope.loading_participants = false;
