@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
@@ -75,10 +75,11 @@ def forgot_password(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def change_password(request):
-	serializer = ChangePasswordSerializer(data=request.DATA)
+	serializer = ChangePasswordSerializer(data=request.DATA, instance=request.user)
 
 	if serializer.is_valid():
-		Profile.objects.update_password(request.user.email, password=serializer.init_data['password'])
+		serializer.save()
+		update_session_auth_hash(request, request.user)
 		return Response({'ContraseñaCambiada': 'Contraseña actualizada correctamente.'}, status=status.HTTP_200_OK)
 	else:
 		return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)

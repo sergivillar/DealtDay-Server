@@ -60,6 +60,13 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 		return attrs
 
+	def restore_object(self, attrs, instance=None):
+		# Para comprobar pass antigua
+		# and instance.check_password(attrs["current_password"])
+		if instance is not None:
+			instance.set_password(attrs["password"])
+		return instance
+
 
 class ChangeNickSerializer(serializers.Serializer):
 	nick = serializers.CharField()

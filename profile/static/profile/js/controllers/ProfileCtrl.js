@@ -16,7 +16,35 @@ angular.module('profile').controller('ProfileCtrl', ['$scope', 'user', 'changeNi
             })
             .error(function (error) {
                 console.log(error);
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Error cambiando nick')
+                        .position('bottom right')
+                        .hideDelay(1500)
+                );
+            });
+    };
+
+    $scope.changePass = function () {
+
+        $http.post(changePass, {password: $scope.user.password, password_2: $scope.user.password_repeat})
+            .success(function (data) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Contraseña cambiada')
+                        .position('bottom right')
+                        .hideDelay(1500)
+                );
             })
+            .error(function (error) {
+                console.log(error);
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Error cambiando contraseña')
+                        .position('bottom right')
+                        .hideDelay(1500)
+                );
+            });
     };
 
 }]);
