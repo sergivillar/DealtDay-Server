@@ -1,0 +1,75 @@
+<div ng-controller="EventDetailMultiCtrl as eventDetailMultiController">
+
+
+    <div layout="column" layout-align="center center" layout-margin ng-show="loading_multi">
+        <md-progress-circular class="md-accent" md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-show="!loading_multi">
+        <md-toolbar class="toolbar-detail-event" ng-show="event.has_options">
+            <h1 class="md-toolbar-tools">
+                <span>Resultados de las respuestas</span>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="event.has_options">
+            <md-list>
+                <md-item ng-repeat="answer in event.answer | filter: { type: 'TX' }">
+                    <md-item-content>
+                        <div class="md-tile-content show-answer" layout="row" layout-align="space-between center">
+                            <div>
+                                <h3>{{ answer.answer }}</h3>
+                                <h4>Votos: {{ answer.votes }}
+                                    <span ng-if="answer.votes_owners.length > 0">
+                                        <md-tooltip>
+                                            Ver votos
+                                        </md-tooltip>
+                                        <img class="clickable" src="static/icons/ic_help_black_36dp.png"
+                                             style="width: 18px; height: 18px; margin-left: 5px;"
+                                             ng-click="viewVoters($event, answer); $event.stopPropagation();">
+                                    </span>
+                                </h4>
+                            </div>
+                            <div layout="column" layout-align="center center">
+                                <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}"
+                                             class="md-accent md-hue-3" ng-disabled="true">
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </md-item-content>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
+        <md-toolbar class="toolbar-detail-event" ng-show="event.has_dates">
+            <h1 class="md-toolbar-tools">
+               <span>Resultados de las fechas</span>
+            </h1>
+        </md-toolbar>
+        <md-content ng-show="event.has_dates">
+            <md-list>
+                <md-item ng-repeat="answer in event.answer | filter: { type: 'DT' }">
+                    <md-item-content>
+                        <div class="md-tile-content show-answer" layout="row" layout-align="space-between center">
+                            <div>
+                                <h3>{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
+                                <h4>Votos: {{ answer.votes }}</h4>
+                            </div>
+                            <div layout="column" layout-align="center center">
+                                <md-checkbox ng-model="voteId[answer.id]" aria-label="{{ answer.answer }}"
+                                             class="md-accent md-hue-3" ng-disabled="true">
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </md-item-content>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-content>
+
+        <div layout="row" layout-align="center center" layout-margin>
+            <md-button class="md-raised md-primary button-vote-back" ng-click="goEvent()">
+                Volver
+            </md-button>
+        </div>
+    </div>
+</div>

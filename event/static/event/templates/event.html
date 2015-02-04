@@ -97,13 +97,15 @@
 
             <md-list>
                 <md-item ng-repeat="event in events | lessThanToday">
-                    <md-item-content>
-                        <div class="md-tile-content">
-                            <h3>{{ event.title }}</h3>
-                            <h4>Finaliza el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
-                        </div>
-                    </md-item-content>
-                    <md-divider ng-if="!$last"></md-divider>
+                    <a class="a-item-list" href="/#/eventos/finalizados/{{ event.id }}">
+                        <md-item-content class="item-list">
+                            <div class="md-tile-content">
+                                <h3>{{ event.title }}</h3>
+                                <h4>Finalizo el: {{ event.time_to_close | date:'dd/MM/yyyy HH:mm' }}</h4>
+                            </div>
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </a>
                 </md-item>
             </md-list>
         </md-content>
