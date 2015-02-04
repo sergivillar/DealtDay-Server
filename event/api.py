@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
+from django.core.mail import send_mail
 
 from django.db import transaction
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from dealtday.settings.base import EMAIL_HOST_USER
 from event.models import Event, UserHasEvent
 from event.permissions import NoDeleteUserHasEvent, NoDeleteEvent
 from event.serializers import EventSerializer, ShareEventSerializer, EventDetailSerializer
@@ -72,6 +74,10 @@ class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 			else:
 				queryset = UserHasEvent.objects.filter(profile=profile)
 		return queryset
+
+	def post_save(self, obj, created=False):
+		msg = '!Enhorabuena! Has sido invitado a participar en el evento ' + str(obj.event.title) + '. Visita esta dirección para poder participa: http://130.206.85.248/#/eventos/' + str(obj.event.id)
+		send_mail('Invitación a evento', msg, EMAIL_HOST_USER, [obj.profile.user.email])
 
 
 class EventWithAnswers(APIView):
