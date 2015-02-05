@@ -40,22 +40,10 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 		serializer = self.get_serializer(data=request.DATA, files=request.FILES)
 
 		if serializer.is_valid():
-			try:
-				to_friend = Profile.objects.get(user__email=serializer.data['to_friend'])
-				friendship, created = FriendRequest.objects.get_or_create(from_friend=request.user.profile, to_friend=to_friend)
-				if created:
-					return Response(serializer.data, status=status.HTTP_201_CREATED)
-				else:
-					if Friend.objects.filter(from_friend=request.user.profile, to_friend=to_friend).exists():
-						return Response({"ErrorPeticionAmistad": "Ya eres amigo de este usuario."}, status=status.HTTP_400_BAD_REQUEST)
-					elif Friend.objects.filter(to_friend=request.user.profile, from_friend=to_friend).exists():
-						return Response({"ErrorPeticionAmistad": "Ya eres amigo de este usuario."}, status=status.HTTP_400_BAD_REQUEST)
-					else:
-						return Response({"ErrorPeticionAmistad": "Ya has enviado una petición de amistad a este usuario."}, status=status.HTTP_400_BAD_REQUEST)
-
-			except Profile.DoesNotExist:
-				return Response({"ErrorBuscando": "Este usuario no existe."}, status=status.HTTP_400_BAD_REQUEST)
-
+			to_friend = Profile.objects.get(user__email=serializer.init_data['to_friend'])
+			FriendRequest.objects.create(from_friend=request.user.profile, to_friend=to_friend)
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def update(self, request, *args, **kwargs):

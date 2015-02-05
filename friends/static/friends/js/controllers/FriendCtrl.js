@@ -80,9 +80,11 @@ angular.module('friend')
             }, function (error) {
                 $scope.error_request = true;
                 if ('ErrorBuscando' in error.data) {
-                    $scope.msg_error = error.data['ErrorBuscando'];
-                } else if ('ErrorPeticionAmistad' in error.data) {
-                    $scope.msg_error = error.data['ErrorPeticionAmistad'];
+                    $scope.msg_error = error.data['ErrorBuscando'][0];
+                } else if ('ErrorPeticion' in error.data) {
+                    $scope.msg_error = error.data['ErrorPeticion'][0];
+                } else if ('PeticionExistente' in error.data) {
+                    $scope.msg_error = error.data['PeticionExistente'][0];
                 } else {
                     $scope.msg_error = 'Error al realizar la petición. Vuelve a intentarlo.';
                 }
