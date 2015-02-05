@@ -43,7 +43,7 @@ class FriendRequestViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 			to_friend = Profile.objects.get(user__email=serializer.init_data['to_friend'])
 			FriendRequest.objects.create(from_friend=request.user.profile, to_friend=to_friend)
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		
+
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def update(self, request, *args, **kwargs):
