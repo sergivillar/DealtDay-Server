@@ -21,15 +21,15 @@
                                 <div>
                                     <h3>{{ answer.answer }}</h3>
                                     <h4>Votos: {{ answer.votes }}
-                                    <span ng-if="answer.votes_owners.length > 0">
-                                        <md-tooltip>
-                                            Ver votos
-                                        </md-tooltip>
-                                        <img class="clickable" src="static/icons/ic_help_black_36dp.png"
-                                             style="width: 18px; height: 18px; margin-left: 5px;"
-                                             ng-click="viewVoters($event, answer); $event.stopPropagation();">
-                                    </span>
-                                </h4>
+                                        <span ng-if="answer.votes_owners.length > 0">
+                                            <md-tooltip>
+                                                Ver votos
+                                            </md-tooltip>
+                                            <img class="clickable" src="static/icons/ic_help_black_36dp.png"
+                                                 style="width: 18px; height: 18px; margin-left: 5px;"
+                                                 ng-click="viewVoters($event, answer); $event.stopPropagation();">
+                                        </span>
+                                    </h4>
                                 </div>
                                 <div layout="column" layout-align="center center">
                                     <md-radio-button value="{{ answer.id }}"
@@ -57,7 +57,16 @@
                                  ng-click="clickDate(answer)">
                                 <div>
                                     <h3>{{ answer.answer | date:'dd/MM/yyyy HH:mm' }}</h3>
-                                    <h4>Votos: {{ answer.votes }}</h4>
+                                    <h4>Votos: {{ answer.votes }}
+                                        <span ng-if="answer.votes_owners.length > 0">
+                                            <md-tooltip>
+                                                Ver votos
+                                            </md-tooltip>
+                                            <img class="clickable" src="static/icons/ic_help_black_36dp.png"
+                                                 style="width: 18px; height: 18px; margin-left: 5px;"
+                                                 ng-click="viewVoters($event, answer); $event.stopPropagation();">
+                                        </span>
+                                    </h4>
                                 </div>
                                 <div layout="column" layout-align="center center">
                                     <md-radio-button value="{{ answer.id }}"
