@@ -76,7 +76,7 @@ class ShareEventViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 		return queryset
 
 	def post_save(self, obj, created=False):
-		msg = '!Enhorabuena! Has sido invitado a participar en el evento ' + str(obj.event.title) + '. Visita esta dirección para poder participa: http://130.206.85.248/#/eventos/' + str(obj.event.id)
+		msg = '¡Enhorabuena! Has sido invitado a participar en el evento ' + str(obj.event.title) + '. Visita esta dirección para poder participa: http://130.206.85.248/#/eventos/' + str(obj.event.id)
 		send_mail('Invitación a evento', msg, 'Dealtday', [obj.profile.user.email])
 
 
