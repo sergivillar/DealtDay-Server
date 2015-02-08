@@ -6,7 +6,8 @@ angular.module('event').
                 isArray: true
             },
             detail: {
-                method: 'GET'
+                method: 'GET',
+                cache: false
             },
             save: {
                 method: 'POST',
