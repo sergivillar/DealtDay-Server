@@ -124,7 +124,6 @@ angular.module('event')
             $scope.init = function () {
                 return $scope.getEventDetail()
                     .then(function (data) {
-                        console.log(data);
                         self.successGetDetail(data.data);
                     }, function (error) {
                         console.log(error);

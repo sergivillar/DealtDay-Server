@@ -1,6 +1,6 @@
 angular.module('event')
-    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast',
-        function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast) {
+    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', '$cacheFactory',
+        function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast, $cacheFactory) {
             var self = this;
             $scope.loading_multi = false;
             $scope.voteId = [];
@@ -28,6 +28,9 @@ angular.module('event')
 
             $scope.vote = function () {
 
+                var cache = $cacheFactory.info();
+                console.log(cache);
+
                 $scope.loading_multi = true;
 
                 var sendVote = function () {
@@ -38,7 +41,6 @@ angular.module('event')
                         return $http.post(voteApi, dict);
                     },
                     refreshEvent = function () {
-                        console.log("refresh");
                         return $http.get('/api/event/' +  $scope.id).then(function (data) {
                                 self.successGetDetail(data.data);
                             }, function (error) {
