@@ -1894,17 +1894,17 @@ angular.module('event')
 
                 $http.post(voteApi, dict)
                     .success(function () {
-                        console.log("ok");
+                        alert("ok");
                         $scope.getEventDetail()
                             .then(function (data) {
-                                console.log("ok2");
+                                alert("ok2");
                                 self.successGetDetail(data);
                             }, function (error) {
                                 console.log(error);
                                 $scope.loading_multi = false;
                             })
                             .then(function () {
-                                console.log("ok3");
+                                alert("ok3");
                                 $scope.votesText = [];
                                 $scope.votesDate = [];
                                 $scope.getMyVotes();
