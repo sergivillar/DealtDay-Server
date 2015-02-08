@@ -951,8 +951,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     });
 
-    app.run(function (UserInfo) {
-
+    app.run(function (UserInfo, $http) {
+        $http.defaults.cache = false;
         UserInfo.retrieveInfo();
     });
 
@@ -1890,7 +1890,6 @@ angular.module('event')
                         return $http.post(voteApi, dict);
                     },
                     refreshEvent = function () {
-
                         return $http.get('/api/event/' +  $scope.id).then(function (data) {
                                 self.successGetDetail(data.data);
                             }, function (error) {

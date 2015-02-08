@@ -119,8 +119,8 @@
 
     });
 
-    app.run(function (UserInfo) {
-
+    app.run(function (UserInfo, $http) {
+        $http.defaults.cache = false;
         UserInfo.retrieveInfo();
     });
 

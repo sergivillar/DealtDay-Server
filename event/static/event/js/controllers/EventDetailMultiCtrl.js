@@ -38,7 +38,6 @@ angular.module('event')
                         return $http.post(voteApi, dict);
                     },
                     refreshEvent = function () {
-
                         return $http.get('/api/event/' +  $scope.id).then(function (data) {
                                 self.successGetDetail(data.data);
                             }, function (error) {
