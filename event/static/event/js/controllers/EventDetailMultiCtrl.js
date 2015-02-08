@@ -49,7 +49,7 @@ angular.module('event')
                                 self.successGetDetail(data);
                             }, function (error) {
                                 console.log(error);
-                                $scope.loading = false;
+                                $scope.loading_multi = false;
                             })
                             .then(function () {
                                 $scope.votesText = [];

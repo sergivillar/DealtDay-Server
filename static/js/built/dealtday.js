@@ -951,8 +951,11 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     });
 
-    app.run(function (UserInfo) {
+    app.run(function (UserInfo, $rootScope, $templateCache) {
 
+        $rootScope.$on('$viewContentLoaded', function() {
+      $templateCache.removeAll();
+   });
         UserInfo.retrieveInfo();
     });
 
@@ -1899,7 +1902,7 @@ angular.module('event')
                                 self.successGetDetail(data);
                             }, function (error) {
                                 console.log(error);
-                                $scope.loading = false;
+                                $scope.loading_multi = false;
                             })
                             .then(function () {
                                 $scope.votesText = [];
