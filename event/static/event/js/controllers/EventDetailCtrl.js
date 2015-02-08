@@ -35,7 +35,8 @@ angular.module('event')
             };
 
             $scope.getEventDetail = function () {
-                return Event.detail({id: $scope.id}).$promise;
+                //return Event.detail({id: $scope.id}).$promise;
+                return $http.get('/api/event/' +  $scope.id);
             };
 
             $scope.getMyVotes = function () {
@@ -123,7 +124,8 @@ angular.module('event')
             $scope.init = function () {
                 return $scope.getEventDetail()
                     .then(function (data) {
-                        self.successGetDetail(data);
+                        console.log(data);
+                        self.successGetDetail(data.data);
                     }, function (error) {
                         console.log(error);
                         $scope.loading = false;

@@ -48,7 +48,7 @@ angular.module('event')
 
                             $scope.getEventDetail()
                                 .then(function (data) {
-                                    self.successGetDetail(data);
+                                    self.successGetDetail(data.data);
                                 }, function (error) {
                                     console.log(error);
                                     $scope.loading_multi = false;
