@@ -1849,7 +1849,8 @@ angular.module('event')
         }]);
 
 angular.module('event')
-    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast) {
+    .controller('EventDetailMultiCtrl', ['$scope', 'Event', '$location', '$http', 'voteApi', '$mdDialog', '$mdToast', '$cacheFactory',
+        function ($scope, Event, $location, $http, voteApi, $mdDialog, $mdToast, $cacheFactory) {
         var self = this;
         $scope.loading_multi = false;
         $scope.voteId = [];
@@ -1876,6 +1877,7 @@ angular.module('event')
         };
 
         $scope.vote = function () {
+            $cacheFactory.get('$http').removeAll();
             var data = $scope.votesText.concat($scope.votesDate);
             var dict = {};
             dict['votes'] = data;
@@ -1894,17 +1896,14 @@ angular.module('event')
 
                 $http.post(voteApi, dict)
                     .success(function () {
-                        alert("ok");
                         $scope.getEventDetail()
                             .then(function (data) {
-                                alert("ok2");
                                 self.successGetDetail(data);
                             }, function (error) {
                                 console.log(error);
                                 $scope.loading_multi = false;
                             })
                             .then(function () {
-                                alert("ok3");
                                 $scope.votesText = [];
                                 $scope.votesDate = [];
                                 $scope.getMyVotes();
