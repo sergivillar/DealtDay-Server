@@ -956,10 +956,6 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         UserInfo.retrieveInfo();
     });
 
-    app.config(['$httpProvider', function($httpProvider) {
-$httpProvider.defaults.timeout = 15000;
-}]);
-
 })();
 (function () {
 
@@ -1894,6 +1890,7 @@ angular.module('event')
                         return $http.post(voteApi, dict);
                     },
                     refreshEvent = function () {
+                        console.log("refresh");
                         return $http.get('/api/event/' +  $scope.id).then(function (data) {
                                 self.successGetDetail(data.data);
                             }, function (error) {
@@ -1908,8 +1905,14 @@ angular.module('event')
                     };
 
                 sendVote()
-                    .then(refreshEvent)
-                    .then(refreshVotes)
+                    .then(refreshEvent, function(error){
+                        alert(error);
+                        console.log(error);
+                    })
+                    .then(refreshVotes, function(error){
+                        alert(error);
+                        console.log(error);
+                    })
                     .then(function () {
                         $scope.loading_multi = false;
                         $mdToast.show(
