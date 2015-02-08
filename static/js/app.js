@@ -119,11 +119,8 @@
 
     });
 
-    app.run(function (UserInfo, $rootScope, $templateCache) {
+    app.run(function (UserInfo) {
 
-        $rootScope.$on('$viewContentLoaded', function() {
-      $templateCache.removeAll();
-   });
         UserInfo.retrieveInfo();
     });
 

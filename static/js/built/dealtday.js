@@ -951,11 +951,8 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
 
     });
 
-    app.run(function (UserInfo, $rootScope, $templateCache) {
+    app.run(function (UserInfo) {
 
-        $rootScope.$on('$viewContentLoaded', function() {
-      $templateCache.removeAll();
-   });
         UserInfo.retrieveInfo();
     });
 
@@ -1897,14 +1894,17 @@ angular.module('event')
 
                 $http.post(voteApi, dict)
                     .success(function () {
+                        console.log("ok");
                         $scope.getEventDetail()
                             .then(function (data) {
+                                console.log("ok2");
                                 self.successGetDetail(data);
                             }, function (error) {
                                 console.log(error);
                                 $scope.loading_multi = false;
                             })
                             .then(function () {
+                                console.log("ok3");
                                 $scope.votesText = [];
                                 $scope.votesDate = [];
                                 $scope.getMyVotes();
