@@ -1637,7 +1637,7 @@ angular.module('event')
 
             $scope.getEventDetail = function () {
                 //return Event.detail({id: $scope.id}).$promise;
-                return $http.get('/api/event/' +  $scope.id);
+                return $http.get('/api/event/' +  $scope.id, {cache:false});
             };
 
             $scope.getMyVotes = function () {
@@ -1890,7 +1890,6 @@ angular.module('event')
                         return $http.post(voteApi, dict);
                     },
                     refreshEvent = function () {
-                        alert($http.defaults.cache);
                         return $http.get('/api/event/' +  $scope.id).then(function (data) {
                                 self.successGetDetail(data.data);
                             }, function (error) {

@@ -36,7 +36,7 @@ angular.module('event')
 
             $scope.getEventDetail = function () {
                 //return Event.detail({id: $scope.id}).$promise;
-                return $http.get('/api/event/' +  $scope.id);
+                return $http.get('/api/event/' +  $scope.id, {cache:false});
             };
 
             $scope.getMyVotes = function () {
