@@ -124,4 +124,8 @@
         UserInfo.retrieveInfo();
     });
 
+    app.config(['$httpProvider', function($httpProvider) {
+$httpProvider.defaults.timeout = 15000;
+}]);
+
 })();

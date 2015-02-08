@@ -956,6 +956,10 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
         UserInfo.retrieveInfo();
     });
 
+    app.config(['$httpProvider', function($httpProvider) {
+$httpProvider.defaults.timeout = 15000;
+}]);
+
 })();
 (function () {
 
