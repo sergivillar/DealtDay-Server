@@ -51,13 +51,12 @@
                         // Metodo para devolver el string del error.
                         transformResponse: [
                             function (data) {
-                                console.log(data);
                                 var wrapped = angular.fromJson(data);
                                 var first = true;
                                 angular.forEach(wrapped, function (item) {
                                     if(first){
                                         first = false;
-                                        var error = item[0];
+                                        error = item[0];
                                     }
                                 });
                                 return error;

@@ -1010,13 +1010,12 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                         // Metodo para devolver el string del error.
                         transformResponse: [
                             function (data) {
-                                console.log(data);
                                 var wrapped = angular.fromJson(data);
                                 var first = true;
                                 angular.forEach(wrapped, function (item) {
                                     if(first){
                                         first = false;
-                                        var error = item[0];
+                                        error = item[0];
                                     }
                                 });
                                 return error;
@@ -1229,7 +1228,6 @@ angular.module('profile').controller('RegisterCtrl', ['$scope', 'AuthService', '
         AuthService.register($scope.user.email, $scope.user.password, $scope.user.password_repeat)
             .then(
             function (data) {
-                console.log(data);
                 $scope.loading = false;
 
                 $scope.user.password = '';
@@ -1244,7 +1242,6 @@ angular.module('profile').controller('RegisterCtrl', ['$scope', 'AuthService', '
                 );
             },
             function (response, status, headers, config) {
-                console.log(response);
                 $scope.loading = false;
 
                 $scope.user.password = '';
