@@ -46,7 +46,7 @@ def forgot_password(request):
 	if serializer.is_valid():
 		user = User.objects.get(email=serializer.init_data['email'])
 		if user.is_active:
-			domain = '130.206.85.248'
+			domain = '52.10.18.150'
 			c = {
 			'email': user.email,
 			'domain': domain,
