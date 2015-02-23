@@ -1010,12 +1010,13 @@ function(){"use strict";function e(e){function t(t,n,r,o,a){function i(){n.attr(
                         // Metodo para devolver el string del error.
                         transformResponse: [
                             function (data) {
+                                console.log(data);
                                 var wrapped = angular.fromJson(data);
                                 var first = true;
                                 angular.forEach(wrapped, function (item) {
                                     if(first){
                                         first = false;
-                                        error = item[0];
+                                        var error = item[0];
                                     }
                                 });
                                 return error;
