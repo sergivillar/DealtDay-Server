@@ -110,7 +110,7 @@ REST_FRAMEWORK = {
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'dealtday@gmail.com'
+EMAIL_HOST_USER = 'dealtday.confirmation@gmail.com'
 EMAIL_HOST_PASSWORD = 'brujamala'
 EMAIL_PORT = 587
 
