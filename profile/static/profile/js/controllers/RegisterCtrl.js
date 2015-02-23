@@ -26,6 +26,7 @@ angular.module('profile').controller('RegisterCtrl', ['$scope', 'AuthService', '
             },
             function (response, status, headers, config) {
                 $scope.loading = false;
+                console.log(response);
 
                 $scope.user.password = '';
                 $scope.user.password_repeat = '';
