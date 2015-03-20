@@ -27,6 +27,19 @@ angular.module('event')
                 }
             };
 
+            this.successGetDetailAdd = function (data) {
+
+                $scope.event = data.data;
+                $scope.answer.event = $scope.event.id;
+
+                if ($scope.event.voters_public) {
+                    angular.forEach($scope.event.answer, function (value) {
+                        value.votes_owners = value.votes;
+                        value.votes = value.votes.length;
+                    });
+                }
+            };
+
             $scope.next = function () {
                 $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 1);
             };
@@ -97,7 +110,7 @@ angular.module('event')
 
                     $scope.getEventDetail()
                         .then(function (data) {
-                            self.successGetDetail(data);
+                            self.successGetDetailAdd(data);
                         }, function (error) {
                             console.log(error);
                         })
